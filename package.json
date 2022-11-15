@@ -1,0 +1,36 @@
+{
+    "name": "naxui",
+    "version": "1.2.7",
+    "main": "core/cjs/index.js",
+    "module": "core/index.js",
+    "typings": "core/index.d.ts",
+    "files": [
+        "core"
+    ],
+    "scripts": {
+        "start": "parcel example/index.html --dist-dir ./node_modules/.percel-server --cache-dir ./node_modules/.percel-server/cache",
+        "watch": "rm -rf core/ && tsc --watch",
+        "build": "rm -rf core/ && prettier --write src/ && tsc",
+        "build:cjs": "rm -rf core/ && prettier --write src/ && tsc --module CommonJS --outDir core",
+        "prepare": "npm run build:cjs",
+        "b:build": "babel src --extention .ts -d lib"
+    },
+    "author": "Naxrul Ahmed",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^17.0.33",
+        "@types/react": "^18.0.9",
+        "@types/react-dom": "^18.0.4",
+        "eslint": "^8.27.0",
+        "parcel": "^2.8.0",
+        "prettier": "2.6.2",
+        "process": "^0.11.10",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "typescript": "^4.6.4"
+    },
+    "dependencies": {
+        "@mui/icons-material": "^5.4.2",
+        "naxcss": "^1.0.3"
+    }
+}

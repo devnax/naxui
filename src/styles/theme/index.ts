@@ -2,6 +2,11 @@ import { ThemeName, ThemeProps } from "./types"
 import defaultTheme from "./default"
 import { isObject } from "tiny-utils"
 import { useEffect, useId, useState } from "react"
+import ThemeReference from './ThemeReference'
+
+export { ThemeReference }
+
+export * from './types'
 
 let ACTIVE_THEME_NAME: any = null
 const themeFactory = new Map<ThemeName, ThemeProps>()

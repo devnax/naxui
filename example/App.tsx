@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
-import useProps from '../src/hooks/useProps'
+import ButtonBase from '../src/base/ButtonBase'
+import Input from '../src/base/InputBase'
+
 
 const Root = () => {
-
-   const [color, setColor] = useState("red")
-
-   const { css, props, className } = useProps({
-      bgcolor: color,
-      width: 100,
-      height: 100,
-      hover: {
-         bgcolor: "black"
-      },
-      id: "10"
-   })
+   const [cl, set] = useState("primary")
 
    return (
-      <div
-         {...props}
-         className={className}
-      >
-         <button onClick={() => setColor(color === 'red' ? "green" : "red")}>toggle</button>
+      <div>
+         <Input
+            m={7}
+            p={10}
+            bgcolor="background.main"
+            border={0}
+            radius={.5}
+            fontSize={14}
+            sx={{
+               outline: 'none',
+            }}
+         />
+         <ButtonBase
+            p={12}
+            px={3.5}
+            radius={.6}
+            bgcolor={cl}
+            fontWeight={500}
+            fontSize={16}
+            cursor="pointer"
+            sx={{ transition: '.1s' }}
+            onClick={() => {
+               set(cl === 'primary' ? "warning" : "primary")
+            }}
+         >Nice</ButtonBase>
       </div>
    )
 }

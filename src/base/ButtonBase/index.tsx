@@ -1,14 +1,15 @@
 import React from 'react'
-import sx from '../../hooks/useSX'
 import { ButtonBaseProps } from './types'
+import useProps from '../../hooks/useProps'
 
-const ButtonBase = (props: ButtonBaseProps) => {
+const ButtonBase = ({ children, ..._props }: ButtonBaseProps) => {
+   const { className, props } = useProps(_props, "Button")
    return (
       <button
-
-
+         {...props}
+         className={className}
       >
-
+         {children}
       </button>
    )
 }

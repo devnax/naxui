@@ -1,7 +1,7 @@
 import { HTMLAttributes, ReactElement } from "react";
 import { UsePropsType } from "../../hooks/useProps/types";
 
-export type ButtonBaseProps = UsePropsType<HTMLAttributes<HTMLButtonElement>> & {
+export type InputBaseProps = UsePropsType<HTMLAttributes<HTMLInputElement>> & {
    size?: "small" | "medium" | "large";
    variants?: "outlined" | "filled" | "normal";
    corner?: "square" | "rounded" | "circle";

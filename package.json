@@ -31,6 +31,6 @@
     },
     "dependencies": {
         "@mui/icons-material": "^5.4.2",
-        "naxcss": "^1.0.3"
+        "naxcss": "^1.0.5"
     }
 }

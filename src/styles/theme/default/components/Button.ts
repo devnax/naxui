@@ -1,6 +1,6 @@
 const ButtonComponent = {
    props: {
-      bgcolor: "primary",
+      bgColor: "primary",
       color: "primary.text",
       border: 0,
       p: 1

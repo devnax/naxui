@@ -4,18 +4,20 @@ import useSX from '../useSX'
 import { useTheme, ThemeReference } from '../../styles/theme'
 import CSS_PROP_LIST from './CSS_PROP_LIST'
 import { ObjectType, UsePropsType, UsePropsReturnType } from './types'
+import { isObject } from 'tiny-utils'
 export * from './types'
 
-const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, component?: keyof ThemeComponentsProps): UsePropsReturnType => {
+
+const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, themeCompName?: keyof ThemeComponentsProps): UsePropsReturnType => {
    const theme = useTheme()
-   let { sx, hover, className, ...rest } = props
+   let { sx, hover, className, component, ...rest } = props
 
    const formate = useMemo(() => {
       const referance: any = ThemeReference()
 
       let variants: any;
-      if (component) {
-         const compProps = theme.componenets[component]
+      if (themeCompName) {
+         const compProps = theme.componenets[themeCompName]
          rest = { ...compProps?.props, ...rest }
          variants = compProps?.variants
       }
@@ -27,6 +29,10 @@ const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, compone
          let val = (rest as any)[propname]
          if (typeof val === "string" && referance[val]) {
             val = referance[val]
+            if (isObject(val)) {
+               _variantsProps = { ..._variantsProps, ...val }
+               continue
+            }
          }
          if (variants && variants[propname]) {
             const vprops = variants[propname][val] || {}
@@ -42,12 +48,16 @@ const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, compone
       // Formate variant props
       for (let propname in _variantsProps) {
          let val = _variantsProps[propname]
+         if (typeof val === "string" && referance[val]) {
+            val = referance[val]
+         }
          if (CSS_PROP_LIST.includes(propname)) {
             _css[propname] = val
          } else {
             _props[propname] = val
          }
       }
+
       return {
          css: _css,
          props: _props
@@ -62,11 +72,12 @@ const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, compone
       _css["&:hover"] = hover
    }
    const csscls = useSX(_css)
+   formate.props.className = `${csscls} ${className || ""}`.trim()
 
    return {
-      props: rest,
+      component,
+      props: formate.props,
       css: formate.css,
-      className: `${csscls} ${className || ""}`.trim()
    }
 }
 export default useProps

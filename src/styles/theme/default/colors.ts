@@ -7,7 +7,7 @@ const colors = {
    },
    primary: {
       light: "#5CD85A",
-      dark: "red",
+      dark: "#10A83D",
       main: "#32CD30",
       text: '#fff',
    },

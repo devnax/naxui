@@ -71,3 +71,6 @@ export interface ThemeProps {
    space: (n: number) => number;
    componenets: ThemeComponentsProps;
 }
+
+
+export type BreakPointsType = Partial<{ [key in keyof ThemeBreakPointsType]: number }>

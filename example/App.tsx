@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ButtonBase from '../src/base/ButtonBase'
-import Input from '../src/base/InputBase'
+// import Input from '../src/base/InputBase'
 import Stack from '../src/Stack'
+import Box from '../src/Box'
+import Container from '../src/Container'
+import Text from '../src/Text'
+import Input from '../src/Input'
 import { createTransition } from '../src/hooks/Transition'
-
+import Animation from './Animation'
 
 const Root = () => {
    const [cl, set] = useState("primary")
@@ -41,16 +45,42 @@ const Root = () => {
    }), [])
 
    useEffect(() => {
-      trans.setEle(ref.current as any)
+      // trans.setEle(ref.current as any)
+
    }, [])
 
    return (
-      <Stack
-         justifyContent="space-between"
-         radius={1}
-         direction="column"
-      >
+      <Container size="sm" >
+
+         {/* <Animation /> */}
+
          <Stack
+            justifyContent="space-between"
+            alignItems="center"
+            radius={1}
+            direction="row"
+         >
+            <Box
+            // component="input"
+            >
+               <Text variant='Headline1' >nice</Text>
+            </Box>
+            <Box>
+               <Input
+                  cols={22}
+                  rows={5}
+                  // maxLength={12}
+                  max={12}
+                  // multiline={true}
+                  placeholder='Write Text'
+               />
+            </Box>
+            <Box
+               bgColor="#098756"
+            >
+               nice1
+            </Box>
+            {/* <Stack
             radius={1}
             p={1}
             sx={{
@@ -86,8 +116,9 @@ const Root = () => {
                   set(cl === 'primary' ? "warning" : "primary")
                }}
             >Nice</ButtonBase>
+         </Stack> */}
          </Stack>
-      </Stack>
+      </Container>
    )
 }
 

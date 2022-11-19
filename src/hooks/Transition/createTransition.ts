@@ -1,19 +1,21 @@
 import { css, CSSObject } from "naxcss";
 
-
 const _css = (_cs: CSSObject<{}>) => css(_cs, { classPrefix: "trans-" })
 
-
+type KeyFramesProps = CSSObject<{}> & {
+   duration: number
+}
 
 export interface CreateTransitionOptions {
    ele: HTMLElement | undefined;
    duration: number;
-   effects: {
+   animation: {
       initial: CSSObject<{}>;
       animate: CSSObject<{}>;
       exit: CSSObject<{}>;
       exited: CSSObject<{}>;
    },
+   keyframes?: KeyFramesProps[],
    onOpen?: () => void;
    onExit?: () => void;
 }
@@ -28,7 +30,7 @@ export interface TransitionObjectType {
 }
 
 const createTransition = (options: CreateTransitionOptions): TransitionObjectType => {
-   const { effects, ele: Ele } = options
+   const { animation, ele: Ele } = options
    const transition: TransitionObjectType = {
       ele: Ele,
       open: false,
@@ -38,19 +40,17 @@ const createTransition = (options: CreateTransitionOptions): TransitionObjectTyp
    transition.setEle = (ele) => transition.ele = ele
 
    transition.animate = () => {
-
       const { ele, classes } = transition
       if (!ele) return
       for (let c of classes) {
          ele.classList.remove(c)
       }
-
       transition.classes = []
-      const init = _css(effects.initial)
+      const init = _css(animation.initial)
       transition.classes.push(init)
       ele.classList.add(init)
       setTimeout(() => {
-         const animate = _css(effects.animate)
+         const animate = _css(animation.animate)
          transition.classes.push(animate)
          ele.classList.add(animate)
          transition.open = true
@@ -70,11 +70,11 @@ const createTransition = (options: CreateTransitionOptions): TransitionObjectTyp
             ele.classList.remove(c)
          }
          transition.classes = []
-         const exit = _css(effects.exit)
+         const exit = _css(animation.exit)
          transition.classes.push(exit)
          ele.classList.add(exit)
          setTimeout(() => {
-            const exited = _css(effects.exited)
+            const exited = _css(animation.exited)
             transition.classes.push(exited)
             ele.classList.add(exited)
             options?.onExit && options.onExit()

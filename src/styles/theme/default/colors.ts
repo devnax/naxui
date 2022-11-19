@@ -1,9 +1,9 @@
-const colors = {
+import { ThemeColorsProps } from "../types"
+
+const colors: ThemeColorsProps = {
    background: {
-      light: "#fff",
-      dark: "#ddd",
-      main: "#eee",
-      text: '#333',
+      default: "#fff",
+      paper: "#eee"
    },
    primary: {
       light: "#5CD85A",
@@ -35,24 +35,28 @@ const colors = {
       main: "#ed6c02",
       text: '#fff',
    },
-   info: {
-      light: "#03a9f4",
-      dark: "#01579b",
-      main: "#0288d1",
-      text: '#fff',
-   },
    text: {
-      light: "",
-      dark: "",
-      main: "",
-      text: '#fff',
+      primary: "",
+      secondary: "",
+      disabled: ""
    },
    divider: {
       light: "",
       dark: "",
       main: "",
-      text: '#fff',
    },
+   grey: {
+      1: "",
+      2: "",
+      3: "",
+      4: "",
+      5: "",
+      6: "",
+      7: "",
+      8: "",
+      9: "",
+      10: "",
+   }
 }
 
 export default colors

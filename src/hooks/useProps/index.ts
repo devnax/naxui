@@ -10,7 +10,7 @@ export * from './types'
 
 const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, themeCompName?: keyof ThemeComponentsProps): UsePropsReturnType => {
    const theme = useTheme()
-   let { sx, hover, className, component, ...rest } = props
+   let { sx, hover, className, baseClass, component, ...rest } = props
 
    const formate = useMemo(() => {
       const referance: any = ThemeReference()
@@ -72,7 +72,7 @@ const useProps = <T extends ObjectType>(props: Partial<UsePropsType<T>>, themeCo
       _css["&:hover"] = hover
    }
    const csscls = useSX(_css)
-   formate.props.className = `${csscls} ${className || ""}`.trim()
+   formate.props.className = `${csscls} ${baseClass || ""} ${className || ""}`.trim()
 
    return {
       component,

@@ -100,6 +100,8 @@ const CSS_PROP_LIST = [
    "contentStretch",
    "contentBetween",
    "contentAround",
+
+   'outline'
 ]
 
 

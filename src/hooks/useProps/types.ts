@@ -35,8 +35,8 @@ export type PropsFormateType = {
    shadow?: ValutType<'boxShadow'> | ShadowRefTyeps;
    w?: ValutType<"width">;
    h?: ValutType<"height">;
-   maxw?: ValutType<"width">;
-   minw?: ValutType<"width">;
+   maxw?: ValutType<"width"> | BreakpointRefTypes;
+   minw?: ValutType<"width"> | BreakpointRefTypes;
    maxh?: ValutType<"height">;
    minh?: ValutType<"height">;
    flexBox?: boolean;
@@ -81,8 +81,8 @@ export type PropsFormateType = {
    textAlign?: ValutType<"textAlign">;
    fontStyle?: ValutType<"fontStyle">;
 
-   minWidth?: ValutType<"minWidth">;
-   maxWidth?: ValutType<"maxWidth">;
+   minWidth?: ValutType<"minWidth"> | BreakpointRefTypes;
+   maxWidth?: ValutType<"maxWidth"> | BreakpointRefTypes;
    minHeight?: ValutType<"minHeight">;
    maxHeight?: ValutType<"maxHeight">;
    display?: ValutType<"display">;
@@ -126,5 +126,6 @@ export type UsePropsType<T extends ObjectType> = Partial<PropsFormateType> & T &
    sx?: CSSObject<{}>;
    hover?: CSSObject<{}>;
    className?: string;
+   baseClass?: string;
    component?: keyof HTMLElementTagNameMap | ComponentType
 }

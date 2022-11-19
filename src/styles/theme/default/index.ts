@@ -1,12 +1,12 @@
 import { ThemeProps } from "../types"
 import ThemeComponents from './components'
-import text from './text'
+import typography from './typography'
 import colors from './colors'
 
 const defaultTheme: ThemeProps = {
    space: (n: number) => 8 * n,
    componenets: ThemeComponents,
-   text,
+   typography,
    colors,
    breakpoints: {
       xs: 0,

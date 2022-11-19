@@ -6,7 +6,7 @@ const useSX = (_css: CSSObject<{}>) => {
    const theme = useTheme()
    return css<BreakPointsType>(_css, {
       breakpoints: { ...theme.breakpoints },
-      classPrefix: "nax-"
+      classPrefix: "nui-"
    })
 }
 

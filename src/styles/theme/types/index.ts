@@ -10,15 +10,33 @@ export type Color = {
 }
 
 export interface ThemeColorsProps {
-   background: Color;
+   background: {
+      paper: string;
+      default: string;
+   };
+   grey: {
+      1: string;
+      2: string;
+      3: string;
+      4: string;
+      5: string;
+      6: string;
+      7: string;
+      8: string;
+      9: string;
+      10: string;
+   };
    primary: Color;
    secondary: Color;
    success: Color;
    error: Color;
    warning: Color;
-   info: Color;
-   text: Color;
-   divider: Color;
+   text: {
+      primary: string;
+      secondary: string;
+      disabled: string;
+   };
+   divider: Omit<Color, 'text'>;
 }
 
 
@@ -36,16 +54,17 @@ export interface ThemeShadoeProps {
 }
 
 export type TextStyleProps = {
-   fontSize?: number;
+   fontSize?: string | number;
    fontWeight?: number;
    fontFamily?: string;
    color?: string;
+   lineHeight?: string | number;
+   letterSpacing?: string | number;
 }
 
-interface ThemeTextProps {
-   title: TextStyleProps;
+export interface ThemeTypographyProps {
+   body: TextStyleProps;
    subtitle: TextStyleProps;
-   pragraph: TextStyleProps;
    button: TextStyleProps;
    h1: TextStyleProps;
    h2: TextStyleProps;
@@ -65,7 +84,7 @@ export interface ThemeBreakPointsType {
 
 export interface ThemeProps {
    breakpoints: ThemeBreakPointsType;
-   text: ThemeTextProps;
+   typography: ThemeTypographyProps;
    colors: ThemeColorsProps;
    shadow: ThemeShadoeProps;
    space: (n: number) => number;

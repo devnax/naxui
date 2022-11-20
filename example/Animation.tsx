@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import ButtonBase from '../src/base/ButtonBase'
-import animate from '../src/hooks/Transition/keyframs'
+import animate from '../src/hooks/Transition/animate'
 import Stack from '../src/Stack'
 
 const pos = [
@@ -39,14 +39,24 @@ const pos = [
 
 const radius = [
    {
-      duration: 0,
+      duration: 300,
       transition: "all .3s",
       radius: "10px"
    },
    {
       duration: 300,
       radius: "100%",
-      transition: "left 0.3s",
+      transition: "all 0.3s",
+   },
+   {
+      duration: 300,
+      radius: "10%",
+      transition: "all 0.3s",
+   },
+   {
+      duration: 300,
+      radius: "50%",
+      transition: "all 0.3s",
    }
 ]
 
@@ -57,7 +67,7 @@ const Animation = () => {
    const run = () => {
       if (ref.current) {
          animate(ref.current, {
-            // infinity: true,
+            infinity: true,
             keyframes: radius
          })
       }
@@ -72,9 +82,7 @@ const Animation = () => {
             h={200}
             bgColor="#ddd"
             radius={2}
-            position="fixed"
             onClick={() => run()}
-            sx={{ transition: "all 1s" }}
          >
 
          </Stack>

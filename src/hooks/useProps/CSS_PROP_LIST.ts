@@ -101,7 +101,8 @@ const CSS_PROP_LIST = [
    "contentBetween",
    "contentAround",
 
-   'outline'
+   'outline',
+   'textTransform'
 ]
 
 

@@ -1,4 +1,9 @@
 import { getTheme } from '.';
+import { BreakpointRefTypes, TextRefTypes, ColorsRefTypes, ShadowRefTyeps } from './types'
+
+
+type Refs = BreakpointRefTypes & TextRefTypes & ColorsRefTypes & ShadowRefTyeps
+
 
 const themeReference = () => {
    const theme = getTheme()
@@ -85,6 +90,13 @@ const themeReference = () => {
       "shadow.10": theme.shadow[10],
 
    }
+}
+
+
+
+export const getThemeRef = (key: Refs | string, def?: any) => {
+   const ref: any = themeReference()
+   return ref[key] || def
 }
 
 export default themeReference

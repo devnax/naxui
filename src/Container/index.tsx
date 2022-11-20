@@ -3,7 +3,7 @@ import useProps from '../hooks/useProps'
 import { HTMLAttributes } from "react";
 import { UsePropsType } from "../hooks/useProps/types";
 
-export type ContainerProps = UsePropsType<HTMLAttributes<HTMLElement>> & {
+export type ContainerProps = Omit<UsePropsType<HTMLAttributes<HTMLElement>>, "size"> & {
    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
 }
 

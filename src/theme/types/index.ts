@@ -1,5 +1,6 @@
 import { ThemeComponentsProps } from './Components'
 export * from './Components'
+export * from './referenceTypes'
 export type ThemeName = string;
 
 export type Color = {

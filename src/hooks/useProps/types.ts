@@ -1,13 +1,10 @@
 import * as CSS from 'csstype'
 import { CSSObject } from 'naxcss'
 import { ComponentType } from 'react';
-import { BreakPointsType } from '../../styles/theme';
-import { ColorsRefTypes, BreakpointRefTypes, ShadowRefTyeps } from '../../styles/theme/types/referenceTypes';
+import { BreakPointsType } from '../../theme';
+import { ColorsRefTypes, BreakpointRefTypes, ShadowRefTyeps } from '../../theme/types';
 
 type ValutType<T extends keyof CSS.Properties> = CSS.Properties[T] | BreakPointsType | number
-
-
-
 
 export type PropsFormateType = {
    bgColor?: ValutType<'background'> | ColorsRefTypes;
@@ -112,6 +109,8 @@ export type PropsFormateType = {
    bottom?: ValutType<"bottom">;
    left?: ValutType<"left">;
    visibility?: ValutType<"visibility">;
+   outline?: ValutType<"outline">;
+   textTransform?: ValutType<"textTransform">
 }
 
 

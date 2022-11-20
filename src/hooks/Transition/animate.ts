@@ -12,21 +12,22 @@ type AnimateProps = {
 }
 
 
-const setter = (ele: HTMLElement, frames: FramesProps[], index = 0) => {
+const callanim = (ele: HTMLElement, frames: FramesProps[], index = 0) => {
    const frame = frames[index]
    const has = ele.getAttribute('data-animate')
-   has && ele.classList.remove(has)
-   ele.removeAttribute('data-animate')
+
    if (!frame) {
       return
    }
+   has && ele.classList.remove(has)
+   ele.removeAttribute('data-animate')
    const { duration, ...cssprops } = frame
    const effect = _css(cssprops)
    ele.setAttribute('data-animate', effect)
    ele.classList.add(effect)
 
    setTimeout(() => {
-      setter(ele, frames, index + 1)
+      callanim(ele, frames, index + 1)
    }, duration);
 }
 
@@ -34,7 +35,7 @@ const setter = (ele: HTMLElement, frames: FramesProps[], index = 0) => {
 const animate = (ele: HTMLElement, { keyframes, infinity }: AnimateProps) => {
    const isWorking = ele.getAttribute('data-animate')
    if (isWorking) return
-   setter(ele, keyframes, 0)
+   callanim(ele, keyframes, 0)
 }
 
 

@@ -31,6 +31,8 @@
     },
     "dependencies": {
         "@mui/icons-material": "^5.4.2",
-        "naxcss": "^1.0.5"
+        "naxcss": "^1.0.5",
+        "react-browser-scrollbar": "^1.1.5",
+        "react-pagex": "^1.2.1"
     }
 }

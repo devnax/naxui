@@ -102,7 +102,8 @@ const CSS_PROP_LIST = [
    "contentAround",
 
    'outline',
-   'textTransform'
+   'textTransform',
+   'borderRight'
 ]
 
 

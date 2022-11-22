@@ -1,9 +1,9 @@
 import React from 'react'
-import { TextProps } from './types'
+import { TypographyProps } from './types'
 import useProps from '../hooks/useProps'
 import { useTheme } from '../theme'
 
-const Text = ({ children, component, variant, ..._props }: TextProps) => {
+const Typography = ({ children, component, variant, ..._props }: TypographyProps) => {
    const { typography } = useTheme()
 
    const tcss = (typography as any)[variant] || typography.body
@@ -17,4 +17,4 @@ const Text = ({ children, component, variant, ..._props }: TextProps) => {
    return React.createElement(c, props, children)
 }
 
-export default Text
+export default Typography

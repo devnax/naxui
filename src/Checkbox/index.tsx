@@ -4,20 +4,20 @@ import useProps from '../hooks/useProps'
 import { UsePropsType } from "../hooks/useProps/types";
 import Box from '../Box';
 
-import CheckBoxIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckboxIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-export type CheckBoxProps = UsePropsType<HTMLAttributes<HTMLElement>> & {
+export type CheckboxProps = UsePropsType<HTMLAttributes<HTMLElement>> & {
    color?: 'primary' | 'secondary' | 'error' | 'success' | 'warning';
    size?: 'medium' | 'small';
    checked?: boolean;
    checkedIcon?: ReactChild
 }
 
-const CheckBox = forwardRef(({ children, component, color, ..._props }: CheckBoxProps, ref) => {
+const Checkbox = forwardRef(({ children, component, color, ..._props }: CheckboxProps, ref) => {
 
    const { props } = useProps({
       ..._props,
-      baseClass: "nui-CheckBox",
+      baseClass: "nui-checkbox",
       ref
    })
 
@@ -28,8 +28,8 @@ const CheckBox = forwardRef(({ children, component, color, ..._props }: CheckBox
       border={0}
       {...props}
    >
-      <CheckBoxIcon />
+      <CheckboxIcon />
    </Box>
 })
 
-export default CheckBox
+export default Checkbox

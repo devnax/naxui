@@ -111,6 +111,7 @@ export type PropsFormateType = {
    visibility?: ValutType<"visibility">;
    outline?: ValutType<"outline">;
    textTransform?: ValutType<"textTransform">
+   borderRight?: ValutType<"borderRight">
 }
 
 

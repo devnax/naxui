@@ -3,12 +3,12 @@ import { ThemeColorsProps } from "../types"
 const colors: ThemeColorsProps = {
    background: {
       default: "#fff",
-      paper: "#eee"
+      paper: "#f3f4f6"
    },
    primary: {
       light: "#60a5fa",
       dark: "#2563eb",
-      main: "#3b82f6",
+      main: "#205fff",
       text: '#eff6ff',
    },
    secondary: {

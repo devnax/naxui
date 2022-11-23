@@ -3,8 +3,9 @@ import defaultTheme from "./default"
 import { isObject } from "tiny-utils"
 import { useEffect, useId, useState } from "react"
 import ThemeReference from './ThemeReference'
+import alpha from './alpha'
 
-export { ThemeReference }
+export { ThemeReference, alpha }
 
 export * from './types'
 

@@ -30,7 +30,7 @@ const ButtonBase = forwardRef(({ children, startIcon, endIcon, sx, ..._props }: 
             '& *:first-child': {
                ml: -.5,
             },
-            ...(sx || {})
+            ...(sx || {}),
          }}
          {...typography.button}
          {..._props}

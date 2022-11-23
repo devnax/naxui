@@ -21,13 +21,14 @@ const InputBase = forwardRef(({ containerProps, startIcon, endIcon, startIconPro
          height={48}
          bgColor="transparent"
          px={1.5}
-         radius={1.5}
+         radius={1.2}
          alignItems="center"
+         {...typography.button}
          {...containerProps}
+
       >
          {startIcon && <Box component="span" display="inherit" opacity={.4} pr={1} {...startIconProps}>{startIcon}</Box>}
          <Base
-            {...typography.button}
             component="input"
             baseClass='nui-input'
             border="none"

@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useEffect, useRef } from 'react'
 import InputBase, { InputBaseProps } from '../base/InputBase';
+import useVariants, { useCornerVariants, useVariantBackground } from '../hooks/useVariants'
 
 export type InputProps = InputBaseProps & {
    fullWidth?: boolean;
@@ -34,42 +35,31 @@ const Input = forwardRef((props: InputProps, ref: any) => {
    }, [])
 
 
-
-   const sizes: any = {
+   const radius = useCornerVariants(corner || "rounded")
+   const bg = useVariantBackground(variant || "filled")
+   const sizes = useVariants(size || "medium", {
       small: {
-         height: 40,
-         fontSize: 14,
-         px: 1
+         height: 36,
+         px: 1,
+         fontSize: 15
       },
       medium: {
          height: 44,
+         px: 1,
+         fontSize: 16
       },
       large: {
-         height: 56,
+         height: 48,
+         px: 1.5,
          fontSize: 17
-      },
-   }
-
-   const variants: any = {
-      filled: {
-         bgColor: 'background.paper',
-      },
-      outlined: {
-         borderColor: "divider.light",
       }
-   }
-
-   const corners = {
-      square: { radius: 0 },
-      rounded: { radius: 1.5 },
-      circle: { radius: 5 },
-   }
+   })
 
    let focus_css: any = {}
    if (focused) {
       focus_css = {
          borderColor: focused ? "primary" : "transparent",
-         shadow: "shadow.3"
+         shadow: "shadow.2"
       }
    }
 
@@ -78,17 +68,18 @@ const Input = forwardRef((props: InputProps, ref: any) => {
       <InputBase
          containerProps={{
             border: '1px solid transparent',
-            ...variants[variant || "filled"],
-            ...corners[corner || "rounded"],
-            ...sizes[size || "medium"],
             width: fullWidth ? "100%" : "auto",
+            ...radius,
+            ...sizes,
+            ...bg,
             ...containerProps,
             sx: {
-               transition: "all .3s",
+               transition: "all .2s",
                ...(containerProps?.sx || {})
             },
             ...focus_css
          }}
+         fontSize={sizes.fontSize}
          onFocus={(...args) => {
             setFocused(true)
             onFocus && onFocus(...args)

@@ -9,91 +9,77 @@ import Button from '../src/Button';
 import Box from '../src/Box';
 import CardView from './components/Card'
 
-import { Link, Routes, Route, Navigate, useQuery } from 'react-pagex'
+import { Routes, Route } from 'react-pagex'
 import Scrollbar from 'react-browser-scrollbar'
+import Sidebar from './Sidebar';
+import Editor from './components/Editor';
+
+
+const _code = `import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+export default function MediaCard() {
+	return (
+		<Card sx={{ maxWidth: 345 }}>
+			<CardMedia
+				component="img"
+				height="140"
+				image="/static/images/cards/contemplative-reptile.jpg"
+				alt="green iguana"
+			/>
+			<CardContent>
+				<Typography gutterBottom variant="h5" component="div">
+					Lizard
+				</Typography>
+				<Typography variant="body2" color="text.secondary">
+					Lizards are a widespread group of squamate reptiles, with over 6,000
+					species, ranging across all continents except Antarctica
+				</Typography>
+			</CardContent>
+			<CardActions>
+				<Button size="small">Share</Button>
+				<Button size="small">Learn More</Button>
+			</CardActions>
+		</Card>
+	);
+}`
 
 const Root = () => {
 
-   const [path, setPath] = useState('/')
+	return (
+		<Stack >
+			<Stack>
+				<Sidebar />
+			</Stack>
+			<Box flex={1} height={window.innerHeight} >
+				<Scrollbar>
+					<Container size="md">
+						<Routes
+							onError={() => {
 
-   return (
-      <Stack >
-         <Scrollbar style={{ width: 300, }}>
-            <Stack
-               height={window.innerHeight}
-               borderRight='1px solid'
-               borderColor="grey.3"
-               direction='column'
-               p={2}
-            >
-               <Button
-                  variant={path === '/' ? 'filled' : 'text'}
-                  width="100%"
-                  onClick={() => {
-                     Navigate.go('/')
-                     setPath(window.location.pathname)
-                  }}
-               >
-                  Typography
-               </Button>
-               <Button
-                  variant={path === '/avatar' ? 'filled' : 'text'}
-                  onClick={() => {
-                     Navigate.go('/avatar')
-                     setPath(window.location.pathname)
-                  }}
-               >
-                  Avatar
-               </Button>
-               <Button
-                  variant={path === '/chip' ? 'filled' : 'text'}
-                  onClick={() => {
-                     Navigate.go('/chip')
-                     setPath(window.location.pathname)
-                  }}
-               >
-                  Chip
-               </Button>
-               <Button
-                  variant={path === '/button' ? 'filled' : 'text'}
-                  onClick={() => {
-                     Navigate.go('/button')
-                     setPath(window.location.pathname)
-                  }}
-               >
-                  Button
-               </Button>
-               <Button
-                  variant={path === '/card' ? 'filled' : 'text'}
-                  onClick={() => {
-                     Navigate.go('/card')
-                     setPath(window.location.pathname)
-                  }}
-               >
-                  Card
-               </Button>
-            </Stack>
-         </Scrollbar>
-         <Box flex={1} height={window.innerHeight} >
-            <Scrollbar>
-               <Container size="md">
-                  <Routes
-                     onError={() => {
+							}}
+						>
+							<Editor
+								language="jsx"
+								code={_code}
+							/>
+							<Route path='/' render={TypographyView} />
+							<Route path='/avatar' render={AvatarView} />
+							<Route path='/chip' render={ChipView} />
+							<Route path='/button' render={ButtonView} />
+							<Route path='/card' render={CardView} />
+						</Routes>
 
-                     }}
-                  >
-                     <Route path='/' render={TypographyView} />
-                     <Route path='/avatar' render={AvatarView} />
-                     <Route path='/chip' render={ChipView} />
-                     <Route path='/button' render={ButtonView} />
-                     <Route path='/card' render={CardView} />
-                  </Routes>
-
-               </Container>
-            </Scrollbar>
-         </Box>
-      </Stack>
-   )
+					</Container>
+				</Scrollbar>
+			</Box>
+		</Stack>
+	)
 }
 
 export default Root

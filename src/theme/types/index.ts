@@ -54,6 +54,14 @@ export interface ThemeShadoeProps {
    10: string;
 }
 
+export interface ThemeRadiusProps {
+   1: number;
+   2: number;
+   3: number;
+   4: number;
+   5: number;
+}
+
 export type TextStyleProps = {
    fontSize?: string | number;
    fontWeight?: number;
@@ -90,6 +98,7 @@ export interface ThemeProps {
    shadow: ThemeShadoeProps;
    space: (n: number) => number;
    componenets: ThemeComponentsProps;
+   radius: ThemeRadiusProps
 }
 
 

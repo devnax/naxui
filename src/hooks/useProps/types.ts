@@ -2,7 +2,7 @@ import * as CSS from 'csstype'
 import { CSSObject } from 'naxcss'
 import { ComponentType } from 'react';
 import { BreakPointsType } from '../../theme';
-import { ColorsRefTypes, BreakpointRefTypes, ShadowRefTyeps } from '../../theme/types';
+import { ColorsRefTypes, BreakpointRefTypes, ShadowRefTyeps, RadiusRefTyeps } from '../../theme/types';
 
 type ValutType<T extends keyof CSS.Properties> = CSS.Properties[T] | BreakPointsType | number
 
@@ -28,7 +28,8 @@ export type PropsFormateType = {
    mx?: ValutType<'margin'>;
    my?: ValutType<'margin'>;
    size?: ValutType<'width'>;
-   radius?: ValutType<'borderRadius'>;
+   radius?: ValutType<'borderRadius'> | RadiusRefTyeps;
+   borderRadius?: ValutType<'borderRadius'> | RadiusRefTyeps;
    shadow?: ValutType<'boxShadow'> | ShadowRefTyeps;
    w?: ValutType<"width">;
    h?: ValutType<"height">;

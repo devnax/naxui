@@ -73,3 +73,9 @@ export type ShadowRefTyeps = "shadow.1"
    | "shadow.8"
    | "shadow.9"
    | "shadow.10";
+
+export type RadiusRefTyeps = "radius.1"
+   | "radius.2"
+   | "radius.3"
+   | "radius.4"
+   | "radius.5"

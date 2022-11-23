@@ -1,11 +1,12 @@
 import React, { forwardRef } from 'react'
 import ButtonBase, { ButtonBaseProps } from '../base/BaseButton';
+import useVariants, { useCornerVariants, ColorVariantType, useColorVariants } from '../hooks/useVariants'
 
 export type ButtonProps = Omit<ButtonBaseProps, 'color'> & {
    fullWidth?: boolean;
-   color?: 'primary' | 'secondary' | 'success' | 'error' | 'warning';
+   color?: ColorVariantType;
    size?: 'small' | 'medium' | 'large';
-   variant?: 'filled' | 'outlined' | 'text' | "soft" | "default";
+   variant?: 'filled' | 'outlined' | "normal";
    corner?: "square" | "rounded" | "circle";
 }
 
@@ -14,7 +15,8 @@ export type ButtonProps = Omit<ButtonBaseProps, 'color'> & {
 const Button = forwardRef((props: ButtonProps, ref) => {
    let { children, variant, color, corner, size, fullWidth, ...rest } = props
    color = color || "primary"
-   const sizes: any = {
+
+   const sizes: any = useVariants(size || "medium", {
       small: {
          height: 40,
          px: 1.5,
@@ -29,46 +31,31 @@ const Button = forwardRef((props: ButtonProps, ref) => {
          px: 3.5,
          fontSize: 17
       },
-   }
+   })
 
-   const variants: any = {
-      default: {
-         bgColor: 'background.paper',
-         color: `text`,
-         shadow: "shadow.1",
-      },
-      filled: {
-         bgColor: color,
-         color: `${color}.text`,
-         shadow: "shadow.1",
-      },
-      outlined: {
-         border: `1px solid`,
-         borderColor: color,
-         color
-      },
-      text: {
-         color
-      },
-      soft: {
-         bgColor: color,
-         color: `${color}.text`
-      },
-   }
+   const colors = useColorVariants(color)
+   const corners = useCornerVariants(corner || "rounded")
 
-   const corners = {
-      square: { radius: 0 },
-      rounded: { radius: 1.5 },
-      circle: { radius: 5 },
+   const _colors = variant === 'outlined' ? {
+      border: "1px solid",
+      borderColor: colors.main,
+      color: colors.main
+   } : {
+      bgColor: colors.color,
+      color: colors.text
    }
-
 
    return (
       <ButtonBase
-         {...variants[variant || "filled"]}
-         {...corners[corner || "rounded"]}
-         {...sizes[size || "medium"]}
+         {...corners}
+         {...sizes}
+         {..._colors}
          width={fullWidth ? "100%" : "auto"}
+         sx={{
+            '&:hover': {
+               bgColor: colors.light
+            }
+         }}
          {...rest}
          ref={ref}
       >

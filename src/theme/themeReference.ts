@@ -89,6 +89,12 @@ const themeReference = () => {
       "shadow.9": theme.shadow[9],
       "shadow.10": theme.shadow[10],
 
+      "radius.1": theme.radius[1],
+      "radius.2": theme.radius[2],
+      "radius.3": theme.radius[3],
+      "radius.4": theme.radius[4],
+      "radius.5": theme.radius[5],
+
    }
 }
 

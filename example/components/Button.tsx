@@ -9,11 +9,14 @@ import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import AccessIcon from '@mui/icons-material/AccessTimeFilled';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import UserIcon from '@mui/icons-material/PersonOutlineOutlined';
-
+import { alpha } from '../../src/theme';
 import Button from '../../src/Button'
 import Input from '../../src/Input'
 
 const Root = () => {
+
+
+
    return (
       <Stack flexColumn size="md" p={2} my={7} border="1px solid" borderColor="grey.3" radius={2}>
          <Typography variant='button' color="grey.10" textTransform="uppercase" mb={2}>Button</Typography>
@@ -22,10 +25,11 @@ const Root = () => {
             <Stack alignItems="center" mt={1} >
                <Box mx={1} >
                   <Input
-                     startIcon={<UserIcon />}
-                     endIcon={<SearchOutlinedIcon />}
+                     // startIcon={<UserIcon />}
+                     // endIcon={<SearchOutlinedIcon />}
                      autoFocus
                      placeholder="First Name"
+                     size="small"
                   />
                </Box>
                <Box mx={1} >
@@ -34,8 +38,15 @@ const Root = () => {
                      endIcon={<SearchOutlinedIcon />}
                      variant="outlined"
                      placeholder="Last Name"
-                     multiline
-
+                  />
+               </Box>
+               <Box mx={1} >
+                  <Input
+                     startIcon={<UserIcon />}
+                     endIcon={<SearchOutlinedIcon />}
+                     // variant="outlined"
+                     placeholder="Last Name"
+                     size="large"
                   />
                </Box>
 
@@ -81,9 +92,8 @@ const Root = () => {
                <Box mx={1} >
                   <Button
                      startIcon={<AddRoundedIcon />}
-                     color="primary"
+                     color="success.soft"
                      size="small"
-                     variant='outlined'
                   >
                      Add Member
                   </Button>
@@ -91,8 +101,7 @@ const Root = () => {
                <Box mx={1} >
                   <Button
                      startIcon={<AddRoundedIcon />}
-                     color="primary"
-                     variant='outlined'
+                     color="warning.soft"
                   >
                      Create Course
                   </Button>
@@ -100,7 +109,7 @@ const Root = () => {
                <Box mx={1} >
                   <Button
                      startIcon={<AddRoundedIcon />}
-                     color="primary"
+                     color="primary.soft"
                      size="large"
                      variant='outlined'
                   >
@@ -119,7 +128,6 @@ const Root = () => {
                      startIcon={<AddRoundedIcon />}
                      color="primary"
                      size="small"
-                     variant='text'
                   >
                      Add Member
                   </Button>
@@ -128,7 +136,6 @@ const Root = () => {
                   <Button
                      startIcon={<AddRoundedIcon />}
                      color="primary"
-                     variant='text'
                   >
                      Create Course
                   </Button>
@@ -138,7 +145,6 @@ const Root = () => {
                      startIcon={<AddRoundedIcon />}
                      color="primary"
                      size="large"
-                     variant='text'
                   >
                      New Book
                   </Button>

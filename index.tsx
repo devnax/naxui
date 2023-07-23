@@ -16,6 +16,8 @@ import TableCell from './src/TableCell'
 import Input from './src/Input'
 import List from './src/List'
 import ListItem from './src/ListItem'
+import Paper from './src/Paper'
+import Select from './src/Select'
 import SearchIcon from 'naxui-icons/round/Search'
 import HomeIcon from 'naxui-icons/round/Home'
 import AboutIcon from 'naxui-icons/round/Info'
@@ -25,17 +27,25 @@ import ContactIcon from 'naxui-icons/round/Email'
 const App = () => {
   const [c, setC] = React.useState("B")
   const [dense, setDense] = React.useState(false)
+  const [activeList, setActiveList] = React.useState("home")
 
   return (
     <ThemeProvider>
-      <Box p={3} width={300}>
-        <List>
-          <ListItem startIcon={<HomeIcon />} active endIcon={<>200</>}>Home</ListItem>
-          <ListItem startIcon={<AboutIcon />} endIcon={<>20</>}>About</ListItem>
-          <ListItem startIcon={<ServiceIcon />} endIcon={<>13+</>}>Services</ListItem>
-          <ListItem startIcon={<ContactIcon />} endIcon={<>5+</>}>Contact</ListItem>
-        </List>
+      <Box m={2} p={3} width={300}>
+        <Select options={[
+          { label: "Home", value: "home" },
+          { label: "About", value: "about" }
+        ]}>
+        </Select>
       </Box>
+      <Paper m={2} p={3} width={300}>
+        <List >
+          <ListItem onClick={() => setActiveList("home")} selected={activeList === "home"} startIcon={<HomeIcon />} endIcon={<>200</>}>Home</ListItem>
+          <ListItem onClick={() => setActiveList("about")} selected={activeList === "about"} startIcon={<AboutIcon />} subtitle="Visit about page" endIcon={<>20</>}>About</ListItem>
+          <ListItem onClick={() => setActiveList("services")} selected={activeList === "services"} startIcon={<ServiceIcon />} endIcon={<>13+</>}>Services</ListItem>
+          <ListItem onClick={() => setActiveList("contact")} selected={activeList === "contact"} startIcon={<ContactIcon />} endIcon={<>5+</>}>Contact</ListItem>
+        </List>
+      </Paper>
       <Box
         p={3}
       >

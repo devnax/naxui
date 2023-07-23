@@ -24,7 +24,7 @@
   "dependencies": {
     "framer-motion": "^10.12.18",
     "naxui-icons": "^1.0.5",
-    "naxui-manager": "^1.2.2",
+    "naxui-manager": "^1.2.4",
     "react-browser-scrollbar": "^1.1.5"
   }
 }

@@ -52,7 +52,7 @@ const Select = ({ options, onChange, value, menuProps, ...inputProps }: SelectPr
         <>
             <Input
                 baseClass='select-input'
-                endIcon={<Stack flexDirection="row" component="span" > {(target ? <UpIcon /> : <DownIcon />)}</Stack>}
+                endIcon={<Stack flexDirection="row" component="span" pr={2}> {(target ? <UpIcon /> : <DownIcon />)}</Stack>}
                 readOnly
                 cursor="pointer"
                 value={hasActive ? (value?.label || "") : ""}
@@ -76,7 +76,8 @@ const Select = ({ options, onChange, value, menuProps, ...inputProps }: SelectPr
                 placement="bottom"
                 width={target?.clientWidth || 0}
                 transition="fadeInUp"
-                mt={.5}
+                mt={1}
+                bgcolor="background.dark"
                 {...menuProps}
             >
                 <List

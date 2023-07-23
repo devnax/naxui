@@ -1,28 +1,17 @@
+'use client'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import Stack, { StackProps } from '../Stack'
-import Animate, { AnimationType, AnimateProps } from '../Animate';
+import Animate, { AnimationType, AnimateBoxProps } from '../AnimateBox';
 import { AnimatePresence } from 'framer-motion'
 
-export type MenuPlacementTypes =
-    | "top"
-    | "top-left"
-    | "top-right"
-    | "bottom"
-    | "bottom-left"
-    | "bottom-right"
-    | "right"
-    | "right-top"
-    | "right-bottom"
-    | "left"
-    | "left-top"
-    | "left-bottom"
+export type MenuPlacementTypes = "top" | "top-left" | "top-right" | "bottom" | "bottom-left" | "bottom-right" | "right" | "right-top" | "right-bottom" | "left" | "left-top" | "left-bottom"
 
 
 export type MenuProps = StackProps & {
     target?: HTMLElement;
     placement?: MenuPlacementTypes;
     transition?: AnimationType;
-    animateProps?: Omit<AnimateProps, "children">;
+    animateProps?: Omit<AnimateBoxProps, "children">;
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
@@ -404,7 +393,8 @@ const _MenuMainView = ({ children, target, boundary, placement, transition, zInd
             >
                 <Stack
                     baseClass='menu-box'
-                    bgcolor="background.light"
+                    bgcolor="background"
+                    overflow="hidden"
                     shadow={4}
                     radius={1}
                     {...rest}

@@ -1,47 +1,42 @@
+'use client'
 import React, { forwardRef, ReactElement } from 'react'
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager'
 import Text from '../Text';
 
 export type ListItemProps<T extends TagComponenntType = "li"> = TagProps<T> & {
-    active?: boolean;
+    selected?: boolean;
     subtitle?: string | ReactElement;
     startIcon?: ReactElement;
     endIcon?: ReactElement;
 }
 
 
-const ListItem = <T extends TagComponenntType = "li">({ children, active, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
-
+const ListItem = <T extends TagComponenntType = "li">({ children, selected, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
             component='li'
-            baseClass='list-item'
             typography='text'
             p={1}
             radius={.5}
             cursor="pointer"
             transition="all .3s"
             userSelect="none"
-            bgcolor={active ? "primary.main" : "transparent"}
-            color={active ? "primary.text" : "text.primary"}
             display="flex"
             flexDirection="row"
             alignItems="center"
             {...rest}
-            hover={{
-                bgcolor: active ? "primary.main" : "background.light",
-                ...((rest as any).hover || {})
-            }}
+            baseClass='list-item'
+            classNames={[{ "list-item-selected": selected as boolean }, ...(rest.classNames || [])]}
             ref={ref}
         >
-            {startIcon && <Tag mr={1} component="span" display="inline-block" color={active ? "primary.text" : "text.secondary"}>{startIcon}</Tag>}
-            <Tag flex={1} component="span">
-                {typeof children === "string" ? <Text variant="text" color={active ? "primary.text" : "text.primary"}>{children}</Text> : children}
+            {startIcon && <Tag mr={1} component="span" display="inline-block" className='list-item-icon'>{startIcon}</Tag>}
+            <Tag flex={1}>
+                {typeof children === "string" ? <Text variant="text" color={selected ? "primary.text" : "text.primary"}>{children}</Text> : children}
                 {
-                    subtitle && (typeof subtitle === 'string' ? <Text variant="subtext" fontSize={12.5}>{subtitle}</Text> : subtitle)
+                    subtitle && (typeof subtitle === 'string' ? <Text variant="subtext" className='list-item-subtitle' fontSize={12.5}>{subtitle}</Text> : subtitle)
                 }
             </Tag>
-            {endIcon && <Tag ml={1} component="span" display="inline-block" color={active ? "primary.text" : "text.secondary"}>{endIcon}</Tag>}
+            {endIcon && <Tag ml={1} component="span" display="inline-block" className='list-item-icon'>{endIcon}</Tag>}
         </Tag>
     )
 }

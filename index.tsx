@@ -23,19 +23,24 @@ import HomeIcon from 'naxui-icons/round/Home'
 import AboutIcon from 'naxui-icons/round/Info'
 import ServiceIcon from 'naxui-icons/round/Place'
 import ContactIcon from 'naxui-icons/round/Email'
+import Option from './src/Option';
 
 const App = () => {
   const [c, setC] = React.useState("B")
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
+  const [selectVal, setSelectVal] = React.useState("home")
 
   return (
     <ThemeProvider>
       <Box m={2} p={3} width={300}>
-        <Select options={[
-          { label: "Home", value: "home" },
-          { label: "About", value: "about" }
-        ]}>
+        <Select value={selectVal} onChange={(val) => {
+          setSelectVal(val)
+        }}>
+          <Option value="home" startIcon={<HomeIcon />}>Home</Option>
+          <Option value="about" startIcon={<AboutIcon />}>About</Option>
+          <Option value="service" startIcon={<ServiceIcon />}>Service</Option>
+          <Option value="contact" startIcon={<ContactIcon />}>Contact</Option>
         </Select>
       </Box>
       <Paper m={2} p={3} width={300}>

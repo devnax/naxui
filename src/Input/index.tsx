@@ -14,17 +14,22 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
 
 const Input = <T extends TagComponenntType = "input">({ children, startIcon, endIcon, onFocus, onBlur, focused, autoFocused, containerProps, containerRef, disabled, ...rest }: InputProps<T>, ref?: React.Ref<any>) => {
     const conRef: any = useRef()
-    const [_focused, setFoused] = useState(false)
+    const inpRef: any = ref || useRef()
+    const [_focused, setFocused] = useState(autoFocused || false)
+    let _focus = focused || _focused
 
-    focused = focused || _focused
     useEffect(() => {
         if (containerRef) {
             (containerRef as any).current = conRef?.current
         }
     }, [containerRef])
+
     useEffect(() => {
-        autoFocused && setFoused(true)
-    }, [autoFocused])
+        if (_focus) {
+            inpRef.current.focus()
+        }
+    }, [_focus])
+
 
     return (
         <Stack
@@ -37,13 +42,13 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
             minWidth={150}
             radius={1}
             border={1}
-            borderColor={focused ? "primary.main" : "background.dark"}
-            shadow={focused ? 2 : 0}
+            borderColor={_focus ? "primary.main" : "background.dark"}
+            shadow={_focus ? 2 : 0}
             transition=".2s"
             transitionProperty="border, box-shadow"
             {...containerProps}
         >
-            {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color="text.primary" mr={.4}>{startIcon}</Tag>}
+            {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color="text.secondary" mr={.4}>{startIcon}</Tag>}
             <Tag
                 flex={1}
                 component='input'
@@ -55,18 +60,18 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
                 fontSize="fontsize.1"
                 py={1.5}
                 {...rest}
-                ref={ref}
+                ref={inpRef}
                 onFocus={(e: any) => {
-                    setFoused(true)
+                    (focused === undefined) && setFocused(true)
                     onFocus && onFocus(e)
                 }}
                 onBlur={(e: any) => {
-                    setFoused(false)
+                    (focused === undefined) && setFocused(false)
                     onBlur && onBlur(e)
                 }}
                 px={1}
             />
-            {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color="text.primary" >{endIcon}</Tag>}
+            {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color="text.secondary" >{endIcon}</Tag>}
         </Stack>
     )
 }

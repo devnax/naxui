@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { changeTheme, getTheme, ThemeProvider } from 'naxui-manager';
+import { changeTheme, createTheme, getTheme, ThemeProvider } from 'naxui-manager';
 import Box from './src/Box'
 import Button from './src/Button'
 import ArrowIcon from 'naxui-icons/round/ArrowForward'
@@ -24,16 +24,80 @@ import AboutIcon from 'naxui-icons/round/Info'
 import ServiceIcon from 'naxui-icons/round/Place'
 import ContactIcon from 'naxui-icons/round/Email'
 import Option from './src/Option';
+import IconButton from './src/IconButton';
+import Switch from './src/Switch';
+import Avatar from './src/Avatar';
+import Transition from './src/Transition';
+
+createTheme("pie", {
+  colors: {
+    primary: {
+      main: "#bf2d93",
+      light: "#ee39b7",
+      dark: "#9d2679",
+      text: "#ffffff"
+    }
+  }
+})
 
 const App = () => {
   const [c, setC] = React.useState("B")
+  const [animIn, setAnimIn] = React.useState(true)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
 
   return (
     <ThemeProvider>
-      <Box m={2} p={3} width={300}>
+      <Box p={2} >
+        <Transition
+          onRest={() => {
+
+          }}
+          in={animIn}
+          type="SlideRight"
+          position="fixed"
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          zIndex={9}
+          width="100%"
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor="background.dark"
+        >
+          <Box height={500}
+            width={400}
+            bgcolor="#fff"
+            p={2}
+            radius={2}
+          >
+            <Button
+              onClick={() => {
+                setAnimIn(!animIn)
+              }}
+            >Toggle Trans</Button>
+          </Box>
+        </Transition>
+        <Button
+          onClick={() => {
+            setAnimIn(!animIn)
+          }}
+        >Toggle Trans</Button>
+      </Box>
+      <Avatar src="https://mui.com/static/images/avatar/.jpg" />
+      <Box p={2}>
+        <Switch />
+      </Box>
+      <Box p={3}>
+        <IconButton>
+          <HomeIcon />
+        </IconButton>
+      </Box>
+      <Box m={2} p={1} width={300}>
         <Select value={selectVal} onChange={(val) => {
           setSelectVal(val)
         }}>
@@ -43,7 +107,7 @@ const App = () => {
           <Option value="contact" startIcon={<ContactIcon />}>Contact</Option>
         </Select>
       </Box>
-      <Paper m={2} p={3} width={300}>
+      <Paper m={2} p={1} width={300}>
         <List >
           <ListItem onClick={() => setActiveList("home")} selected={activeList === "home"} startIcon={<HomeIcon />} endIcon={<>200</>}>Home</ListItem>
           <ListItem onClick={() => setActiveList("about")} selected={activeList === "about"} startIcon={<AboutIcon />} subtitle="Visit about page" endIcon={<>20</>}>About</ListItem>

@@ -10,7 +10,7 @@ import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
 
 
 export type SelectProps = InputProps & {
-    value?: any;
+    value?: string | number;
     onChange?: (item: OptionProps) => void;
     menuProps?: Omit<MenuProps, 'children'>;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[]
@@ -30,6 +30,7 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 selected,
                 onClick: () => {
                     onChange && onChange(child.props.value)
+                    setTarget(null)
                 }
             })
         })
@@ -38,6 +39,10 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
             selectedProps: sProps as OptionProps
         }
     }, [children, value])
+
+    const toggleMenu = () => {
+        setTarget(target ? null : conRef.current)
+    }
 
     return (
         <>
@@ -54,19 +59,9 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 containerProps={{
                     cursor: "pointer",
                     userSelect: "none",
-                    onClick: () => {
-                        setTarget(conRef.current)
-                    }
+                    onClick: toggleMenu
                 }}
                 {...inputProps}
-                onFocus={(e: any) => {
-                    setTarget(conRef.current)
-                    inputProps.onFocus && inputProps.onFocus(e)
-                }}
-                onBlur={(e) => {
-                    setTarget(null)
-                    inputProps.onBlur && inputProps.onBlur(e)
-                }}
                 ref={ref}
             />
             <Menu
@@ -77,6 +72,7 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 transition="fadeInUp"
                 mt={.5}
                 {...menuProps}
+                onClickOutside={toggleMenu}
             >
                 <List
                     sx={{

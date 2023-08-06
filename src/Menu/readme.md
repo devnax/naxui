@@ -25,3 +25,4 @@ You can use the `StackProps` props and and theme `css, aliases props` and also b
 |  zIndex |  `number` |
 |  onOpen |  `() => void` |
 |  onClose |  `() => void` |
+|  onClickOutside |  `() => void` |

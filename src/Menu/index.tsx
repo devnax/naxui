@@ -15,6 +15,7 @@ export type MenuProps = StackProps & {
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
+    onClickOutside?: () => void;
 }
 
 
@@ -306,8 +307,8 @@ const placement_setter: { [key in MenuPlacementTypes]: (arg: PlacementSetterCall
 }
 
 
-const _MenuMainView = ({ children, target, boundary, placement, transition, zIndex, onOpen, onClose, animateProps, ...rest }: MenuProps & { boundary: DOMRect }, ref: any) => {
-    const _menuRef = useRef<any>()
+const _MenuMainView = ({ children, target, boundary, placement, transition, zIndex, onOpen, onClose, onClickOutside, animateProps, ...rest }: MenuProps & { boundary: DOMRect }, ref: any) => {
+    const _menuRef = useRef<HTMLDivElement>()
     ref = ref || _menuRef
     const [d, dispatch] = useState(0)
     const [placed, setPlaced] = useState(placement || "bottom")
@@ -324,14 +325,22 @@ const _MenuMainView = ({ children, target, boundary, placement, transition, zInd
                 boundary
             })
             setPlaced(_placed)
-
         }
 
     }, [_placement, boundary, d, ref])
 
     useEffect(() => {
         (placed && onOpen) && onOpen()
-        return () => onClose && onClose()
+        const detect = (e: MouseEvent) => {
+            if (onClickOutside && ref.current && !ref.current.contains(e.target)) {
+                onClickOutside()
+            }
+        }
+        document.addEventListener("click", detect)
+        return () => {
+            onClose && onClose()
+            document.removeEventListener("click", detect)
+        }
     }, [onClose, onOpen, placed])
 
     let _origin: any = "top"

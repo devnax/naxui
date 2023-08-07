@@ -28,21 +28,12 @@ import IconButton from './src/IconButton';
 import Switch from './src/Switch';
 import Avatar from './src/Avatar';
 import Transition from './src/Transition';
+import Fade from './src/Fade';
 
-createTheme("pie", {
-  colors: {
-    primary: {
-      main: "#bf2d93",
-      light: "#ee39b7",
-      dark: "#9d2679",
-      text: "#ffffff"
-    }
-  }
-})
 
 const App = () => {
   const [c, setC] = React.useState("B")
-  const [animIn, setAnimIn] = React.useState(true)
+  const [animIn, setAnimIn] = React.useState(false)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
@@ -50,38 +41,31 @@ const App = () => {
   return (
     <ThemeProvider>
       <Box p={2} >
-        <Transition
-          onRest={() => {
+        <Fade enter={animIn} onFinish={() => {
 
-          }}
+        }}>
+          <Box
+            height={100}
+            width={100}
+            bgcolor="background.dark"
+            radius={2}
+            m={2}
+          >
+          </Box>
+        </Fade>
+        {/* <Transition
           in={animIn}
-          type="SlideRight"
-          position="fixed"
-          top={0}
-          left={0}
-          bottom={0}
-          right={0}
-          zIndex={9}
-          width="100%"
-          height="100%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          bgcolor="background.dark"
+          m={2}
         >
-          <Box height={500}
-            width={400}
-            bgcolor="#fff"
+          <Box height={100}
+            width={100}
+            bgcolor="background.dark"
             p={2}
             radius={2}
           >
-            <Button
-              onClick={() => {
-                setAnimIn(!animIn)
-              }}
-            >Toggle Trans</Button>
+
           </Box>
-        </Transition>
+        </Transition> */}
         <Button
           onClick={() => {
             setAnimIn(!animIn)

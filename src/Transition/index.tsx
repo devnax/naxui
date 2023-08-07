@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react';
-import { TagProps, TagComponenntType, useProps, keyframes } from 'naxui-manager';
+import { TagProps, TagComponenntType, useProps, css, keyframes } from 'naxui-manager';
 import { animated, useSpring, UseSpringProps } from '@react-spring/web'
 import * as variants from './variants'
 import { classNames } from 'naxcss'
@@ -81,51 +81,16 @@ const _Transition = <T extends TagComponenntType = "div">({ children, type, ...r
 
 
 
-const Transition = <T extends TagComponenntType = "div">({ children, type, onRest, ...rest }: TransitionProps<T>, ref: React.Ref<any>) => {
-    const [timer, setTimer] = useState(null);
-    const [contentHeight, setContentHeight] = useState(0);
-    ref = ref || useRef();
 
-    useEffect(() => {
-        ref && setContentHeight((ref as any)?.current.scrollHeight)
-    }, [ref, contentHeight])
+const Transition = <T extends TagComponenntType = "div">({ children, type, onRest, ...rest }: TransitionProps<T>, ref: React.Ref<any>) => {
 
     let _in = rest.in === undefined ? true : rest.in
     delete rest.in;
-    type = type || "Zoom"
-
-    useEffect(() => {
-        clearTimeout(timer as any)
-        setTimer(setTimeout(() => {
-            onRest && onRest()
-        }, 200) as any)
-    }, [_in])
-
-    let {
-        ...props
-    } = rest
-
-    let frame: any = {
-        from: {
-            transform: _in ? "scale(1.5)" : "scale(1)",
-            opacity: _in ? 0 : 1
-        },
-        to: {
-            transform: _in ? "scale(1)" : "scale(1.5)",
-            opacity: _in ? 1. : 0
-        }
-    }
-
-    const compProps = useProps({
-        display: "inline-block",
-        animation: `${keyframes(frame)} 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55) 0ms`,
-        ...frame.to,
-        ...props
-    })
 
 
+    const compProps = useProps(rest)
 
-    return <div {...compProps} ref={ref}>{children}</div>
+    return <div {...compProps} className={classNames(compProps.className)} ref={ref}>{children}</div>
 }
 
 export default React.forwardRef(Transition) as typeof Transition

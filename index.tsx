@@ -27,9 +27,6 @@ import Option from './src/Option';
 import IconButton from './src/IconButton';
 import Switch from './src/Switch';
 import Avatar from './src/Avatar';
-import Transition from './src/Transition';
-import Fade from './src/Fade';
-
 
 const App = () => {
   const [c, setC] = React.useState("B")
@@ -41,31 +38,6 @@ const App = () => {
   return (
     <ThemeProvider>
       <Box p={2} >
-        <Fade enter={animIn} onFinish={() => {
-
-        }}>
-          <Box
-            height={100}
-            width={100}
-            bgcolor="background.dark"
-            radius={2}
-            m={2}
-          >
-          </Box>
-        </Fade>
-        {/* <Transition
-          in={animIn}
-          m={2}
-        >
-          <Box height={100}
-            width={100}
-            bgcolor="background.dark"
-            p={2}
-            radius={2}
-          >
-
-          </Box>
-        </Transition> */}
         <Button
           onClick={() => {
             setAnimIn(!animIn)

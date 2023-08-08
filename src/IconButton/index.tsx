@@ -1,6 +1,7 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType, useVariant } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import useVariant from '../Button/variants'
 
 export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
     color?: "primary" | "secondary" | "success" | "error" | "warning";

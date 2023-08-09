@@ -27,22 +27,34 @@ import Option from './src/Option';
 import IconButton from './src/IconButton';
 import Switch from './src/Switch';
 import Avatar from './src/Avatar';
+import Menu from './src/Menu';
+import Text from './src/Text';
 
 const App = () => {
+  const animRef = React.useRef()
   const [c, setC] = React.useState("B")
   const [animIn, setAnimIn] = React.useState(false)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
+  const [target, setTarget] = React.useState<any>()
 
   return (
     <ThemeProvider>
       <Box p={2} >
         <Button
-          onClick={() => {
-            setAnimIn(!animIn)
+          onClick={(e) => {
+            setTarget(!target ? e.target : null)
           }}
         >Toggle Trans</Button>
+        <Menu target={target} >
+          <List >
+            <ListItem onClick={() => setActiveList("home")} selected={activeList === "home"} startIcon={<HomeIcon />} endIcon={<>200</>}>Home</ListItem>
+            <ListItem onClick={() => setActiveList("about")} selected={activeList === "about"} startIcon={<AboutIcon />} subtitle="Visit about page" endIcon={<>20</>}>About</ListItem>
+            <ListItem onClick={() => setActiveList("services")} selected={activeList === "services"} startIcon={<ServiceIcon />} endIcon={<>13+</>}>Services</ListItem>
+            <ListItem onClick={() => setActiveList("contact")} selected={activeList === "contact"} startIcon={<ContactIcon />} endIcon={<>5+</>}>Contact</ListItem>
+          </List>
+        </Menu>
       </Box>
       <Avatar src="https://mui.com/static/images/avatar/.jpg" />
       <Box p={2}>

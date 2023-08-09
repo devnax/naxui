@@ -12,7 +12,7 @@ import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
 export type SelectProps = InputProps & {
     value?: string | number;
     onChange?: (item: OptionProps) => void;
-    menuProps?: Omit<MenuProps, 'children'>;
+    menuProps?: Omit<MenuProps, 'children' | 'target'>;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[]
 }
 
@@ -40,9 +40,7 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
         }
     }, [children, value])
 
-    const toggleMenu = () => {
-        setTarget(target ? null : conRef.current)
-    }
+    const toggleMenu = () => setTarget(target ? null : conRef.current)
 
     return (
         <>
@@ -55,21 +53,21 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 userSelect="none"
                 startIcon={selectedProps.startIcon}
                 focused={!!target}
-                containerRef={conRef}
+                {...inputProps}
                 containerProps={{
                     cursor: "pointer",
                     userSelect: "none",
-                    onClick: toggleMenu
+                    ...(inputProps.containerProps || {}),
+                    onClick: toggleMenu,
                 }}
-                {...inputProps}
+                containerRef={conRef}
                 ref={ref}
             />
             <Menu
                 baseClass='select-menu'
                 target={target}
                 placement="bottom"
-                width={target?.clientWidth || 0}
-                transition="fadeInUp"
+                width={conRef && (conRef?.current as any)?.clientWidth}
                 mt={.5}
                 {...menuProps}
                 onClickOutside={toggleMenu}

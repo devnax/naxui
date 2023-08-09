@@ -1,17 +1,15 @@
 'use client'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import Stack, { StackProps } from '../Stack'
-import Animate, { AnimationType, AnimateBoxProps } from '../AnimateBox';
-import { AnimatePresence } from 'framer-motion'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { useTransitions, UseTransitionsProps } from 'naxui-manager';
+import { getOrigin } from './getorigin';
+import { placedMenu, PlacementTypes } from './placedMenu'
 
-export type MenuPlacementTypes = "top" | "top-left" | "top-right" | "bottom" | "bottom-left" | "bottom-right" | "right" | "right-top" | "right-bottom" | "left" | "left-top" | "left-bottom"
+import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
-
-export type MenuProps = StackProps & {
+export type MenuProps<T extends TagComponenntType = "div"> = TagProps<T> & UseTransitionsProps & {
     target?: HTMLElement;
-    placement?: MenuPlacementTypes;
-    transition?: AnimationType;
-    animateProps?: Omit<AnimateBoxProps, "children">;
+    placement?: PlacementTypes;
+    transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental";
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
@@ -19,425 +17,131 @@ export type MenuProps = StackProps & {
 }
 
 
-const placements = [
-    "top",
-    "top-left",
-    "top-right",
-    "bottom",
-    "bottom-left",
-    "bottom-right",
-    "right",
-    "right-top",
-    "right-bottom",
-    "left",
-    "left-top",
-    "left-bottom"
-]
+const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref: any) => {
+    let {
+        children,
+        target,
+        placement,
+        transition,
+        zIndex,
+        onOpen,
+        onClose,
+        onClickOutside,
 
-
-type PlacementSetterCallbackProps = {
-    menu: HTMLElement;
-    boundary: DOMRect
-}
-
-
-const problem_ditector = (menu: HTMLElement): string | void => {
-    const winWidth = window.innerWidth
-    const winHeight = window.innerHeight
-
-    const { left, top, width, height } = menu.getBoundingClientRect()
-
-    if (left + width > winWidth) {
-        return 'right'
-    } else if (left < 0) {
-        return 'left'
-    } else if (top + height > winHeight) {
-        return 'bottom'
-    } else if (top < 0) {
-        return 'top'
-    }
-
-}
-
-const placement_setter: { [key in MenuPlacementTypes]: (arg: PlacementSetterCallbackProps) => MenuPlacementTypes } = {
-    "top": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        const height = menu.clientHeight
-        menu.style.top = `${boundary.top - height}px`
-        menu.style.left = `${(boundary.left + (boundary.width / 2)) - (width / 2)}px`
-        switch (problem_ditector(menu)) {
-            case 'left':
-                return placement_setter["top-left"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["top-right"]({
-                    menu,
-                    boundary
-                })
-            case 'top':
-                return placement_setter["bottom"]({
-                    menu,
-                    boundary
-                })
+        duration,
+        delay,
+        ease,
+        onStart,
+        onFinish,
+        ...rest
+    } = props
+    placement = placement || "left"
+    const [placed, setPlaced] = useState<any>(placement)
+    let [animRef, cls] = useTransitions(transition || "zoom", !!target, {
+        ease: ease || "ease",
+        duration: duration || 300,
+        delay,
+        onStart,
+        onFinish: () => {
+            if (!target) {
+                onClose && onClose()
+            } else {
+                onOpen && onOpen()
+            }
+            onFinish && onFinish()
         }
-        return "top"
-    },
-    "top-left": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const height = menu.clientHeight
-        menu.style.top = `${boundary.top - height}px`
-        menu.style.left = `${boundary.left}px`
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["top-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "top-left"
-    },
-    "top-right": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        const height = menu.clientHeight
-        menu.style.top = `${boundary.top - height}px`
-        menu.style.left = `${boundary.right - width}px`
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["top-left"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "top-right"
-    },
-    "bottom": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        menu.style.top = `${boundary.bottom}px`
-        menu.style.left = `${(boundary.left + (boundary.width / 2)) - (width / 2)}px`
-        switch (problem_ditector(menu)) {
-            case 'bottom':
-                return placement_setter["top"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["bottom-left"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["bottom-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "bottom"
-    },
-    "bottom-left": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        menu.style.top = `${boundary.bottom}px`
-        menu.style.left = `${boundary.left}px`
-        switch (problem_ditector(menu)) {
-            case 'bottom':
-                return placement_setter["top"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["bottom-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "bottom-left"
-    },
-    "bottom-right": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        menu.style.top = `${boundary.bottom}px`
-        menu.style.left = `${boundary.right - width}px`
-        switch (problem_ditector(menu)) {
-            case 'bottom':
-                return placement_setter["top"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["bottom-left"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "bottom-right"
-    },
-    "right": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const height = menu.clientHeight
+    })
 
-        menu.style.left = `${boundary.right}px`
-        menu.style.top = `${(boundary.top + (boundary.height / 2)) - (height / 2)}px`
-
-
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["right-top"]({
-                    menu,
-                    boundary
-                })
-            case 'bottom':
-                return placement_setter["right-bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["bottom-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "right"
-    },
-    "right-top": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        menu.style.top = `${boundary.top}px`
-        menu.style.left = `${boundary.right}px`
-        switch (problem_ditector(menu)) {
-            case 'bottom':
-                return placement_setter["right-bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["bottom-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "right-top"
-    },
-    "right-bottom": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const height = menu.clientHeight
-        menu.style.top = `${boundary.bottom - height}px`
-        menu.style.left = `${boundary.right}px`
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["right-top"]({
-                    menu,
-                    boundary
-                })
-            case 'right':
-                return placement_setter["bottom-right"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "right-bottom"
-    },
-    "left": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        const height = menu.clientHeight
-
-        menu.style.left = `${boundary.left - width}px`
-        menu.style.top = `${(boundary.top + (boundary.height / 2)) - (height / 2)}px`
-
-
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["left-top"]({
-                    menu,
-                    boundary
-                })
-            case 'bottom':
-                return placement_setter["left-bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["bottom-left"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "left"
-    },
-    "left-top": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const width = menu.clientWidth
-        menu.style.top = `${boundary.top}px`
-        menu.style.left = `${boundary.left - width}px`
-        switch (problem_ditector(menu)) {
-            case 'bottom':
-                return placement_setter["left-bottom"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["bottom-left"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "left-top"
-    },
-    "left-bottom": ({ menu, boundary }: PlacementSetterCallbackProps) => {
-        const height = menu.clientHeight
-        const width = menu.clientWidth
-        menu.style.top = `${boundary.bottom - height}px`
-        menu.style.left = `${boundary.left - width}px`
-        switch (problem_ditector(menu)) {
-            case 'top':
-                return placement_setter["left-top"]({
-                    menu,
-                    boundary
-                })
-            case 'left':
-                return placement_setter["bottom-left"]({
-                    menu,
-                    boundary
-                })
-        }
-        return "left-bottom"
-    },
-}
-
-
-const _MenuMainView = ({ children, target, boundary, placement, transition, zIndex, onOpen, onClose, onClickOutside, animateProps, ...rest }: MenuProps & { boundary: DOMRect }, ref: any) => {
-    const _menuRef = useRef<HTMLDivElement>()
-    ref = ref || _menuRef
-    const [d, dispatch] = useState(0)
-    const [placed, setPlaced] = useState(placement || "bottom")
-    const _placement: MenuPlacementTypes = (placements.includes(placement as any) ? placement : "bottom") as MenuPlacementTypes
+    const [menuSize, setMenuSize] = useState({
+        height: 0,
+        width: 0
+    });
 
     useEffect(() => {
-        dispatch(Math.random())
-    }, [target])
+        if (animRef && animRef.current) {
+            let h = (animRef as any).current.scrollHeight;
+            let w = (animRef as any).current.scrollWidth
+            if (!(h === menuSize.height && w === menuSize.width)) {
+                setMenuSize({
+                    height: h,
+                    width: w,
+                })
+            }
+        }
+    }, [menuSize.height, menuSize.width])
 
     useEffect(() => {
-        if (ref.current && ref.current.clientWidth) {
-            const _placed = placement_setter[_placement]({
-                menu: ref.current,
-                boundary
+        if (target && animRef?.current.clientWidth !== undefined) {
+            let p = placedMenu({
+                place: placement as any,
+                menu: animRef.current,
+                menuSize,
+                targetBoundary: target.getBoundingClientRect()
             })
-            setPlaced(_placed)
-        }
+            // console.log(p);
 
-    }, [_placement, boundary, d, ref])
+            setPlaced(p)
+        }
+    }, [placement, target, menuSize.height, menuSize.width])
 
     useEffect(() => {
-        (placed && onOpen) && onOpen()
+        ref && (ref.current = animRef.current)
         const detect = (e: MouseEvent) => {
-            if (onClickOutside && ref.current && !ref.current.contains(e.target)) {
+            if (onClickOutside && !animRef?.current.contains(e.target)) {
                 onClickOutside()
             }
         }
-        document.addEventListener("click", detect)
-        return () => {
-            onClose && onClose()
-            document.removeEventListener("click", detect)
-        }
-    }, [onClose, onOpen, placed])
+        onClickOutside && document.addEventListener("click", detect)
+        return () => document.removeEventListener("click", detect)
+    }, [])
 
-    let _origin: any = "top"
-    switch (placed) {
-        case "bottom":
-            _origin = "top"
-            break;
-        case "bottom-left":
-            _origin = "top left"
-            break;
-        case "bottom-right":
-            _origin = "top right"
-            break;
-        case "top":
-            _origin = "bottom"
-            break;
-        case "top-left":
-            _origin = "bottom left"
-            break;
-        case "top-right":
-            _origin = "bottom right"
-            break;
-        case "right":
-            _origin = "left"
-            break;
-        case "right-bottom":
-            _origin = "bottom left"
-            break;
-        case "right-top":
-            _origin = "top left"
-            break;
-        case "left":
-            _origin = "right"
-            break;
-        case "left-bottom":
-            _origin = "bottom right"
-            break;
-        case "left-top":
-            _origin = "top right"
-            break;
-    }
 
     return (
-        <Stack
+        <Tag
+            ref={animRef}
             baseClass='menu'
-            position="fixed"
-            ref={ref}
-            zIndex={zIndex || 1000}
+            zIndex={1500 + (zIndex || 0)}
+            overflow="hidden"
+            transformOrigin={getOrigin(placed) || "top"}
+            bgcolor="background"
+            minWidth={100}
+            shadow={5}
+            radius={1}
+            {...rest}
+            position="absolute"
+            classNames={[cls, rest.className]}
         >
-            {placed && <Animate
-                {...animateProps}
-                type={transition || "zoom"}
-                transition={{ ease: 'easeInOut', duration: 0.2 }}
-                style={{
-                    transformOrigin: _origin,
-                    ...(animateProps?.style || {})
-                }}
-                step={5}
-            >
-                <Stack
-                    baseClass='menu-box'
-                    bgcolor="background"
-                    overflow="hidden"
-                    shadow={4}
-                    radius={1}
-                    {...rest}
-                >
-                    {children}
-                </Stack>
-            </Animate>}
-        </Stack>
+            {children}
+        </Tag>
     )
 }
 
 const MenuMainView = forwardRef(_MenuMainView) as typeof _MenuMainView
 
-const Menu = (props: MenuProps, ref?: React.Ref<any>) => {
-    const { target } = props
+const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: React.Ref<any>) => {
+    const { target, children, onClose, ...rest } = props
+    const [destroy, setDestroy] = useState(!target)
 
-    let boundary: any = null;
-    let key = Math.random()
-    if (target) {
-        boundary = target.getBoundingClientRect()
-        key = boundary.x;
-        key += boundary.y;
-        key += boundary.width;
-        key += boundary.height;
-    }
+    useEffect(() => {
+        target && setDestroy(false)
+    }, [target])
+
+    if (destroy) return <></>
 
     return (
-        <AnimatePresence>
-            {
-                boundary && <MenuMainView ref={ref} {...props} key={key} boundary={boundary} />
-            }
-        </AnimatePresence >
-
+        <MenuMainView
+            {...rest}
+            target={target}
+            ref={ref}
+            onClose={() => {
+                setDestroy(true)
+                onClose && onClose()
+            }}
+        >
+            {children}
+        </MenuMainView>
     )
+
 }
 
 export default React.forwardRef(Menu) as typeof Menu

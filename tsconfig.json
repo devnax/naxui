@@ -26,5 +26,8 @@
     "include": [
         "src/**/*.ts",
         "src/**/*.tsx"
+    ],
+    "exclude": [
+        "./index.tsx"
     ]
 }

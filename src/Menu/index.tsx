@@ -1,15 +1,16 @@
 'use client'
-import React, { forwardRef, useEffect, useState } from 'react'
-import { useTransitions, UseTransitionsProps } from 'naxui-manager';
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { useTransitions, UseTransitionsProps, UseTransitionsVariantsTypes, useWindowResize } from 'naxui-manager';
 import { getOrigin } from './getorigin';
 import { placedMenu, PlacementTypes } from './placedMenu'
-
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import Portal from '../Portal'
+
 
 export type MenuProps<T extends TagComponenntType = "div"> = TagProps<T> & UseTransitionsProps & {
     target?: HTMLElement;
     placement?: PlacementTypes;
-    transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental";
+    transition?: UseTransitionsVariantsTypes;
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
@@ -37,9 +38,10 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
     } = props
     placement = placement || "left"
     const [placed, setPlaced] = useState<any>(placement)
-    let [animRef, cls] = useTransitions(transition || "zoom", !!target, {
+    ref = ref || useRef()
+    let [animRef, cls] = useTransitions(transition || "grow", !!target, {
         ease: ease || "ease",
-        duration: duration || 300,
+        duration: duration || 200,
         delay,
         onStart,
         onFinish: () => {
@@ -52,42 +54,21 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
         }
     })
 
-    const [menuSize, setMenuSize] = useState({
-        height: 0,
-        width: 0
-    });
-
     useEffect(() => {
-        if (animRef && animRef.current) {
-            let h = (animRef as any).current.scrollHeight;
-            let w = (animRef as any).current.scrollWidth
-            if (!(h === menuSize.height && w === menuSize.width)) {
-                setMenuSize({
-                    height: h,
-                    width: w,
-                })
-            }
-        }
-    }, [menuSize.height, menuSize.width])
-
-    useEffect(() => {
-        if (target && animRef?.current.clientWidth !== undefined) {
+        if (target && ref?.current.clientWidth !== undefined) {
             let p = placedMenu({
                 place: placement as any,
-                menu: animRef.current,
-                menuSize,
-                targetBoundary: target.getBoundingClientRect()
+                menu: ref.current,
+                target
             })
-            // console.log(p);
-
             setPlaced(p)
         }
-    }, [placement, target, menuSize.height, menuSize.width])
+    }, [placement, target])
 
     useEffect(() => {
-        ref && (ref.current = animRef.current)
+        ref && (ref.current = ref.current)
         const detect = (e: MouseEvent) => {
-            if (onClickOutside && !animRef?.current.contains(e.target)) {
+            if (onClickOutside && !ref?.current.contains(e.target)) {
                 onClickOutside()
             }
         }
@@ -95,32 +76,42 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
         return () => document.removeEventListener("click", detect)
     }, [])
 
-
     return (
         <Tag
-            ref={animRef}
-            baseClass='menu'
+            ref={ref}
+            baseClass='menu-root'
             zIndex={1500 + (zIndex || 0)}
-            overflow="hidden"
-            transformOrigin={getOrigin(placed) || "top"}
-            bgcolor="background"
             minWidth={100}
-            shadow={5}
-            radius={1}
-            {...rest}
             position="absolute"
-            classNames={[cls, rest.className]}
         >
-            {children}
+            <Tag
+                overflow="hidden"
+                baseClass='menu'
+                bgcolor="background"
+                shadow={5}
+                radius={1}
+                ref={animRef}
+                transformOrigin={getOrigin(placed) || "top"}
+                {...rest}
+                classNames={[cls, rest?.className]}
+            >
+                {children}
+            </Tag>
         </Tag>
     )
 }
 
 const MenuMainView = forwardRef(_MenuMainView) as typeof _MenuMainView
 
+
 const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: React.Ref<any>) => {
     const { target, children, onClose, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
+    const [key, setKey] = useState(0)
+
+    useWindowResize(() => {
+        setKey(Math.random())
+    })
 
     useEffect(() => {
         target && setDestroy(false)
@@ -129,17 +120,20 @@ const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: Re
     if (destroy) return <></>
 
     return (
-        <MenuMainView
-            {...rest}
-            target={target}
-            ref={ref}
-            onClose={() => {
-                setDestroy(true)
-                onClose && onClose()
-            }}
-        >
-            {children}
-        </MenuMainView>
+        <Portal>
+            <MenuMainView
+                key={key}
+                {...rest}
+                target={target}
+                ref={ref}
+                onClose={() => {
+                    setDestroy(true)
+                    onClose && onClose()
+                }}
+            >
+                {children}
+            </MenuMainView>
+        </Portal>
     )
 
 }

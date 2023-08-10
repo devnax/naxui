@@ -18,92 +18,91 @@ export const placements = [
 
 export type PlacementTypes = typeof placements[number]
 
-const isOffScreen = (menu: HTMLElement, { width, height }: Props['menuSize']) => {
-    const { left, top } = menu.getBoundingClientRect()
-    return (
-        left + width > window.innerWidth
-        || left < 0
-        || top + height > window.innerHeight
-        || top < 0
-    )
+const isOffScreen = (menu: HTMLElement) => {
+    const { x, y, width, height } = menu.getBoundingClientRect()
+    return x < 0 || y < 0 || x + width > window.innerWidth || y + height > window.innerHeight
 };
 
 type Props = {
     place: PlacementTypes,
     menu: HTMLElement,
-    menuSize: { width: number, height: number },
-    targetBoundary: DOMRect
+    target: HTMLElement
 }
 
 
-let setStyles = ({ place, menu, menuSize, targetBoundary }: Props) => {
-    const width = menuSize.width
-    const height = menuSize.height
+let setStyles = ({ place, menu, target }: Props) => {
+
+    const { height, width } = menu.getBoundingClientRect()
+    const targetBoundary = target.getBoundingClientRect()
+    let targetTop = targetBoundary.top + window.scrollY
+    let targetBottom = targetBoundary.bottom + window.scrollY
+    let targetLeft = targetBoundary.left + window.scrollX
+    let targetRight = targetBoundary.right + window.scrollX
 
     const _styles = {
         "top": () => {
-            menu.style.top = `${targetBoundary.top - height}px`
-            menu.style.left = `${(targetBoundary.left + (targetBoundary.width / 2)) - (width / 2)}px`
+            menu.style.top = `${targetTop - height}px`
+            menu.style.left = `${(targetLeft + (targetBoundary.width / 2)) - (width / 2)}px`
         },
         "top-left": () => {
-            menu.style.top = `${targetBoundary.top - height}px`
-            menu.style.left = `${targetBoundary.left}px`
+            menu.style.top = `${targetTop - height}px`
+            menu.style.left = `${targetLeft}px`
         },
         "top-right": () => {
-            menu.style.top = `${targetBoundary.top - height}px`
-            menu.style.left = `${targetBoundary.right - width}px`
+            menu.style.top = `${targetTop - height}px`
+            menu.style.left = `${targetRight - width}px`
         },
         "bottom": () => {
-            menu.style.top = `${targetBoundary.bottom}px`
-            menu.style.left = `${(targetBoundary.left + (targetBoundary.width / 2)) - (width / 2)}px`
+            menu.style.top = `${targetBottom}px`
+            menu.style.left = `${(targetLeft + (targetBoundary.width / 2)) - (width / 2)}px`
         },
         "bottom-left": () => {
-            menu.style.top = `${targetBoundary.bottom}px`
-            menu.style.left = `${targetBoundary.left}px`
+            menu.style.top = `${targetBottom}px`
+            menu.style.left = `${targetLeft}px`
         },
         "bottom-right": () => {
-            menu.style.top = `${targetBoundary.bottom}px`
-            menu.style.left = `${targetBoundary.right - width}px`
+            menu.style.top = `${targetBottom}px`
+            menu.style.left = `${targetRight - width}px`
         },
         "right": () => {
-            menu.style.left = `${targetBoundary.right}px`
-            menu.style.top = `${(targetBoundary.top + (targetBoundary.height / 2)) - (height / 2)}px`
+            menu.style.top = `${(targetTop + (targetBoundary.height / 2)) - (height / 2)}px`
+            menu.style.left = `${targetRight}px`
         },
         "right-top": () => {
-            menu.style.top = `${targetBoundary.top}px`
-            menu.style.left = `${targetBoundary.right}px`
+            menu.style.top = `${targetTop}px`
+            menu.style.left = `${targetRight}px`
         },
         "right-bottom": () => {
-            menu.style.top = `${targetBoundary.bottom - height}px`
-            menu.style.left = `${targetBoundary.right}px`
+            menu.style.top = `${(targetTop + targetBoundary.height) - height}px`
+            menu.style.left = `${targetRight}px`
         },
         "left": () => {
-            menu.style.left = `${targetBoundary.left - width}px`
-            menu.style.top = `${(targetBoundary.top + (targetBoundary.height / 2)) - (height / 2)}px`
+            menu.style.left = `${targetLeft - width}px`
+            menu.style.top = `${(targetTop + (targetBoundary.height / 2)) - (height / 2)}px`
         },
         "left-top": () => {
-            menu.style.top = `${targetBoundary.top}px`
-            menu.style.left = `${targetBoundary.left - width}px`
+            menu.style.top = `${targetTop}px`
+            menu.style.left = `${targetLeft - width}px`
         },
         "left-bottom": () => {
-            menu.style.top = `${targetBoundary.bottom - height}px`
-            menu.style.left = `${targetBoundary.left - width}px`
+            menu.style.top = `${targetBottom - height}px`
+            menu.style.left = `${targetLeft - width}px`
         }
     }
     _styles[place] && _styles[place]()
 }
 
-export const placedMenu = ({ place, menu, menuSize, targetBoundary }: Props) => {
-    setStyles({ place, menu, menuSize, targetBoundary })
-    if (isOffScreen(menu, menuSize)) {
+export const placedMenu = ({ place, menu, target }: Props) => {
+    setStyles({ place, menu, target })
+    if (isOffScreen(menu)) {
         for (let i = 0; i < placements.length; i++) {
             let _place = placements[i]
-            setStyles({ place: _place, menu, menuSize, targetBoundary })
-            if (!isOffScreen(menu, menuSize)) {
+            setStyles({ place: _place, menu, target })
+            if (!isOffScreen(menu)) {
                 return _place
             }
         }
     }
-    return name
+    return place
 }
 

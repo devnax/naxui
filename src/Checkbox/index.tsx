@@ -3,19 +3,25 @@ import React, { useState, ReactElement } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 import CheckIcon from 'naxui-icons/round/CheckBox'
 import UnCheckIcon from 'naxui-icons/round/CheckBoxOutlineBlank'
+import IndeterminateCheckBoxIcon from 'naxui-icons/round/IndeterminateCheckBox';
 
 export type CheckboxProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
+    indeterminate?: boolean;
     checked?: boolean;
     size?: number;
 }
 
-const Checkbox = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, checked, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
+const Checkbox = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 22
     rest.onChange = rest.onChange || (() => set(!c));
+    if (indeterminate) {
+        checked = true
+        checkIcon = <IndeterminateCheckBoxIcon />
+    }
     return (
         <Tag
             baseClass='checkbox'

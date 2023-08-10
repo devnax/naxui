@@ -29,6 +29,7 @@ import Switch from './src/Switch';
 import Avatar from './src/Avatar';
 import Menu from './src/Menu';
 import Text from './src/Text';
+import Stack from './src/Stack';
 
 const App = () => {
   const animRef = React.useRef()
@@ -65,16 +66,18 @@ const App = () => {
           <HomeIcon />
         </IconButton>
       </Box>
-      <Box m={2} p={1} width={300}>
-        <Select value={selectVal} onChange={(val) => {
-          setSelectVal(val)
-        }}>
-          <Option value="home" startIcon={<HomeIcon />}>Home</Option>
-          <Option value="about" startIcon={<AboutIcon />}>About</Option>
-          <Option value="service" startIcon={<ServiceIcon />}>Service</Option>
-          <Option value="contact" startIcon={<ContactIcon />}>Contact</Option>
-        </Select>
-      </Box>
+      <Stack justifyContent="center" alignItems="center" mt={6}>
+        <Box m={2} p={1} width={300}>
+          <Select value={selectVal} onChange={(val) => {
+            setSelectVal(val)
+          }}>
+            <Option value="home" startIcon={<HomeIcon />}>Home</Option>
+            <Option value="about" startIcon={<AboutIcon />}>About</Option>
+            <Option value="service" startIcon={<ServiceIcon />}>Service</Option>
+            <Option value="contact" startIcon={<ContactIcon />}>Contact</Option>
+          </Select>
+        </Box>
+      </Stack>
       <Paper m={2} p={1} width={300}>
         <List >
           <ListItem onClick={() => setActiveList("home")} selected={activeList === "home"} startIcon={<HomeIcon />} endIcon={<>200</>}>Home</ListItem>

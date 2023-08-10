@@ -23,9 +23,11 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
             {...rest}
             sx={{
                 "& td, th": {
+                    p: dense ? 1 : 1.5
+                },
+                "& tr:not(:last-child) td, th": {
                     borderBottom: "1px solid",
                     borderColor: "divider",
-                    p: dense ? 1 : 1.5
                 },
                 "& tbody tr:hover": {
                     bgcolor: "background.light"

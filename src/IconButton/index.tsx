@@ -1,7 +1,7 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import useVariant from '../Button/variants'
+import { Tag, TagProps, TagComponenntType, alpha } from 'naxui-manager';
+import useVariants from '../Button/variants'
 
 export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
     color?: "primary" | "secondary" | "success" | "error" | "warning";
@@ -12,7 +12,8 @@ export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagPr
 const IconButton = <T extends TagComponenntType = 'button'>({ children, variant, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     size = size || 40
-    let css = useVariant(variant || "text", color)
+    color = color || "primary"
+    let css = useVariants(variant || "text", color)
 
     return (
         <Tag
@@ -29,9 +30,14 @@ const IconButton = <T extends TagComponenntType = 'button'>({ children, variant,
             alignItems="center"
             justifyContent="center"
             transition="background .3s"
+            bgcolor="transparent"
             ref={ref}
             {...css}
             {...rest}
+            hover={{
+                bgcolor: alpha(color, .9),
+                ...((rest as any)?.hover || {})
+            }}
         >
             {children}
         </Tag>

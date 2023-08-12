@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 import PersonIcon from 'naxui-icons/round/Person'
 
@@ -9,18 +9,10 @@ export type AvatarProps<T extends TagComponenntType = "img"> = TagProps<T> & {
 }
 
 const Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
-    const [faild, setFaild] = useState(false)
-    ref = ref || useRef()
+    const [faild, setFaild] = useState<boolean>()
     size = size || 36
-    useEffect(() => {
-        if (ref && ref?.current) {
-            ref.current.onerror = function () {
-                setFaild(true)
-            }
-        }
-    }, [src])
 
-    if (!faild) {
+    if (faild === false) {
         let t = alt?.charAt(0).toUpperCase() || (children || <PersonIcon />)
         return (
             <Tag
@@ -57,6 +49,10 @@ const Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt,
             alt={alt}
             src={src}
             {...rest}
+            onError={(e) => {
+                setFaild(false)
+                rest.onError && rest.onError(e as any)
+            }}
             ref={ref}
         />
     )

@@ -30,6 +30,7 @@ import Avatar from './src/Avatar';
 import Menu from './src/Menu';
 import Text from './src/Text';
 import Stack from './src/Stack';
+import Image from './src/Image';
 
 const App = () => {
   const animRef = React.useRef()
@@ -57,7 +58,14 @@ const App = () => {
           </List>
         </Menu>
       </Box>
-      <Avatar src="https://mui.com/static/images/avatar/.jpg" />
+      <Image
+        src="https://mui.com/static/images/avatar/.jpg"
+        errorView={<>Wrong</>}
+        onError={() => {
+          console.log("sd");
+
+        }}
+      />
       <Box p={2}>
         <Switch />
       </Box>
@@ -94,7 +102,7 @@ const App = () => {
         />
       </Box>
       <Box p={3} >
-        <Button onClick={() => setDense(!dense)}>Toggle Table Size</Button>
+        <Button onClick={() => setDense(!dense)} >Toggle Table Size</Button>
         <Table dense={dense}>
           <TableHead>
             <TableRow>

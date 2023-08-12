@@ -1,6 +1,6 @@
 {
   "name": "naxui",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "keywords": [],
   "author": "Naxrul Ahmed",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "naxui-icons": "^1.0.5",
-    "naxui-manager": "^1.3.3",
+    "naxui-manager": "^1.3.6",
     "react-browser-scrollbar": "^1.1.5"
   }
 }

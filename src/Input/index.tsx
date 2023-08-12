@@ -59,6 +59,7 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
                 color="text.primary"
                 fontSize="fontsize.1"
                 py={1.5}
+                px={1.5}
                 {...rest}
                 ref={inpRef}
                 onFocus={(e: any) => {
@@ -69,7 +70,6 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
                     (focused === undefined) && setFocused(false)
                     onBlur && onBlur(e)
                 }}
-                px={1}
             />
             {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color="text.secondary" >{endIcon}</Tag>}
         </Stack>

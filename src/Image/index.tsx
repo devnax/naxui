@@ -1,13 +1,47 @@
 'use client'
-import React from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
-export type ImageProps<T extends TagComponenntType = "img"> = TagProps<T>
+export type ImageProps<T extends TagComponenntType = "img"> = TagProps<T> & {
+    errorView?: ReactElement
+}
 
-const Image = <T extends TagComponenntType = "img">(props: ImageProps<T>, ref: React.Ref<any>) => {
+const Image = <T extends TagComponenntType = "img">({ children, src, alt, errorView, ...rest }: ImageProps<T>, ref: any) => {
+    const [faild, setFaild] = useState<boolean>()
+
+    if (faild === false) {
+        let t = errorView || alt?.charAt(0).toUpperCase() || children
+        return (
+            <Tag
+                baseClass='image'
+                component="div"
+                display="inline-flex"
+                justifyContent="center"
+                alignItems="center"
+                src={src}
+                {...rest}
+
+                ref={ref}
+            >{t}</Tag>
+        )
+    }
     return (
-        <Tag baseClass='image' {...props} component="img" ref={ref} />
+        <Tag
+            baseClass='Image'
+            component="img"
+            objectFit="cover"
+            alt={alt}
+            src={src}
+            {...rest}
+            onError={(e) => {
+                setFaild(false)
+                rest.onError && rest.onError(e as any)
+            }}
+            ref={ref}
+        />
     )
 }
+
 export default React.forwardRef(Image) as typeof Image
+
 

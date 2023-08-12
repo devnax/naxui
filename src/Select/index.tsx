@@ -27,6 +27,7 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 sProps = child.props
             }
             return cloneElement(child, {
+                value: undefined,
                 selected,
                 onClick: () => {
                     onChange && onChange(child.props.value)

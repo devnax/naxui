@@ -8,7 +8,7 @@ export type OptionProps = ListItemProps & {
 
 const Option = ({ value, children, ...props }: OptionProps, ref: React.Ref<any>) => {
     return (
-        <ListItem data-value={value} {...props} ref={ref}>{children}</ListItem>
+        <ListItem {...props} ref={ref}>{children}</ListItem>
     )
 }
 

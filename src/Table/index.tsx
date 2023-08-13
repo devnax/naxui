@@ -22,10 +22,10 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
             baseClass='table'
             {...rest}
             sx={{
-                "& td, th": {
+                "& td,& th": {
                     p: dense ? 1 : 1.5
                 },
-                "& tr:not(:last-child) td, th": {
+                "& tr:not(:last-child) td, & tr:not(:last-child) th": {
                     borderBottom: "1px solid",
                     borderColor: "divider",
                 },

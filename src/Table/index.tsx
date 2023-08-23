@@ -12,7 +12,7 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
     if (evenColor) {
         sx = {
             "& tbody tr:nth-child(even)": {
-                bgcolor: "background.dark"
+                bgcolor: "background.paper"
             }
         }
     }
@@ -30,7 +30,7 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
                     borderColor: "divider",
                 },
                 "& tbody tr:hover": {
-                    bgcolor: "background.light"
+                    bgcolor: "background.default"
                 },
                 ...sx,
                 ...((rest as any).sx || {})

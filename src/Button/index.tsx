@@ -1,26 +1,34 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import useVariant from './variants'
+import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
+import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
+
 
 export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
-    color?: "primary" | "secondary" | "success" | "error" | "warning";
-    variant?: "outline" | "text" | "contained";
+    color?: UseUIVariantColorTypes;
+    variant?: UseUIVariantTypes;
+    softness?: number;
+    corner?: UseCornerVariantTypes;
 }
 
 
-const Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
+const Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, softness, corner, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
-    let css = useVariant(variant, color)
+    variant = variant || "filled"
+    color = color || "primary"
+    corner = corner || "rounded"
+    const cornerCss = useCornerVariant(corner)
+    const uiCss = useUIVariant(variant, color, softness)
+    const uiHoverCss = useUIVariant(variant, color, softness === undefined ? 1.1 : parseFloat(softness as any) + .1)
 
     return (
         <Tag
             component='button'
             baseClass='button'
             border={0}
-            radius={1.5}
             height={44}
             cursor="pointer"
             typography="button"
@@ -29,8 +37,13 @@ const Button = <T extends TagComponenntType = 'button'>({ children, variant, sta
             alignItems="center"
             transition="background .3s"
             px={2}
-            {...css}
+            {...cornerCss}
+            {...uiCss}
             {...rest}
+            hover={{
+                ...uiHoverCss,
+                ...((rest as any).hover || {})
+            }}
             ref={ref}
         >
             {startIcon && <Tag component='span' mr={1}>{startIcon}</Tag>}

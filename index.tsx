@@ -43,8 +43,13 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <Box p={2} >
+
+      <Box p={2} flexBox flexRow >
         <Button
+          startIcon={<ContactIcon />}
+          variant='outlined'
+          softness={.5}
+          color="success"
           onClick={(e) => {
             setTarget(!target ? e.target : null)
           }}
@@ -59,18 +64,19 @@ const App = () => {
         </Menu>
       </Box>
       <Image
-        src="https://mui.com/static/images/avatar/.jpg"
+        m={2}
+        radius={2}
+        src="https://mui.com/static/images/avatar/1.jpg"
         errorView={<>Wrong</>}
         onError={() => {
-          console.log("sd");
 
         }}
       />
       <Box p={2}>
         <Switch />
       </Box>
-      <Box p={3}>
-        <IconButton>
+      <Box px={3} p={1}>
+        <IconButton >
           <HomeIcon />
         </IconButton>
       </Box>

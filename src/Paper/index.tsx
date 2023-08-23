@@ -13,7 +13,7 @@ const Paper = <T extends TagComponenntType = "div">({ children, ...rest }: Paper
             radius={1}
             p={1.5}
             shadow={2}
-            bgcolor="background.light"
+            bgcolor="background.default"
             color="text.primary"
             {...rest}
             ref={ref}

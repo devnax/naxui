@@ -22,10 +22,10 @@ const List = <T extends TagComponenntType = "ul">({ children, sx, color, ...rest
                     mb: .4
                 },
                 "& .list-item:not(.list-item-selected):hover": {
-                    bgcolor: "background.light"
+                    bgcolor: "background.default"
                 },
                 "& .list-item-selected": {
-                    bgcolor: `${color}.main`,
+                    bgcolor: `${color}.color`,
                     color: `${color}.text`,
                 },
                 "& .list-item-selected .list-item-icon": {

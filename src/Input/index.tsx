@@ -1,7 +1,10 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType, alpha } from 'naxui-manager';
 import Stack, { StackProps } from '../Stack';
+
+import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
+import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
 
 export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     startIcon?: ReactElement;
@@ -10,13 +13,39 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     autoFocused?: boolean;
     containerProps?: StackProps;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
+
+    color?: UseUIVariantColorTypes;
+    variant?: UseUIVariantTypes;
+    softness?: boolean | number;
+    corner?: UseCornerVariantTypes;
 }
 
-const Input = <T extends TagComponenntType = "input">({ children, startIcon, endIcon, onFocus, onBlur, focused, autoFocused, containerProps, containerRef, disabled, ...rest }: InputProps<T>, ref?: React.Ref<any>) => {
+const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
+    let {
+        children,
+        startIcon,
+        endIcon,
+        onFocus,
+        onBlur,
+        focused,
+        autoFocused,
+        containerProps,
+        containerRef,
+        disabled,
+        variant,
+        color,
+        corner,
+        softness,
+        ...rest
+    } = props
+    softness = true
     const conRef: any = useRef()
     const inpRef: any = ref || useRef()
     const [_focused, setFocused] = useState(autoFocused || false)
     let _focus = focused || _focused
+    const cornerCss = useCornerVariant(corner || "rounded")
+    const uiCss: any = useUIVariant("outlined", color, softness as any)
+
 
     useEffect(() => {
         if (containerRef) {
@@ -34,19 +63,19 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
     return (
         <Stack
             baseClass='input'
-            disabled={disabled}
+            disabled={disabled || false}
             ref={conRef}
             flexDirection="row"
             alignItems="center"
-            bgcolor="background.dark"
             minWidth={150}
-            radius={1}
             border={1}
-            borderColor={_focus ? "primary.main" : "background.dark"}
-            shadow={_focus ? 2 : 0}
+            borderColor={_focus ? "primary.color" : "background.paper"}
             transition=".2s"
             transitionProperty="border, box-shadow"
+            {...cornerCss}
+            {...uiCss}
             {...containerProps}
+            bgcolor={alpha("grey.3", .1)}
         >
             {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color="text.secondary" mr={.4}>{startIcon}</Tag>}
             <Tag
@@ -56,7 +85,7 @@ const Input = <T extends TagComponenntType = "input">({ children, startIcon, end
                 outline={0}
                 bgcolor="transparent"
                 width="100%"
-                color="text.primary"
+                color={"text.primary"}
                 fontSize="fontsize.1"
                 py={1.5}
                 px={1.5}

@@ -1,10 +1,9 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponenntType, alpha } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 import Stack, { StackProps } from '../Stack';
-
-import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
-import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
+import Box from '../Box';
+import Text from '../Text';
 
 export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     startIcon?: ReactElement;
@@ -13,11 +12,9 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     autoFocused?: boolean;
     containerProps?: StackProps;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
-
-    color?: UseUIVariantColorTypes;
-    variant?: UseUIVariantTypes;
-    softness?: boolean | number;
-    corner?: UseCornerVariantTypes;
+    variant?: "filled" | "outlined";
+    error?: boolean;
+    helperText?: string;
 }
 
 const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
@@ -33,19 +30,14 @@ const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?
         containerRef,
         disabled,
         variant,
-        color,
-        corner,
-        softness,
+        error,
+        helperText,
         ...rest
     } = props
-    softness = true
+    const [_focused, setFocused] = useState(autoFocused || false)
     const conRef: any = useRef()
     const inpRef: any = ref || useRef()
-    const [_focused, setFocused] = useState(autoFocused || false)
     let _focus = focused || _focused
-    const cornerCss = useCornerVariant(corner || "rounded")
-    const uiCss: any = useUIVariant("outlined", color, softness as any)
-
 
     useEffect(() => {
         if (containerRef) {
@@ -59,49 +51,54 @@ const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?
         }
     }, [_focus])
 
+    variant = variant || "outlined"
+    let borderColor = _focus ? "color.primary" : (variant === "filled" ? "transparent" : "color.divider")
+    borderColor = error ? "color.error" : borderColor
 
     return (
-        <Stack
-            baseClass='input'
-            disabled={disabled || false}
-            ref={conRef}
-            flexDirection="row"
-            alignItems="center"
-            minWidth={150}
-            border={1}
-            borderColor={_focus ? "primary.color" : "background.paper"}
-            transition=".2s"
-            transitionProperty="border, box-shadow"
-            {...cornerCss}
-            {...uiCss}
-            {...containerProps}
-            bgcolor={alpha("grey.3", .1)}
-        >
-            {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color="text.secondary" mr={.4}>{startIcon}</Tag>}
-            <Tag
-                flex={1}
-                component='input'
-                border={0}
-                outline={0}
-                bgcolor="transparent"
-                width="100%"
-                color={"text.primary"}
-                fontSize="fontsize.1"
-                py={1.5}
-                px={1.5}
-                {...rest}
-                ref={inpRef}
-                onFocus={(e: any) => {
-                    (focused === undefined) && setFocused(true)
-                    onFocus && onFocus(e)
-                }}
-                onBlur={(e: any) => {
-                    (focused === undefined) && setFocused(false)
-                    onBlur && onBlur(e)
-                }}
-            />
-            {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color="text.secondary" >{endIcon}</Tag>}
-        </Stack>
+        <Box>
+            <Stack
+                baseClass='input'
+                disabled={disabled || false}
+                ref={conRef}
+                flexDirection="row"
+                alignItems="center"
+                minWidth={150}
+                transition=".2s"
+                transitionProperty="border, box-shadow, background"
+                bgcolor={variant === "filled" ? "color.paper" : "transparent"}
+                border={1}
+                borderColor={borderColor}
+                borderRadius={1}
+                {...containerProps}
+            >
+                {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} mr={.4}>{startIcon}</Tag>}
+                <Tag
+                    flex={1}
+                    component='input'
+                    border={0}
+                    outline={0}
+                    bgcolor="transparent"
+                    width="100%"
+                    color={error ? "color.error" : "color.text"}
+                    fontSize="fontsize.1"
+                    py={1.5}
+                    px={1.5}
+                    {...rest}
+                    ref={inpRef}
+                    onFocus={(e: any) => {
+                        (focused === undefined) && setFocused(true)
+                        onFocus && onFocus(e)
+                    }}
+                    onBlur={(e: any) => {
+                        (focused === undefined) && setFocused(false)
+                        onBlur && onBlur(e)
+                    }}
+                />
+                {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} >{endIcon}</Tag>}
+            </Stack>
+            {helperText && <Text mt={.5} fontSize={"fontsize.0"} color={error ? "color.error" : "color.text"}>{helperText}</Text>}
+        </Box>
     )
 }
 export default React.forwardRef(Input) as typeof Input

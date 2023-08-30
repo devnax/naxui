@@ -1,9 +1,8 @@
 import React, { forwardRef } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import { ThemeTypographyOptions } from 'naxui-manager';
 
 export type TextProps<T extends TagComponenntType = "p"> = TagProps<T> & {
-    variant?: keyof ThemeTypographyOptions
+    variant?: "text" | "subtext" | "button" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 }
 
 const Text = <T extends TagComponenntType = "p">({ children, variant, ...rest }: TextProps<T>, ref?: React.Ref<any>) => {
@@ -13,7 +12,7 @@ const Text = <T extends TagComponenntType = "p">({ children, variant, ...rest }:
         <Tag
             baseClass='text'
             typography={variant || "text"}
-            component={comp}
+            component={comp || "p"}
             {...rest}
             ref={ref}
         >{children}</Tag>

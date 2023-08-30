@@ -12,9 +12,8 @@ const Paper = <T extends TagComponenntType = "div">({ children, ...rest }: Paper
             baseClass='paper'
             radius={1}
             p={1.5}
-            shadow={2}
-            bgcolor="background.default"
-            color="text.primary"
+            bgcolor="color.paper"
+            color="color.text"
             {...rest}
             ref={ref}
         >{children}</Tag>

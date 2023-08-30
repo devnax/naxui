@@ -6,11 +6,11 @@ export type UseUIVariantColorTypes = "default" | "primary" | "secondary" | "succ
 const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes, softness?: number): object => {
     color = color || "default"
     type = type || "filled"
-    let mainColor: any = color
-    let textColor: any = `${color}.text`
+    let mainColor: any = "color." + color
+    let textColor: any = `color.${color}.text`
     if (color === 'default') {
-        mainColor = "background.paper"
-        textColor = "text.primary"
+        mainColor = "color.paper"
+        textColor = "color.text"
     }
 
     switch (type) {

@@ -49,7 +49,7 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
                 baseClass='select-input'
                 endIcon={<Stack flexDirection="row" component="span" > {(target ? <UpIcon /> : <DownIcon />)}</Stack>}
                 readOnly
-                value={value}
+                value={typeof selectedProps.children === 'string' ? selectedProps.children : value}
                 cursor="pointer"
                 userSelect="none"
                 startIcon={selectedProps.startIcon}

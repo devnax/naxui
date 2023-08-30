@@ -12,7 +12,7 @@ const Switch = <T extends TagComponenntType = "input">({ children, size, checked
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 24
-    color = color || "primary"
+    let _color = `color.${color || "primary"}`
     rest.onChange = rest.onChange || (() => set(!c));
 
     return (
@@ -24,14 +24,14 @@ const Switch = <T extends TagComponenntType = "input">({ children, size, checked
             flexDirection="row"
             p={.2}
             alignItems="center"
-            color={checked ? color : "text.secondary"}
+            color={checked ? _color : "color.subtext"}
             disabled={disabled}
             position="relative"
             verticalAlign="middle"
-            bgcolor={checked ? alpha(color, 3) : alpha(color, 1.5)}
+            bgcolor={checked ? alpha(_color, 3) : alpha(_color, 1.5)}
             width={size + (size / 5 * 4)}
             height={size}
-            borderColor={checked ? `${color}.dark` : "divider"}
+            borderColor={checked ? _color : "divider"}
             radius={2}
             transition="background .3s"
         >
@@ -43,7 +43,7 @@ const Switch = <T extends TagComponenntType = "input">({ children, size, checked
                 width={size - 4}
                 height={size - 4}
                 radius={size}
-                bgcolor={checked ? `${color}` : "#FFF"}
+                bgcolor={checked ? _color : "#FFF"}
                 shadow={1}
                 border={checked ? 0 : 0}
                 borderColor="divider"

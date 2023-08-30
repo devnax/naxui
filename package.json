@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "naxui-icons": "^1.0.5",
-    "naxui-manager": "^1.4.4",
+    "naxui-manager": "^1.4.7",
     "react-browser-scrollbar": "^1.1.5"
   }
 }

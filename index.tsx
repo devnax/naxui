@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { changeTheme, createTheme, getTheme, ThemeProvider } from 'naxui-manager';
+import { changeTheme, getTheme, ThemeProvider } from 'naxui-manager';
 import Box from './src/Box'
 import Button from './src/Button'
 import ArrowIcon from 'naxui-icons/round/ArrowForward'
@@ -48,7 +48,7 @@ const App = () => {
         <Button
           startIcon={<ContactIcon />}
           variant='outlined'
-          softness={.5}
+          // softness={.5}
           color="success"
           onClick={(e) => {
             setTarget(!target ? e.target : null)
@@ -75,11 +75,17 @@ const App = () => {
       <Box p={2}>
         <Switch />
       </Box>
-      <Box px={3} p={1}>
-        <IconButton >
+      <Stack direction="row" gap={10} px={3} p={1}>
+        <IconButton variant='filled' color="error">
           <HomeIcon />
         </IconButton>
-      </Box>
+        <IconButton variant='outlined' color="warning">
+          <HomeIcon />
+        </IconButton>
+        <IconButton color="success">
+          <HomeIcon />
+        </IconButton>
+      </Stack>
       <Stack justifyContent="center" alignItems="center" mt={6}>
         <Box m={2} p={1} width={300}>
           <Select value={selectVal} onChange={(val) => {
@@ -105,6 +111,9 @@ const App = () => {
       >
         <Input
           startIcon={<SearchIcon />}
+          variant="filled"
+          error
+          helperText='Here is some errors'
         />
       </Box>
       <Box p={3} >

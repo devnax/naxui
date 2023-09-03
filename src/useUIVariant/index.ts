@@ -31,14 +31,14 @@ const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes, 
                 return {
                     bgcolor: "transparent",
                     border: `1px solid`,
-                    borderColor: alpha(color === 'default' ? textColor : mainColor, softness),
+                    borderColor: alpha(color === 'default' ? 'color.divider' : mainColor, softness),
                     color: color === 'default' ? textColor : mainColor,
                 }
             }
             return {
                 bgcolor: "transparent",
                 border: `1px solid`,
-                borderColor: color === 'default' ? textColor : mainColor,
+                borderColor: color === 'default' ? 'color.divider' : mainColor,
                 color: color === 'default' ? textColor : mainColor,
             }
         case "text":

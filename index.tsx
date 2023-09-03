@@ -31,11 +31,18 @@ import Menu from './src/Menu';
 import Text from './src/Text';
 import Stack from './src/Stack';
 import Image from './src/Image';
+import Chip from './src/Chip';
+import Collaps from './src/Collaps';
+import Accordion from './src/Accordion';
+import CloseIcon from 'naxui-icons/round/Close'
+import VerifiedUser from 'naxui-icons/filled/VerifiedUser'
 
 const App = () => {
   const animRef = React.useRef()
   const [c, setC] = React.useState("B")
   const [animIn, setAnimIn] = React.useState(false)
+  const [collaps, setCollaps] = React.useState(false)
+  const [expand, setExpand] = React.useState(1)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
@@ -43,7 +50,27 @@ const App = () => {
 
   return (
     <ThemeProvider>
-
+      <Box p={3} >
+        <Accordion bgcolor="color.paper" mb={1} expand={expand === 1} title="My First Accordion" onChange={(is) => setExpand(is ? 1 : 0)}>
+          <Text variant='h1'>First</Text>
+        </Accordion>
+        <Accordion bgcolor="color.paper" mb={1} expand={expand === 2} title="My First Accordion" onChange={(is) => setExpand(is ? 2 : 0)}>
+          <Text variant='h1'>Second</Text>
+        </Accordion>
+      </Box>
+      <Box p={3} >
+        <Button onClick={() => setCollaps(!collaps)}>Toggle Collaps</Button>
+        <Collaps in={collaps}>
+          <Text variant='h1'>Hello</Text>
+        </Collaps>
+      </Box>
+      <Stack p={3} gap={3} direction="row" alignItems="center">
+        <Chip label="Primary" softness={.2} />
+        <Chip label="Warning" softness={.2} color="warning" />
+        <Chip label="Error" softness={.2} color="error" />
+        <Chip label="Success" softness={.2} color="success" />
+        <Chip label="Outlined" variant='outlined' color="error" startIcon={<VerifiedUser />} endIcon={<CloseIcon fontSize={13} />} />
+      </Stack>
       <Box p={2} flexBox flexRow >
         <Button
           startIcon={<ContactIcon />}
@@ -73,7 +100,9 @@ const App = () => {
         }}
       />
       <Box p={2}>
-        <Switch />
+        <Switch
+          color='success'
+        />
       </Box>
       <Stack direction="row" gap={10} px={3} p={1}>
         <IconButton variant='filled' color="error">

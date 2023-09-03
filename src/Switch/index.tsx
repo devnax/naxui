@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Tag, TagProps, TagComponenntType, alpha } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type SwitchProps<T extends TagComponenntType = "input"> = Omit<TagProps<T>, 'color'> & {
     checked?: boolean;
@@ -11,9 +11,11 @@ export type SwitchProps<T extends TagComponenntType = "input"> = Omit<TagProps<T
 const Switch = <T extends TagComponenntType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
-    size = size || 24
+    size = size || 44
     let _color = `color.${color || "primary"}`
     rest.onChange = rest.onChange || (() => set(!c));
+    let height = (size / 2) + 4
+    let thumbSize = height - 4
 
     return (
         <Tag
@@ -22,31 +24,26 @@ const Switch = <T extends TagComponenntType = "input">({ children, size, checked
             cursor="pointer"
             display="inline-flex"
             flexDirection="row"
-            p={.2}
             alignItems="center"
-            color={checked ? _color : "color.subtext"}
+            color={checked ? color : "text.secondary"}
             disabled={disabled}
             position="relative"
             verticalAlign="middle"
-            bgcolor={checked ? alpha(_color, 3) : alpha(_color, 1.5)}
-            width={size + (size / 5 * 4)}
-            height={size}
-            borderColor={checked ? _color : "divider"}
+            bgcolor={checked ? _color : "color.paper"}
+            width={size}
+            height={height}
             radius={2}
             transition="background .3s"
         >
             <Tag
+                component='span'
                 transition="all .25s"
-                position="absolute"
-                top={2}
-                left={checked ? size - 4 : 2}
-                width={size - 4}
-                height={size - 4}
+                transform={`translateX(${checked ? (size / 2) - 2 : 2}px)`}
+                width={thumbSize}
+                height={thumbSize}
                 radius={size}
-                bgcolor={checked ? _color : "#FFF"}
-                shadow={1}
-                border={checked ? 0 : 0}
-                borderColor="divider"
+                bgcolor={"#FFF"}
+                shadow={2}
             ></Tag>
             <Tag
                 checked={checked}

@@ -50,11 +50,11 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <Box p={3} >
-        <Accordion bgcolor="color.paper" mb={1} expand={expand === 1} title="My First Accordion" onChange={(is) => setExpand(is ? 1 : 0)}>
+      <Box radius={1} m={3} overflow="hidden">
+        <Accordion expand={expand === 1} title="My First Accordion" onChange={(is) => setExpand(is ? 1 : 0)}>
           <Text variant='h1'>First</Text>
         </Accordion>
-        <Accordion bgcolor="color.paper" mb={1} expand={expand === 2} title="My First Accordion" onChange={(is) => setExpand(is ? 2 : 0)}>
+        <Accordion expand={expand === 2} title="My First Accordion" onChange={(is) => setExpand(is ? 2 : 0)}>
           <Text variant='h1'>Second</Text>
         </Accordion>
       </Box>

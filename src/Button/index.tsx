@@ -35,6 +35,7 @@ const Button = <T extends TagComponenntType = 'button'>({ children, variant, sta
             display="inline-flex"
             flexDirection="row"
             alignItems="center"
+            justifyContent="center"
             transition="background .3s"
             px={2}
             {...cornerCss}

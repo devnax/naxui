@@ -81,7 +81,6 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
             ref={ref}
             baseClass='menu-root'
             zIndex={1500 + (zIndex || 0)}
-            minWidth={100}
             position="absolute"
         >
             <Tag
@@ -104,7 +103,7 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
 const MenuMainView = forwardRef(_MenuMainView) as typeof _MenuMainView
 
 
-const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: React.Ref<any>) => {
+const _Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: React.Ref<any>) => {
     const { target, children, onClose, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
     const [key, setKey] = useState(0)
@@ -137,5 +136,5 @@ const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: Re
     )
 
 }
-
-export default React.forwardRef(Menu) as typeof Menu
+const Menu = React.forwardRef(_Menu) as typeof _Menu
+export default Menu

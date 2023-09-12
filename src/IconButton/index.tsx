@@ -14,7 +14,7 @@ export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagPr
     corner?: UseCornerVariantTypes;
 }
 
-const IconButton = <T extends TagComponenntType = 'button'>({ children, variant, corner, softness, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
+const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant, corner, softness, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     size = size || 40
     color = color || "primary"
@@ -56,4 +56,5 @@ const IconButton = <T extends TagComponenntType = 'button'>({ children, variant,
         </Tag>
     )
 }
-export default forwardRef(IconButton) as typeof IconButton
+const IconButton = forwardRef(_IconButton) as typeof _IconButton
+export default IconButton

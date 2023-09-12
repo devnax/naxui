@@ -11,7 +11,7 @@ export type ListItemProps<T extends TagComponenntType = "li"> = TagProps<T> & {
 }
 
 
-const ListItem = <T extends TagComponenntType = "li">({ children, selected, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
+const _ListItem = <T extends TagComponenntType = "li">({ children, selected, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
             component='li'
@@ -41,4 +41,5 @@ const ListItem = <T extends TagComponenntType = "li">({ children, selected, star
     )
 }
 
-export default forwardRef(ListItem) as typeof ListItem
+const ListItem = forwardRef(_ListItem) as typeof _ListItem
+export default ListItem

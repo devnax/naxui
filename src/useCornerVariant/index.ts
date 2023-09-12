@@ -1,3 +1,4 @@
+'use client'
 export type UseCornerVariantTypes = "square" | "rounded" | "circle"
 
 const useCornerVariant = (type?: UseCornerVariantTypes): object => {

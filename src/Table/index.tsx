@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
@@ -6,7 +7,7 @@ export type TableProps<T extends TagComponenntType = "table"> = TagProps<T> & {
     dense?: boolean;
 }
 
-const Table = <T extends TagComponenntType = "table">({ children, evenColor, dense, ...rest }: TableProps<T>, ref: React.Ref<any>) => {
+const _Table = <T extends TagComponenntType = "table">({ children, evenColor, dense, ...rest }: TableProps<T>, ref: React.Ref<any>) => {
 
     let sx = {}
     if (evenColor) {
@@ -27,7 +28,7 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
                 },
                 "& tr:not(:last-child) td, & tr:not(:last-child) th": {
                     borderBottom: "1px solid",
-                    borderColor: "divider",
+                    borderColor: "color.divider",
                 },
                 "& tbody tr:hover": {
                     bgcolor: "color.paper"
@@ -41,4 +42,6 @@ const Table = <T extends TagComponenntType = "table">({ children, evenColor, den
     )
 }
 
-export default React.forwardRef(Table) as typeof Table
+
+const Table = React.forwardRef(_Table) as typeof _Table
+export default Table

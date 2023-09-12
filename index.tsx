@@ -36,6 +36,7 @@ import Collaps from './src/Collaps';
 import Accordion from './src/Accordion';
 import CloseIcon from 'naxui-icons/round/Close'
 import VerifiedUser from 'naxui-icons/filled/VerifiedUser'
+import ButtonGroup from './src/ButtonGroup'
 
 const App = () => {
   const animRef = React.useRef()
@@ -50,6 +51,23 @@ const App = () => {
 
   return (
     <ThemeProvider>
+      <Stack direction="row" gap={15} p={3} alignItems="center">
+        <ButtonGroup variant='filled' size="small">
+          <Button >1</Button>
+          <Button >2</Button>
+          <Button >3</Button>
+        </ButtonGroup>
+        <ButtonGroup variant='outlined' size="medium">
+          <Button >1</Button>
+          <Button >2</Button>
+          <Button >3</Button>
+        </ButtonGroup>
+        <ButtonGroup size="large">
+          <Button >1</Button>
+          <Button >2</Button>
+          <Button >3</Button>
+        </ButtonGroup>
+      </Stack>
       <Box radius={1} m={3} overflow="hidden">
         <Accordion expand={expand === 1} title="My First Accordion" onChange={(is) => setExpand(is ? 1 : 0)}>
           <Text variant='h1'>First</Text>
@@ -71,7 +89,7 @@ const App = () => {
         <Chip label="Success" softness={.2} color="success" />
         <Chip label="Outlined" variant='outlined' color="error" startIcon={<VerifiedUser />} endIcon={<CloseIcon fontSize={13} />} />
       </Stack>
-      <Box p={2} flexBox flexRow >
+      <Box p={2} flexBox flexRow alignItems="center">
         <Button
           startIcon={<ContactIcon />}
           variant='outlined'
@@ -215,14 +233,16 @@ const App = () => {
           />
           Agree our terms & condition
         </Label>
-        <Button
-          startIcon={<HomeIcon />}
-          endIcon={<ArrowIcon />}
-          onClick={() => {
-            const theme = getTheme()
-            changeTheme(theme.name === 'default' ? "default-dark" : "default")
-          }}
-        >Welcome</Button>
+        <Box>
+          <Button
+            startIcon={<HomeIcon />}
+            endIcon={<ArrowIcon />}
+            onClick={() => {
+              const theme = getTheme()
+              changeTheme(theme.name === 'default' ? "default-dark" : "default")
+            }}
+          >Welcome</Button>
+        </Box>
       </Box>
     </ThemeProvider>
   );

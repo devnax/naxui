@@ -6,7 +6,7 @@ export type ImageProps<T extends TagComponenntType = "img"> = TagProps<T> & {
     errorView?: ReactElement
 }
 
-const Image = <T extends TagComponenntType = "img">({ children, src, alt, errorView, ...rest }: ImageProps<T>, ref: any) => {
+const _Image = <T extends TagComponenntType = "img">({ children, src, alt, errorView, ...rest }: ImageProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
 
     if (faild === false) {
@@ -42,6 +42,7 @@ const Image = <T extends TagComponenntType = "img">({ children, src, alt, errorV
     )
 }
 
-export default React.forwardRef(Image) as typeof Image
+const Image = React.forwardRef(_Image) as typeof _Image
+export default Image
 
 

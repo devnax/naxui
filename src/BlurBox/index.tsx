@@ -9,7 +9,7 @@ export type BlurBoxProps = BoxProps & {
     img?: string;
 }
 
-const BlurBox = ({ children, blur, img, sx, ...rest }: BlurBoxProps, ref: React.Ref<any>) => {
+const _BlurBox = ({ children, blur, img, sx, ...rest }: BlurBoxProps, ref: React.Ref<any>) => {
     blur = blur !== undefined ? blur : 5
     const blurCss = useBlurCss(blur)
     let css: any = {}
@@ -63,4 +63,5 @@ const BlurBox = ({ children, blur, img, sx, ...rest }: BlurBoxProps, ref: React.
     )
 }
 
-export default React.forwardRef(BlurBox) as typeof BlurBox
+const BlurBox = React.forwardRef(_BlurBox) as typeof _BlurBox
+export default BlurBox

@@ -6,7 +6,7 @@ export type ListProps<T extends TagComponenntType = "ul"> = Omit<TagProps<T>, 'c
     color?: "primary" | "secondary" | "success" | "warning" | "error"
 }
 
-const List = <T extends TagComponenntType = "ul">({ children, sx, color, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
+const _List = <T extends TagComponenntType = "ul">({ children, sx, color, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
     color = color || "primary"
 
     return (
@@ -46,4 +46,5 @@ const List = <T extends TagComponenntType = "ul">({ children, sx, color, ...rest
     )
 }
 
-export default forwardRef(List) as typeof List
+const List = forwardRef(_List) as typeof _List
+export default List

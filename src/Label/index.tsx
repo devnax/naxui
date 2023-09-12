@@ -4,7 +4,7 @@ import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type LabelProps<T extends TagComponenntType = "label"> = TagProps<T>
 
-const Label = <T extends TagComponenntType = "label">({ children, ...rest }: LabelProps<T>, ref: React.Ref<any>) => {
+const _Label = <T extends TagComponenntType = "label">({ children, ...rest }: LabelProps<T>, ref: React.Ref<any>) => {
     return <Tag
         baseClass='label'
         component='label'
@@ -17,4 +17,6 @@ const Label = <T extends TagComponenntType = "label">({ children, ...rest }: Lab
     >{children}</Tag>
 }
 
-export default React.forwardRef(Label) as typeof Label
+const Label = React.forwardRef(_Label) as typeof _Label
+
+export default Label

@@ -1,6 +1,6 @@
 {
   "name": "naxui",
-  "version": "1.1.2",
+  "version": "1.1.7",
   "description": "",
   "keywords": [],
   "author": "Naxrul Ahmed",
@@ -8,8 +8,9 @@
   "scripts": {
     "tsc": "tsc --module CommonJS --outDir dist",
     "move": "cp package.json dist/package.json && cp readme.md dist/readme.md",
-    "build": "rm -rf dist && mkdir dist && npm run move && npm run tsc",
-    "start": "parcel index.html --no-cache"
+    "build": "rm -rf dist && mkdir dist && npm run move && npm run tsc && cd dist",
+    "start": "parcel index.html --no-cache",
+    "cng": "sudo cd dist"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
@@ -24,7 +25,7 @@
   },
   "dependencies": {
     "naxui-icons": "^1.0.5",
-    "naxui-manager": "^1.4.7",
+    "naxui-manager": "^1.5.0",
     "react-browser-scrollbar": "^1.1.5"
   }
 }

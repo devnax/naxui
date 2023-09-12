@@ -7,7 +7,7 @@ export type PortalProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     container?: HTMLElement;
 }
 
-const Portal = <T extends TagComponenntType = "div">({ children, component, appendTo, container, ...rest }: PortalProps<T>, ref?: React.Ref<any>) => {
+const _Portal = <T extends TagComponenntType = "div">({ children, component, appendTo, container, ...rest }: PortalProps<T>, ref?: React.Ref<any>) => {
     const [_container, setContainer] = useState<HTMLElement | undefined>(container)
     let props = useProps(rest)
 
@@ -37,4 +37,5 @@ const Portal = <T extends TagComponenntType = "div">({ children, component, appe
     );
 }
 
-export default React.forwardRef(Portal) as typeof Portal
+const Portal = React.forwardRef(_Portal) as typeof _Portal
+export default Portal

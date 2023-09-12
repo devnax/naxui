@@ -1,3 +1,4 @@
+'use client'
 import React, { ComponentPropsWithoutRef, ReactNode, UIEvent } from 'react'
 import BrowserScrollbar from 'react-browser-scrollbar'
 
@@ -11,10 +12,11 @@ export type ScrollbarProps = ComponentPropsWithoutRef<"div"> & {
     onScrollStart?: (e: UIEvent<HTMLDivElement>) => void;
 }
 
-const Scrollbar = ({ children, ...props }: ScrollbarProps, ref: React.Ref<any>) => {
+const _Scrollbar = ({ children, ...props }: ScrollbarProps, ref: React.Ref<any>) => {
     return (
         <BrowserScrollbar ref={ref} {...props}>{children}</BrowserScrollbar>
     )
 }
 
-export default React.forwardRef(Scrollbar) as typeof Scrollbar
+const Scrollbar = React.forwardRef(_Scrollbar) as typeof _Scrollbar
+export default Scrollbar 

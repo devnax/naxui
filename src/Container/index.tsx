@@ -6,7 +6,7 @@ export type ContainerProps<T extends TagComponenntType = "div"> = TagProps<T> & 
     maxWidth?: 'lg' | 'md' | "sm" | 'xs'
 }
 
-const Container = <T extends TagComponenntType = "div">({ children, maxWidth, className, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
+const _Container = <T extends TagComponenntType = "div">({ children, maxWidth, className, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
     const { breakpoints } = css_options()
     maxWidth = maxWidth || "lg"
     return (
@@ -21,6 +21,7 @@ const Container = <T extends TagComponenntType = "div">({ children, maxWidth, cl
         >{children}</Tag>
     )
 }
-export default React.forwardRef(Container) as typeof Container
+const Container = React.forwardRef(_Container) as typeof _Container
+export default Container
 
 

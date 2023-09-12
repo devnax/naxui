@@ -1,3 +1,4 @@
+'use client'
 import React, { ReactElement } from 'react'
 import Stack, { StackProps } from '../Stack'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'

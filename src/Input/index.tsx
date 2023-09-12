@@ -17,7 +17,7 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     helperText?: string;
 }
 
-const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
+const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
     let {
         children,
         startIcon,
@@ -81,7 +81,7 @@ const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?
                     bgcolor="transparent"
                     width="100%"
                     color={error ? "color.error" : "color.text"}
-                    fontSize="fontsize.1"
+                    fontSize="fontsize.text"
                     py={1.5}
                     px={1.5}
                     {...rest}
@@ -97,8 +97,9 @@ const Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?
                 />
                 {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} >{endIcon}</Tag>}
             </Stack>
-            {helperText && <Text mt={.5} fontSize={"fontsize.0"} color={error ? "color.error" : "color.text"}>{helperText}</Text>}
+            {helperText && <Text mt={.5} fontSize={"fontsize.small"} color={error ? "color.error" : "color.text"}>{helperText}</Text>}
         </Box>
     )
 }
-export default React.forwardRef(Input) as typeof Input
+const Input = React.forwardRef(_Input) as typeof _Input
+export default Input

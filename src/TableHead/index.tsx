@@ -1,9 +1,10 @@
+'use client'
 import React from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type TableHeadProps<T extends TagComponenntType = "thead"> = TagProps<T>
 
-const TableHead = <T extends TagComponenntType = "thead">({ children, ...rest }: TableHeadProps<T>, ref: React.Ref<any>) => {
+const _TableHead = <T extends TagComponenntType = "thead">({ children, ...rest }: TableHeadProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
             {...rest}
@@ -13,4 +14,5 @@ const TableHead = <T extends TagComponenntType = "thead">({ children, ...rest }:
     )
 }
 
-export default React.forwardRef(TableHead) as typeof TableHead
+const TableHead = React.forwardRef(_TableHead) as typeof _TableHead
+export default TableHead 

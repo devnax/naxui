@@ -10,7 +10,7 @@ export type GridItemProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     xl?: number;
 }
 
-const GridItem = <T extends TagComponenntType = "div">({ children, xs, sm, md, lg, xl, ...rest }: GridItemProps<T>, ref?: React.Ref<any>) => {
+const _GridItem = <T extends TagComponenntType = "div">({ children, xs, sm, md, lg, xl, ...rest }: GridItemProps<T>, ref?: React.Ref<any>) => {
 
     let w: any = {}
 
@@ -33,4 +33,5 @@ const GridItem = <T extends TagComponenntType = "div">({ children, xs, sm, md, l
         </Tag>
     )
 }
-export default React.forwardRef(GridItem) as typeof GridItem
+const GridItem = React.forwardRef(_GridItem) as typeof _GridItem
+export default GridItem

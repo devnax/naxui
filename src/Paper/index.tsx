@@ -4,7 +4,7 @@ import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type PaperProps<T extends TagComponenntType = "div"> = TagProps<T>
 
-const Paper = <T extends TagComponenntType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
+const _Paper = <T extends TagComponenntType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
             display="flex"
@@ -19,4 +19,6 @@ const Paper = <T extends TagComponenntType = "div">({ children, ...rest }: Paper
         >{children}</Tag>
     )
 }
-export default forwardRef(Paper) as typeof Paper
+
+const Paper = forwardRef(_Paper) as typeof _Paper
+export default Paper

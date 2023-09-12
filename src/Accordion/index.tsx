@@ -14,7 +14,7 @@ export type AccordionProps<T extends TagComponenntType = "div"> = TagProps<T> & 
     expandIconPlacement?: "left" | "right"
 }
 
-const Accordion = <T extends TagComponenntType = "div">({ children, title, expand, onChange, headerProps, contentProps, expandIcon, expandIconPlacement, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
+const _Accordion = <T extends TagComponenntType = "div">({ children, title, expand, onChange, headerProps, contentProps, expandIcon, expandIconPlacement, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
     const [_expand, setExpand] = useState(false)
     const [borderColor, setBorderColor] = useState("transparent")
     onChange = onChange || setExpand as any
@@ -96,6 +96,7 @@ const Accordion = <T extends TagComponenntType = "div">({ children, title, expan
     )
 }
 
-export default React.forwardRef(Accordion) as typeof Accordion
+const Accordion = React.forwardRef(_Accordion) as typeof _Accordion
+export default Accordion
 
 

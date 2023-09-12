@@ -7,7 +7,7 @@ export type CollapsProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     transitionProps?: UseTransitionsProps
 }
 
-const Collaps = <T extends TagComponenntType = "div">({ children, in: In, transitionProps, ...rest }: CollapsProps<T>, ref: any) => {
+const _Collaps = <T extends TagComponenntType = "div">({ children, in: In, transitionProps, ...rest }: CollapsProps<T>, ref: any) => {
     const [_ref, cls] = useTransitions("collapsVerticle", In || false, {
         easing: "easeOut",
         ...transitionProps
@@ -24,6 +24,7 @@ const Collaps = <T extends TagComponenntType = "div">({ children, in: In, transi
     )
 }
 
-export default React.forwardRef(Collaps) as typeof Collaps
+const Collaps = React.forwardRef(_Collaps) as typeof _Collaps
+export default Collaps
 
 

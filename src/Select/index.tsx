@@ -16,7 +16,7 @@ export type SelectProps = InputProps & {
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[]
 }
 
-const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectProps, ref: React.Ref<any>) => {
+const _Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectProps, ref: React.Ref<any>) => {
     const [target, setTarget] = useState<any>()
     const conRef = useRef()
     const { childs, selectedProps } = useMemo(() => {
@@ -87,4 +87,5 @@ const Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectP
     )
 }
 
-export default forwardRef(Select) as typeof Select
+const Select = forwardRef(_Select) as typeof _Select
+export default Select

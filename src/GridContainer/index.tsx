@@ -3,7 +3,7 @@ import React from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type GridContainerProps<T extends TagComponenntType = "div"> = TagProps<T>
-const GridContainer = <T extends TagComponenntType = "div">({ children, ...rest }: GridContainerProps<T>, ref?: React.Ref<any>) => {
+const _GridContainer = <T extends TagComponenntType = "div">({ children, ...rest }: GridContainerProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
             baseClass='grid-container'
@@ -18,4 +18,5 @@ const GridContainer = <T extends TagComponenntType = "div">({ children, ...rest 
         </Tag>
     )
 }
-export default React.forwardRef(GridContainer) as typeof GridContainer
+const GridContainer = React.forwardRef(_GridContainer) as typeof _GridContainer
+export default GridContainer

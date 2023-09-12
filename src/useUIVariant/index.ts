@@ -1,3 +1,4 @@
+'use client'
 import { alpha } from 'naxui-manager'
 
 export type UseUIVariantTypes = "filled" | "outlined" | "text"

@@ -5,17 +5,18 @@ import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useU
 import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
 
 
-export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
+export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     color?: UseUIVariantColorTypes;
     variant?: UseUIVariantTypes;
     softness?: number;
     corner?: UseCornerVariantTypes;
+    size?: "small" | "medium" | "large"
 }
 
 
-const Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, softness, corner, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
+const _Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, softness, corner, size, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
     color = color || "primary"
@@ -24,22 +25,38 @@ const Button = <T extends TagComponenntType = 'button'>({ children, variant, sta
     const uiCss = useUIVariant(variant, color, softness)
     const uiHoverCss = useUIVariant(variant, color, softness === undefined ? 1.1 : parseFloat(softness as any) + .1)
 
+    const sizes = {
+        small: {
+            px: 1.5,
+            py: .5,
+        },
+        medium: {
+            px: 2,
+            py: 1,
+        },
+        large: {
+            px: 2,
+            py: 1,
+            fontSize: "fontsize.text"
+        }
+    }
+
     return (
         <Tag
             component='button'
             baseClass='button'
             border={0}
-            height={44}
             cursor="pointer"
             typography="button"
+            fontWeight={500}
             display="inline-flex"
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
             transition="background .3s"
-            px={2}
             {...cornerCss}
             {...uiCss}
+            {...(sizes[size || "medium"] || {})}
             {...rest}
             hover={{
                 ...uiHoverCss,
@@ -53,4 +70,5 @@ const Button = <T extends TagComponenntType = 'button'>({ children, variant, sta
         </Tag>
     )
 }
-export default forwardRef(Button) as typeof Button
+const Button = forwardRef(_Button) as typeof _Button
+export default Button

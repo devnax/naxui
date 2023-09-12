@@ -16,7 +16,7 @@ export type ChipProps<T extends TagComponenntType = 'div'> = Omit<TagProps<T>, "
 }
 
 
-const Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, softness, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
+const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, softness, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
     color = color || "primary"
@@ -33,7 +33,7 @@ const Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, 
             flexDirection="row"
             alignItems="center"
             transition="background .3s"
-            fontSize="fontsize.1"
+            fontSize="fontsize.text"
             p={.5}
             px={1}
             {...cornerCss}
@@ -47,4 +47,5 @@ const Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, 
         </Tag>
     )
 }
-export default forwardRef(Chip) as typeof Chip
+const Chip = forwardRef(_Chip) as typeof _Chip
+export default Chip

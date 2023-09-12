@@ -8,7 +8,7 @@ export type SwitchProps<T extends TagComponenntType = "input"> = Omit<TagProps<T
     color?: "primary" | "secondary" | "success" | "error" | "warning";
 }
 
-const Switch = <T extends TagComponenntType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
+const _Switch = <T extends TagComponenntType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 44
@@ -62,4 +62,6 @@ const Switch = <T extends TagComponenntType = "input">({ children, size, checked
         </Tag>
     )
 }
-export default React.forwardRef(Switch) as typeof Switch
+
+const Switch = React.forwardRef(_Switch) as typeof _Switch
+export default Switch

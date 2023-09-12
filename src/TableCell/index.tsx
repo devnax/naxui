@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
@@ -5,7 +6,7 @@ export type TableColumnProps<T extends TagComponenntType = "td"> = TagProps<T> &
     th?: boolean
 }
 
-const TableColumn = <T extends TagComponenntType = "td">({ children, th, ...rest }: TableColumnProps<T>, ref: React.Ref<any>) => {
+const _TableColumn = <T extends TagComponenntType = "td">({ children, th, ...rest }: TableColumnProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
             baseClass='td'
@@ -19,4 +20,5 @@ const TableColumn = <T extends TagComponenntType = "td">({ children, th, ...rest
     )
 }
 
-export default React.forwardRef(TableColumn) as typeof TableColumn
+const TableColumn = React.forwardRef(_TableColumn) as typeof _TableColumn
+export default TableColumn

@@ -13,7 +13,7 @@ export type CheckboxProps<T extends TagComponenntType = "input"> = TagProps<T> &
     size?: number;
 }
 
-const Checkbox = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
+const _Checkbox = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 22
@@ -53,4 +53,5 @@ const Checkbox = <T extends TagComponenntType = "input">({ children, size, check
         </Tag>
     )
 }
-export default React.forwardRef(Checkbox) as typeof Checkbox
+const Checkbox = React.forwardRef(_Checkbox) as typeof _Checkbox
+export default Checkbox

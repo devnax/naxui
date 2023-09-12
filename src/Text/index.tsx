@@ -1,3 +1,4 @@
+'use client'
 import React, { forwardRef } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
@@ -5,7 +6,7 @@ export type TextProps<T extends TagComponenntType = "p"> = TagProps<T> & {
     variant?: "text" | "subtext" | "button" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 }
 
-const Text = <T extends TagComponenntType = "p">({ children, variant, ...rest }: TextProps<T>, ref?: React.Ref<any>) => {
+const _Text = <T extends TagComponenntType = "p">({ children, variant, ...rest }: TextProps<T>, ref?: React.Ref<any>) => {
     let comp: any = variant === 'text' || variant === 'subtext' ? "p" : variant
 
     return (
@@ -18,4 +19,5 @@ const Text = <T extends TagComponenntType = "p">({ children, variant, ...rest }:
         >{children}</Tag>
     )
 }
-export default forwardRef(Text) as typeof Text
+const Text = forwardRef(_Text) as typeof _Text
+export default Text

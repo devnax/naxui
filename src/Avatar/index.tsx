@@ -8,7 +8,7 @@ export type AvatarProps<T extends TagComponenntType = "img"> = TagProps<T> & {
     size?: number;
 }
 
-const Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
+const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
     size = size || 36
 
@@ -58,6 +58,7 @@ const Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt,
     )
 }
 
-export default React.forwardRef(Avatar) as typeof Avatar
+const Avatar = React.forwardRef(_Avatar) as typeof _Avatar
+export default Avatar
 
 

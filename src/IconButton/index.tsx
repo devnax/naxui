@@ -25,7 +25,7 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant
     if (!variant) {
         softness = 0
     }
-    const uiHoverCss = useUIVariant(variant || "filled", color, softness === undefined ? 1.1 : parseFloat(softness as any) + .1)
+    const uiHoverCss = useUIVariant(variant || "filled", color, softness === undefined ? .9 : parseFloat(softness as any) + .1)
 
     return (
         <Tag

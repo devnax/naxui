@@ -23,16 +23,17 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
     corner = corner || "rounded"
     const cornerCss = useCornerVariant(corner)
     const uiCss = useUIVariant(variant, color, softness)
-    const uiHoverCss = useUIVariant(variant, color, softness === undefined ? 1.1 : parseFloat(softness as any) + .1)
+    const uiHoverCss = useUIVariant(variant, color, softness === undefined ? .9 : parseFloat(softness as any) + .1)
 
     const sizes = {
         small: {
-            px: 1.5,
+            px: 1.2,
             py: .5,
+            fontSize: "fontsize.block"
         },
         medium: {
-            px: 2,
-            py: 1,
+            px: 1.6,
+            py: 1.2,
         },
         large: {
             px: 2,
@@ -48,7 +49,6 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             border={0}
             cursor="pointer"
             typography="button"
-            fontWeight={500}
             display="inline-flex"
             flexDirection="row"
             alignItems="center"

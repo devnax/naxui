@@ -7,7 +7,7 @@ export type TooltipProps = BoxProps & {
     title: string;
 }
 
-const Tooltip = ({ children, title }: BoxProps) => {
+const _Tooltip = ({ children, title }: BoxProps) => {
     const [target, setTarget] = useState<any>()
 
     return (
@@ -35,4 +35,4 @@ const Tooltip = ({ children, title }: BoxProps) => {
     )
 }
 
-export default Tooltip
+export default _Tooltip

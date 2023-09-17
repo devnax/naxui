@@ -30,7 +30,7 @@ const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes, 
         case "outlined":
             if (softness !== undefined) {
                 return {
-                    bgcolor: "transparent",
+                    bgcolor: alpha(color === 'default' ? textColor : mainColor, .1),
                     border: `1px solid`,
                     borderColor: alpha(color === 'default' ? 'color.divider' : mainColor, softness),
                     color: color === 'default' ? textColor : mainColor,

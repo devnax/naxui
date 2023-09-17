@@ -37,6 +37,7 @@ import Accordion from './src/Accordion';
 import CloseIcon from 'naxui-icons/round/Close'
 import VerifiedUser from 'naxui-icons/filled/VerifiedUser'
 import ButtonGroup from './src/ButtonGroup'
+import Badge from './src/Badge'
 
 const App = () => {
   const animRef = React.useRef()
@@ -44,6 +45,9 @@ const App = () => {
   const [animIn, setAnimIn] = React.useState(false)
   const [collaps, setCollaps] = React.useState(false)
   const [expand, setExpand] = React.useState(1)
+  const [badgePlacement, setBadgePlacement] = React.useState("right-top")
+  const [badgeColor, setBadgeColor] = React.useState("error")
+  const [badgeVisible, setBadgeVisibile] = React.useState(false)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
@@ -51,6 +55,33 @@ const App = () => {
 
   return (
     <ThemeProvider>
+      <Stack direction="row" gap={15} p={3} alignItems="center">
+
+        <Badge content={1} placement={badgePlacement as any} visible={badgeVisible} color={badgeColor as any}>
+          <IconButton variant='filled'>
+            <HomeIcon />
+          </IconButton>
+        </Badge>
+        <Stack direction="row" gap={8}>
+          <Select value={badgePlacement} onChange={v => setBadgePlacement(v)}>
+            <Option value="left-top">Left Top</Option>
+            <Option value="left-bottom">Left Bottom</Option>
+            <Option value="right-top">Right Top</Option>
+            <Option value="right-bottom">Right Bottom</Option>
+          </Select>
+          <Select value={badgeColor} onChange={v => setBadgeColor(v)}>
+            <Option value="primary">primary</Option>
+            <Option value="secondary">secondary</Option>
+            <Option value="warning">warning</Option>
+            <Option value="error">error</Option>
+            <Option value="success">success</Option>
+          </Select>
+          <Checkbox
+            checked={badgeVisible}
+            onChange={() => setBadgeVisibile(!badgeVisible)}
+          />
+        </Stack>
+      </Stack>
       <Stack direction="row" gap={15} p={3} alignItems="center">
         <ButtonGroup variant='filled' size="small">
           <Button >1</Button>

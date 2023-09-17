@@ -12,6 +12,7 @@ const _TableColumn = <T extends TagComponenntType = "td">({ children, th, ...res
             baseClass='td'
             verticalAlign="inherit"
             textAlign="left"
+            fontSize="fontsize.button"
             {...rest}
             component={th ? "th" : "td"} ref={ref}
         >

@@ -97,7 +97,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 />
                 {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} >{endIcon}</Tag>}
             </Stack>
-            {helperText && <Text mt={.5} fontSize={"fontsize.small"} color={error ? "color.error" : "color.text"}>{helperText}</Text>}
+            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "color.error" : "color.text"}>{helperText}</Text>}
         </Box>
     )
 }

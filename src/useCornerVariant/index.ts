@@ -9,7 +9,7 @@ const useCornerVariant = (type?: UseCornerVariantTypes): object => {
             }
         case 'rounded':
             return {
-                radius: 1
+                radius: "6px"
             }
         case 'circle':
             return {

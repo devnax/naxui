@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { changeTheme, getTheme, ThemeProvider } from 'naxui-manager';
 import Box from './src/Box'
 import Button from './src/Button'
@@ -38,6 +38,8 @@ import CloseIcon from 'naxui-icons/round/Close'
 import VerifiedUser from 'naxui-icons/filled/VerifiedUser'
 import ButtonGroup from './src/ButtonGroup'
 import Badge from './src/Badge'
+import Layer from './src/Layer';
+import Transition from './src/Transition';
 
 const App = () => {
   const animRef = React.useRef()
@@ -47,7 +49,7 @@ const App = () => {
   const [expand, setExpand] = React.useState(1)
   const [badgePlacement, setBadgePlacement] = React.useState("right-top")
   const [badgeColor, setBadgeColor] = React.useState("error")
-  const [badgeVisible, setBadgeVisibile] = React.useState(false)
+  const [badgeVisible, setBadgeVisibile] = React.useState(true)
   const [dense, setDense] = React.useState(false)
   const [activeList, setActiveList] = React.useState("home")
   const [selectVal, setSelectVal] = React.useState("home")
@@ -55,6 +57,34 @@ const App = () => {
 
   return (
     <ThemeProvider>
+      <Box p={4}>
+        <Transition in={animIn}>
+          <Box bgcolor="color.paper" border={1} m={1} p={5}></Box>
+        </Transition>
+        <Button onClick={() => setAnimIn(!animIn)}>Toggle</Button>
+      </Box>
+      <Button onClick={() => {
+        Layer.open('asd', ({ open }) => {
+          return <Stack alignItems="center" justifyContent="center" height="100%">
+            <Transition in={open} type="zoomOver">
+              <Box
+                p={2}
+                radius={2}
+                bgcolor="color.common"
+                shadow={5}
+                height={250}
+                width={400}
+              >
+                <Button onClick={() => Layer.close("asd")}>Close</Button>
+              </Box>
+            </Transition>
+          </Stack>
+        }
+          , {
+            blur: 20,
+            bgImage: "https://i.pinimg.com/originals/82/30/f9/8230f9270b33e80727fa422b73e4b366.jpg",
+          })
+      }}>Set</Button>
       <Stack direction="row" gap={15} p={3} alignItems="center">
 
         <Badge content={1} placement={badgePlacement as any} visible={badgeVisible} color={badgeColor as any}>
@@ -122,6 +152,7 @@ const App = () => {
       </Stack>
       <Box p={2} flexBox flexRow alignItems="center">
         <Button
+          textTransform="uppercase"
           startIcon={<ContactIcon />}
           variant='outlined'
           // softness={.5}
@@ -129,7 +160,7 @@ const App = () => {
           onClick={(e) => {
             setTarget(!target ? e.target : null)
           }}
-        >Toggle Trans</Button>
+        >Toggle Me</Button>
         <Menu target={target} >
           <List >
             <ListItem onClick={() => setActiveList("home")} selected={activeList === "home"} startIcon={<HomeIcon />} endIcon={<>200</>}>Home</ListItem>
@@ -195,7 +226,7 @@ const App = () => {
         />
       </Box>
       <Box p={3} >
-        <Button onClick={() => setDense(!dense)} >Toggle Table Size</Button>
+        <Button onClick={() => setDense(!dense)} startIcon={<HomeIcon />}>Toggle Table Size</Button>
         <Table dense={dense}>
           <TableHead>
             <TableRow>
@@ -279,4 +310,5 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = createRoot(document.getElementById('root') as any)
+root.render(<App />);

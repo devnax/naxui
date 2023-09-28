@@ -32,8 +32,8 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             fontSize: "fontsize.block"
         },
         medium: {
-            px: 1.6,
-            py: 1.2,
+            px: 2,
+            py: 1,
         },
         large: {
             px: 2,
@@ -50,10 +50,12 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             cursor="pointer"
             typography="button"
             display="inline-flex"
+            textTransform="uppercase"
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
             transition="background .3s"
+            lineHeight={1.75}
             {...cornerCss}
             {...uiCss}
             {...(sizes[size || "medium"] || {})}
@@ -64,9 +66,9 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             }}
             ref={ref}
         >
-            {startIcon && <Tag component='span' mr={1}>{startIcon}</Tag>}
+            {startIcon && <Tag component='span' mr={1} mt={"-1.5px"} display="inline-block">{startIcon}</Tag>}
             {children}
-            {endIcon && <Tag component='span' ml={1}>{endIcon}</Tag>}
+            {endIcon && <Tag component='span' ml={1} mt={"-1.5px"} display="inline-block">{endIcon}</Tag>}
         </Tag>
     )
 }

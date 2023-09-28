@@ -8,7 +8,6 @@ import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
 
-
 export type SelectProps = InputProps & {
     value?: string | number;
     onChange?: (item: OptionProps) => void;

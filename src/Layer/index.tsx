@@ -7,13 +7,13 @@ import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
 import Transition from '../Transition'
 
-export type LayerProps = Omit<UseTransitionsProps, "onFinished"> & {
+export type LayerProps = Omit<UseTransitionsProps, "onFinish" | "type"> & {
     id: string;
     content: (props: { open: boolean }) => ReactElement;
     blur?: number;
     bgImage?: string;
     index?: number;
-    animation?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
+    transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
     onOpen?: () => void;
     onClose?: () => void;
     container: HTMLDivElement
@@ -23,7 +23,7 @@ export type LayerProps = Omit<UseTransitionsProps, "onFinished"> & {
 const state = new Map<string, Function>()
 
 
-const View = ({ id, content: Content, index, blur, bgImage, animation, onOpen, onClose, container, ...rest }: LayerProps) => {
+const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, onClose, container, ...rest }: LayerProps) => {
     const [open, setOpen] = useState(true)
     const blurCss = useBlurCss(blur)
     useEffect(() => {
@@ -52,6 +52,7 @@ const View = ({ id, content: Content, index, blur, bgImage, animation, onOpen, o
                     state.delete(id)
                 }
             }}
+            type={transition || "zoomOver"}
             {...rest}
         >
             <Box
@@ -78,7 +79,7 @@ const View = ({ id, content: Content, index, blur, bgImage, animation, onOpen, o
 
 
 const Layer = {
-    open: (id: string, content: (props: { open: boolean }) => ReactElement, props: Omit<LayerProps, 'id' | 'container' | 'content'>) => {
+    open: (id: string, content: (props: { open: boolean }) => ReactElement, props?: Omit<LayerProps, 'id' | 'container' | 'content'>) => {
         if (!state.has(id)) {
             const container = document.createElement("div")
             document.body.append(container)
@@ -89,7 +90,9 @@ const Layer = {
     close: (id: string) => {
         const dispatch = state.get(id)
         dispatch && dispatch()
-    }
+    },
+    closeAll: () => state.forEach((_v, id) => Layer.close(id)),
+    isOpen: (id: string) => state.has(id)
 }
 
 export default Layer

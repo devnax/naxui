@@ -9,7 +9,7 @@
     "tsc": "tsc --module CommonJS --outDir dist",
     "move": "cp package.json dist/package.json && cp readme.md dist/readme.md",
     "build": "rm -rf dist && mkdir dist && npm run move && npm run tsc && cd dist",
-    "start": "parcel index.html --no-cache",
+    "start": "parcel example/index.html --no-cache",
     "cng": "sudo cd dist"
   },
   "devDependencies": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "naxui-icons": "^1.0.5",
-    "naxui-manager": "^1.5.3",
+    "naxui-manager": "^1.5.4",
     "react-browser-scrollbar": "^1.1.5"
   }
 }

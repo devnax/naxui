@@ -1,25 +1,33 @@
 'use client'
 import React, { useEffect, useMemo, useState } from 'react'
-import { UseTransitionsProps } from 'naxui-manager'
+import { Tag, TagProps, UseTransitionsProps } from 'naxui-manager'
 import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
 import Transition from '../Transition'
-import Stack from '../Stack'
+import useUIVariant, { UseUIVariantColorTypes } from '../useUIVariant'
 import IconButton from '../IconButton'
 import CloseIcon from 'naxui-icons/round/Close'
+import InfoIcon from 'naxui-icons/round/Info';
+import WarningIcon from 'naxui-icons/round/Warning';
+import SuccessIcon from 'naxui-icons/round/CheckCircle';
+import ErrorIcon from 'naxui-icons/round/Error';
 
-
+type ContentType = string | ReactElement | ((props: { open: boolean }) => any);
 type PlacementType = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
-export type ToastProps = Omit<UseTransitionsProps, "onFinish" | "type"> & {
+export type ToastProps = Omit<TagProps<'span'>, "children" | "content" | "color"> & {
     id: string;
-    content: (props: { open: boolean }) => any;
+    content: ContentType;
     closeButton?: boolean;
     autoClose?: boolean;
-    autoCloseDuration?: boolean;
+    autoCloseDuration?: number;
+    pauseOnHover?: boolean;
     placement?: PlacementType;
     transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
     onOpen?: () => void;
     onClose?: () => void;
+    transitionProps?: Omit<UseTransitionsProps, "onFinish" | "type" | "transition" | "in">;
+    color?: UseUIVariantColorTypes;
+    icon?: "info" | "warning" | "success" | "error" | ReactElement | false
 
     // private
     close?: Function
@@ -31,7 +39,29 @@ let mainDispatch = () => { }
 
 const Item = (item: ToastProps) => {
     const [open, setOpen] = useState(true)
-    const { id, content: Content, transition, placement, onOpen, onClose } = item
+    const [timer, setTimer] = useState<any>()
+
+    let {
+        id,
+        content: Content,
+        transition,
+        placement,
+        closeButton,
+        autoClose,
+        autoCloseDuration,
+        pauseOnHover,
+        onOpen,
+        onClose,
+        transitionProps,
+        color: Color,
+        icon,
+        close: _close,
+        ...stackProps
+    } = item
+
+    autoClose = autoClose ?? true
+    pauseOnHover = pauseOnHover ?? true
+    closeButton = closeButton ?? true
 
     useEffect(() => {
         state.set(id, { ...item, close: () => setOpen(false) })
@@ -46,40 +76,100 @@ const Item = (item: ToastProps) => {
         "bottom-right": "fadeLeft",
     }
 
-    return (
-        <Transition
-            in={open}
-            type={transition || transitions[placement || "bottom-right"] || "grow"}
-            onFinish={() => {
-                if (open) {
-                    onOpen && onOpen()
-                } else {
-                    onClose && onClose()
-                    state.delete(id)
-                    mainDispatch()
-                }
-            }}
-        >
-            <Stack
-                p={1}
-                bgcolor="color.warning"
-                radius={1}
-                minHeight={60}
-                flexRow
+    useEffect(() => {
+        if (autoClose) {
+            setTimer(setTimeout(() => {
+                setOpen(false)
+            }, autoCloseDuration || 5000))
+        }
+    }, [])
+    Color = Color || "default"
+
+    let { color, bgcolor }: any = useUIVariant("filled", Color)
+    if (Color === 'default') {
+        color = "color.text"
+        bgcolor = "color.common"
+    }
+
+    const icons = {
+        "info": <InfoIcon color={Color === 'default' ? "color.info" : color} />,
+        "warning": <WarningIcon color={Color === 'default' ? "color.warning" : color} />,
+        "success": <SuccessIcon color={Color === 'default' ? "color.success" : color} />,
+        "error": <ErrorIcon color={Color === 'default' ? "color.error" : color} />
+    }
+
+    if (typeof icon === 'string' && icons[icon]) {
+        icon = icons[icon]
+    }
+
+
+    return useMemo(() => {
+        return (
+            <Transition
+                easing="easeOut"
+                {...transitionProps}
+                in={open}
+                type={transition || transitions[placement || "top-right"] || "grow"}
+                onFinish={() => {
+                    if (open) {
+                        onOpen && onOpen()
+                    } else {
+                        onClose && onClose()
+                        state.delete(id)
+                        mainDispatch()
+                    }
+                }}
             >
-                <Stack flex={1}>
-                    <Content open={open} />
-                </Stack>
-                <IconButton size={30}
-                    onClick={() => {
-                        Toast.close(id)
+                <Tag
+                    onMouseEnter={() => {
+                        if (pauseOnHover && typeof timer === 'number') {
+                            clearInterval(timer)
+                            setTimer(undefined)
+                        }
                     }}
+                    onMouseLeave={() => {
+                        if (pauseOnHover && autoClose) {
+                            setTimer(setTimeout(() => {
+                                setOpen(false)
+                            }, autoCloseDuration || 4000))
+                        }
+                    }}
+                    p={1}
+                    pl={!icon ? 2 : 0}
+                    bgcolor={bgcolor}
+                    radius={1}
+                    minHeight={60}
+                    flexRow
+                    shadow="0 1px 10px 0 rgba(0,0,0,.1), 0 2px 15px 0 rgba(0,0,0,.05)"
+                    alignItems="center"
+                    flexBox
+                    {...stackProps}
+                    baseClass="toast"
                 >
-                    <CloseIcon color="#fff" />
-                </IconButton>
-            </Stack>
-        </Transition>
-    )
+                    {
+                        icon && <Tag component='span' px={2} bgcolor={bgcolor} fontSize={40}>
+                            {
+                                icon
+                            }
+                        </Tag>
+                    }
+
+                    <Tag flex={1} height="100%" component='span'>
+                        {typeof Content === 'function' ? <Content open={open} /> : Content}
+                    </Tag>
+                    {closeButton && <IconButton
+                        alignSelf="flex-start"
+                        size={20}
+                        onClick={() => {
+                            Toast.close(id)
+                        }}
+                    >
+                        <CloseIcon color={color} fontSize="fontsize.text" />
+                    </IconButton>}
+                </Tag>
+            </Transition>
+        )
+    }, [open, timer])
 }
 
 const Main = () => {
@@ -106,7 +196,7 @@ const Main = () => {
     return (
         <>
             {
-                Object.keys(formates).map((placement, idx: number) => {
+                Object.keys(formates).map((placement) => {
                     const items = (formates as any)[placement] as ToastProps[]
                     if (!items || !items.length) return
                     const placements: any = {
@@ -119,8 +209,10 @@ const Main = () => {
                     }
 
                     return (
-                        <Stack
-                            key={placement + idx}
+                        <Tag
+                            flexBox
+                            flexColumn
+                            key={placement}
                             gap={16}
                             zIndex={1500}
                             position="fixed"
@@ -129,7 +221,7 @@ const Main = () => {
                             {...placements[placement] || {}}
                         >
                             {items.map(item => <Item key={item.id} {...item} />)}
-                        </Stack>
+                        </Tag>
                     )
                 })
             }
@@ -138,12 +230,10 @@ const Main = () => {
 }
 
 const Toast = {
-    open: (id: string, content: (props: { open: boolean }) => ReactElement, props?: Omit<ToastProps, 'id' | 'container' | 'content'>) => {
+    open: (content: ContentType, props?: Omit<ToastProps, 'id' | 'container' | 'content'>) => {
+        const id = Date.now().toString()
         let { placement } = props || {}
         placement = placement || "bottom-right"
-
-        state.set(id, { id, content, ...props })
-
         let root_container: any = document.querySelector(`[data-toast-root]`)
         if (!root_container) {
             root_container = document.createElement("div")
@@ -152,6 +242,7 @@ const Toast = {
             const root = createRoot(root_container)
             root.render(<Main />)
         }
+        state.set(id, { id, content, ...props })
         mainDispatch()
     },
     close: (id: string) => {
@@ -160,6 +251,11 @@ const Toast = {
             s.close()
         }
     },
+    closeAll: () => {
+        state.forEach((_k, id) => {
+            Toast.close(id)
+        })
+    }
 }
 
 export default Toast

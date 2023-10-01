@@ -13,7 +13,7 @@ const Toasts = () => {
                 <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
                     <Button
                         onClick={() => {
-                            Toast.open("Hi Naxrul Ahmed", {
+                            Toast.open(Math.random().toString(), "Hi Naxrul Ahmed", {
                                 placement: "top-left",
                                 icon: "success"
                             })
@@ -22,21 +22,21 @@ const Toasts = () => {
 
                     <Button
                         onClick={() => {
-                            Toast.open(() => <>wellcome</>, {
+                            Toast.open(Math.random().toString(), () => <>wellcome</>, {
                                 placement: "top-center"
                             })
                         }}
                     >Top Center</Button>
                     <Button
                         onClick={() => {
-                            Toast.open(() => <>wellcome</>, {
+                            Toast.open(Math.random().toString(), () => <>wellcome</>, {
                                 placement: "top-right"
                             })
                         }}
                     >Top Right</Button>
                     <Button
                         onClick={() => {
-                            Toast.open(() => <>wellcome</>, {
+                            Toast.open(Math.random().toString(), () => <>wellcome</>, {
                                 placement: "bottom-left"
                             })
                         }}
@@ -44,14 +44,14 @@ const Toasts = () => {
 
                     <Button
                         onClick={() => {
-                            Toast.open(() => <>wellcome</>, {
+                            Toast.open(Math.random().toString(), () => <>wellcome</>, {
                                 placement: "bottom-center"
                             })
                         }}
                     >Bottom Center</Button>
                     <Button
                         onClick={() => {
-                            Toast.open(<>
+                            Toast.open(Math.random().toString(), <>
                                 <Text fontWeight={500} lineHeight="initial" color="#fff">Success</Text>
                                 <Text lineHeight="initial" type="subtext" fontSize="fontsize.block" color="#fff">
                                     You have successfully created your account
@@ -70,8 +70,8 @@ const Toasts = () => {
                         }}
                     >Close All</Button>
                 </Stack>
-            </MetaBox>
-        </Container>
+            </MetaBox >
+        </Container >
     )
 }
 

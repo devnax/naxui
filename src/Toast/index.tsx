@@ -39,6 +39,7 @@ let mainDispatch = () => { }
 
 const Item = (item: ToastProps) => {
     const [open, setOpen] = useState(true)
+    const [collapsIn, setCollapsIn] = useState(true)
     const [timer, setTimer] = useState<any>()
 
     let {
@@ -56,7 +57,7 @@ const Item = (item: ToastProps) => {
         color: Color,
         icon,
         close: _close,
-        ...stackProps
+        ...rootProps
     } = item
 
     autoClose = autoClose ?? true
@@ -106,70 +107,85 @@ const Item = (item: ToastProps) => {
     return useMemo(() => {
         return (
             <Transition
-                easing="easeOut"
-                {...transitionProps}
-                in={open}
-                type={transition || transitions[placement || "top-right"] || "grow"}
+                in={collapsIn}
+                duration={collapsIn ? 0 : 400}
+                type="collapsVerticle"
                 onFinish={() => {
-                    if (open) {
-                        onOpen && onOpen()
-                    } else {
-                        onClose && onClose()
+                    if (!open) {
                         state.delete(id)
                         mainDispatch()
                     }
                 }}
             >
-                <Tag
-                    onMouseEnter={() => {
-                        if (pauseOnHover && typeof timer === 'number') {
-                            clearInterval(timer)
-                            setTimer(undefined)
-                        }
-                    }}
-                    onMouseLeave={() => {
-                        if (pauseOnHover && autoClose) {
-                            setTimer(setTimeout(() => {
-                                setOpen(false)
-                            }, autoCloseDuration || 4000))
-                        }
-                    }}
-                    p={1}
-                    pl={!icon ? 2 : 0}
-                    bgcolor={bgcolor}
-                    radius={1}
-                    minHeight={60}
-                    flexRow
-                    shadow="0 1px 10px 0 rgba(0,0,0,.1), 0 2px 15px 0 rgba(0,0,0,.05)"
-                    alignItems="center"
-                    flexBox
-                    {...stackProps}
-                    baseClass="toast"
-                >
-                    {
-                        icon && <Tag component='span' px={2} bgcolor={bgcolor} fontSize={40}>
-                            {
-                                icon
+                <Tag {...rootProps} baseClass='toast' >
+                    <Transition
+                        easing="easeOut"
+                        {...transitionProps}
+                        in={open}
+                        type={transition || transitions[placement || "top-right"] || "grow"}
+                        onFinish={() => {
+                            if (open) {
+                                onOpen && onOpen()
+                            } else {
+                                setCollapsIn(false)
+                                onClose && onClose()
                             }
-                        </Tag>
-                    }
-
-                    <Tag flex={1} height="100%" component='span'>
-                        {typeof Content === 'function' ? <Content open={open} /> : Content}
-                    </Tag>
-                    {closeButton && <IconButton
-                        alignSelf="flex-start"
-                        size={20}
-                        onClick={() => {
-                            Toast.close(id)
                         }}
                     >
-                        <CloseIcon color={color} fontSize="fontsize.text" />
-                    </IconButton>}
+                        <Tag
+                            onMouseEnter={() => {
+                                if (pauseOnHover && typeof timer === 'number') {
+                                    clearInterval(timer)
+                                    setTimer(undefined)
+                                }
+                            }}
+                            onMouseLeave={() => {
+                                if (pauseOnHover && autoClose) {
+                                    setTimer(setTimeout(() => {
+                                        setOpen(false)
+                                    }, autoCloseDuration || 4000))
+                                }
+                            }}
+                            mb={2}
+                            p={1}
+                            pl={!icon ? 2 : 0}
+                            bgcolor={bgcolor}
+                            radius={1}
+                            minHeight={60}
+                            transition="all .4s"
+                            flexRow
+                            shadow="0 1px 10px 0 rgba(0,0,0,.1), 0 2px 15px 0 rgba(0,0,0,.05)"
+                            alignItems="center"
+                            flexBox
+                            baseClass="toast-content"
+                        >
+                            {
+                                icon && <Tag component='span' px={2} bgcolor={bgcolor} fontSize={40}>
+                                    {
+                                        icon
+                                    }
+                                </Tag>
+                            }
+
+                            <Tag flex={1} height="100%" component='span'>
+                                {typeof Content === 'function' ? <Content open={open} /> : Content}
+                            </Tag>
+                            {closeButton && <IconButton
+                                alignSelf="flex-start"
+                                size={20}
+                                onClick={() => {
+                                    Toast.close(id)
+                                }}
+                            >
+                                <CloseIcon color={color} fontSize="fontsize.text" />
+                            </IconButton>}
+                        </Tag>
+                    </Transition>
                 </Tag>
             </Transition>
+
         )
-    }, [open, timer])
+    }, [open, collapsIn, timer])
 }
 
 const Main = () => {
@@ -213,11 +229,13 @@ const Main = () => {
                             flexBox
                             flexColumn
                             key={placement}
-                            gap={16}
                             zIndex={1500}
                             position="fixed"
                             p={1}
                             width={350}
+                            maxHeight="100%"
+                            overflowY="auto"
+                            overflowX="unset"
                             {...placements[placement] || {}}
                         >
                             {items.map(item => <Item key={item.id} {...item} />)}
@@ -230,8 +248,7 @@ const Main = () => {
 }
 
 const Toast = {
-    open: (content: ContentType, props?: Omit<ToastProps, 'id' | 'container' | 'content'>) => {
-        const id = Date.now().toString()
+    open: (id: string, content: ContentType, props?: Omit<ToastProps, 'id' | 'container' | 'content'>) => {
         let { placement } = props || {}
         placement = placement || "bottom-right"
         let root_container: any = document.querySelector(`[data-toast-root]`)
@@ -242,8 +259,10 @@ const Toast = {
             const root = createRoot(root_container)
             root.render(<Main />)
         }
-        state.set(id, { id, content, ...props })
-        mainDispatch()
+        if (!state.has(id)) {
+            state.set(id, { id, content, ...props })
+            mainDispatch()
+        }
     },
     close: (id: string) => {
         const s = state.get(id)

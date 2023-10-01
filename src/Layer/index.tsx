@@ -1,21 +1,24 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import Box from '../Box'
 import useBlurCss from '../useBlurCss'
-import { UseTransitionsProps } from 'naxui-manager'
+import { Tag, TagProps, UseTransitionsProps } from 'naxui-manager'
 import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
 import Transition from '../Transition'
 
-export type LayerProps = Omit<UseTransitionsProps, "onFinish" | "type"> & {
+
+export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
+
+export type LayerProps = Omit<TagProps<"div">, "children" | "content"> & {
     id: string;
-    content: (props: { open: boolean }) => ReactElement;
+    content: LayerContentType;
     blur?: number;
     bgImage?: string;
     index?: number;
     transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
     onOpen?: () => void;
     onClose?: () => void;
+    transitionProps?: Omit<UseTransitionsProps, "onFinish" | "type">;
     container: HTMLDivElement
 }
 
@@ -23,7 +26,7 @@ export type LayerProps = Omit<UseTransitionsProps, "onFinish" | "type"> & {
 const state = new Map<string, Function>()
 
 
-const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, onClose, container, ...rest }: LayerProps) => {
+const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, onClose, container, transitionProps, ...rest }: LayerProps) => {
     const [open, setOpen] = useState(true)
     const blurCss = useBlurCss(blur)
     useEffect(() => {
@@ -43,6 +46,7 @@ const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, 
     return (
         <Transition
             in={open}
+            easing="easeOut"
             onFinish={() => {
                 if (open) {
                     onOpen && onOpen()
@@ -52,34 +56,37 @@ const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, 
                     state.delete(id)
                 }
             }}
-            type={transition || "zoomOver"}
-            {...rest}
+            type={transition || "fade"}
+            {...transitionProps}
         >
-            <Box
+            <Tag
+                baseClass='layer-root'
                 position="fixed"
                 top={0}
                 left={0}
                 height="100%"
                 width="100%"
                 zIndex={1000 + state.size + (index || 0)}
+                {...rest}
                 {...bgcss}
                 {...(!bgImage ? blurCss : {})}
             >
-                <Box
+                <Tag
+                    baseClass='layer-content'
                     {...(bgImage ? blurCss : {})}
                     height="100%"
                     width="100%"
                 >
-                    <Content open={open} />
-                </Box>
-            </Box>
+                    {typeof Content === "function" ? <Content open={open} /> : Content}
+                </Tag>
+            </Tag>
         </Transition>
     )
 }
 
 
 const Layer = {
-    open: (id: string, content: (props: { open: boolean }) => ReactElement, props?: Omit<LayerProps, 'id' | 'container' | 'content'>) => {
+    open: (id: string, content: LayerContentType, props?: Omit<LayerProps, 'id' | 'container' | 'content'>) => {
         if (!state.has(id)) {
             const container = document.createElement("div")
             document.body.append(container)

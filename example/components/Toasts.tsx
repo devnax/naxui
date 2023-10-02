@@ -10,7 +10,7 @@ const Toasts = () => {
     return (
         <Container maxWidth="md">
             <MetaBox title="Colors">
-                <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
+                <Stack gap={16} flexWrap="wrap">
                     <Button
                         onClick={() => {
                             Toast.open(Math.random().toString(), "Hi Naxrul Ahmed", {
@@ -45,7 +45,8 @@ const Toasts = () => {
                     <Button
                         onClick={() => {
                             Toast.open(Math.random().toString(), () => <>wellcome</>, {
-                                placement: "bottom-center"
+                                placement: "bottom-center",
+                                autoClose: false
                             })
                         }}
                     >Bottom Center</Button>

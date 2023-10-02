@@ -64,7 +64,6 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 flexDirection="row"
                 alignItems="center"
                 minWidth={150}
-                // transition=".2s"
                 transitionProperty="border, box-shadow, background"
                 bgcolor={variant === "filled" ? "color.paper" : "transparent"}
                 border={1}

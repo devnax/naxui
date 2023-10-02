@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useBlurCss from '../useBlurCss'
 import { Tag, TagProps, UseTransitionsProps } from 'naxui-manager'
 import { ReactElement } from "react";
@@ -9,16 +9,19 @@ import Transition from '../Transition'
 
 export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
 
-export type LayerProps = Omit<TagProps<"div">, "children" | "content"> & {
+export type LayerProps = {
     id: string;
     content: LayerContentType;
     blur?: number;
     bgImage?: string;
-    index?: number;
+    zIndex?: number;
     transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
     onOpen?: () => void;
     onClose?: () => void;
+    onClickOutside?: () => void;
     transitionProps?: Omit<UseTransitionsProps, "onFinish" | "type">;
+    contentProps?: Omit<TagProps<"div">, "children" | "content">;
+    rootProps?: Omit<TagProps<"div">, "children" | "content">;
     container: HTMLDivElement
 }
 
@@ -26,8 +29,9 @@ export type LayerProps = Omit<TagProps<"div">, "children" | "content"> & {
 const state = new Map<string, Function>()
 
 
-const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, onClose, container, transitionProps, ...rest }: LayerProps) => {
+const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, container, transitionProps, rootProps, contentProps }: LayerProps) => {
     const [open, setOpen] = useState(true)
+    const contentRef = useRef<HTMLDivElement>()
     const blurCss = useBlurCss(blur)
     useEffect(() => {
         state.set(id, () => setOpen(!open))
@@ -60,22 +64,31 @@ const View = ({ id, content: Content, index, blur, bgImage, transition, onOpen, 
             {...transitionProps}
         >
             <Tag
-                baseClass='layer-root'
+                {...rootProps}
                 position="fixed"
                 top={0}
                 left={0}
                 height="100%"
                 width="100%"
-                zIndex={1000 + state.size + (index || 0)}
-                {...rest}
+                baseClass='layer-root'
+                zIndex={1000 + state.size + (zIndex || 0)}
                 {...bgcss}
                 {...(!bgImage ? blurCss : {})}
+
             >
                 <Tag
-                    baseClass='layer-content'
+                    {...contentProps}
                     {...(bgImage ? blurCss : {})}
                     height="100%"
                     width="100%"
+                    baseClass='layer-content'
+                    onClick={(e: any) => {
+                        if (onClickOutside && contentRef) {
+                            if (!e.currentTarget.firstChild?.contains(e.target)) {
+                                onClickOutside()
+                            }
+                        }
+                    }}
                 >
                     {typeof Content === "function" ? <Content open={open} /> : Content}
                 </Tag>

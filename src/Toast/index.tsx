@@ -133,6 +133,7 @@ const Item = (item: ToastProps) => {
                         }}
                     >
                         <Tag
+                            baseClass="toast-content"
                             onMouseEnter={() => {
                                 if (pauseOnHover && typeof timer === 'number') {
                                     clearInterval(timer)
@@ -157,7 +158,6 @@ const Item = (item: ToastProps) => {
                             shadow="0 1px 10px 0 rgba(0,0,0,.1), 0 2px 15px 0 rgba(0,0,0,.05)"
                             alignItems="center"
                             flexBox
-                            baseClass="toast-content"
                         >
                             {
                                 icon && <Tag component='span' px={2} bgcolor={bgcolor} fontSize={40}>
@@ -167,7 +167,7 @@ const Item = (item: ToastProps) => {
                                 </Tag>
                             }
 
-                            <Tag flex={1} height="100%" component='span'>
+                            <Tag flex={1} height="100%" >
                                 {typeof Content === 'function' ? <Content open={open} /> : Content}
                             </Tag>
                             {closeButton && <IconButton
@@ -237,6 +237,7 @@ const Main = () => {
                             overflowY="auto"
                             overflowX="unset"
                             {...placements[placement] || {}}
+                            baseClass={`toast-container toast-${placement}`}
                         >
                             {items.map(item => <Item key={item.id} {...item} />)}
                         </Tag>

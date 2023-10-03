@@ -33,7 +33,7 @@ const Form = () => {
     )
 }
 
-const Toasts = () => {
+const Modals = () => {
     return (
         <Container maxWidth="md">
             <MetaBox title="Colors">
@@ -54,4 +54,4 @@ const Toasts = () => {
     )
 }
 
-export default Toasts
+export default Modals

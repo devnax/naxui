@@ -72,9 +72,9 @@ const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen,
                 width="100%"
                 baseClass='layer-root'
                 zIndex={1000 + state.size + (zIndex || 0)}
+                bgcolor="rgba(0,0,0,.01)"
                 {...bgcss}
                 {...(!bgImage ? blurCss : {})}
-
             >
                 <Tag
                     {...contentProps}

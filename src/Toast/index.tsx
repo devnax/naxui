@@ -93,7 +93,7 @@ const Item = (item: ToastProps) => {
     }
 
     const icons = {
-        "info": <InfoIcon color={Color === 'default' ? "color.info" : color} />,
+        "info": <InfoIcon color={Color === 'default' ? "color.primary" : color} />,
         "warning": <WarningIcon color={Color === 'default' ? "color.warning" : color} />,
         "success": <SuccessIcon color={Color === 'default' ? "color.success" : color} />,
         "error": <ErrorIcon color={Color === 'default' ? "color.error" : color} />
@@ -235,7 +235,7 @@ const Main = () => {
                             width={350}
                             maxHeight="100%"
                             overflowY="auto"
-                            overflowX="unset"
+                            overflowX="hidden"
                             {...placements[placement] || {}}
                             baseClass={`toast-container toast-${placement}`}
                         >

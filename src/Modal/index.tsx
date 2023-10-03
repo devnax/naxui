@@ -44,7 +44,7 @@ const Modal = {
             return (
                 <Transition
                     in={open}
-                    type="zoomOver"
+                    type="zoom"
                     {...transitionProps}
                 >
                     <Tag

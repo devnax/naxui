@@ -69,6 +69,9 @@ const Confirm = (msg_or_props: ConfirmMesssageType, callback?: () => void) => {
     }
 
     let _icon = icon || icons[type || "info"]
+    let _buttonText = buttonText ?? [] as any
+    let cancelText = typeof _buttonText[0] === 'undefined' ? "cancel" : _buttonText[0]
+    let okText = typeof _buttonText[1] === 'undefined' ? "confirm" : _buttonText[1]
 
     let content = (
         <Tag
@@ -103,23 +106,24 @@ const Confirm = (msg_or_props: ConfirmMesssageType, callback?: () => void) => {
                     ...btnContainerCss
                 }}
             >
-                <Button
+                {cancelText && <Button
                     color="default"
                     variant={buttonPlacement === "full" || buttonPlacement === 'half' ? "outlined" : "text"}
                     onClick={() => Modal.close(id)}
-                >{buttonText ? buttonText[0] : "Cancel"}</Button>
-                <Button
+                >{cancelText}</Button>}
+                {okText && <Button
                     color={_color as any}
                     onClick={() => {
                         Modal.close(id)
                     }}
-                >{buttonText ? buttonText[0] : "Confirm"}</Button>
+                >{okText}</Button>}
             </Tag>
         </Tag>
     )
 
     Modal.open(id, content, {
         closeOnClickOutside: false,
+        closeButton: !cancelText && !okText,
         rootProps: {
             width: inlineText ? 400 : 350,
         }

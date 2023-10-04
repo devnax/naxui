@@ -10,7 +10,7 @@ import CloseIcon from 'naxui-icons/round/Close'
 import InfoIcon from 'naxui-icons/round/Info';
 import WarningIcon from 'naxui-icons/round/Warning';
 import SuccessIcon from 'naxui-icons/round/CheckCircle';
-import ErrorIcon from 'naxui-icons/round/Error';
+import ErrorIcon from 'naxui-icons/round/Cancel';
 
 type ContentType = string | ReactElement | ((props: { open: boolean }) => any);
 type PlacementType = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"

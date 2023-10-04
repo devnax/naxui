@@ -4,32 +4,32 @@ import useBlurCss from '../useBlurCss'
 import { Tag, TagProps, UseTransitionsProps } from 'naxui-manager'
 import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
-import Transition from '../Transition'
-
-
+import Transition, { TransitionProps } from '../Transition'
 export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
 
 export type LayerProps = {
-    id: string;
-    content: LayerContentType;
     blur?: number;
     bgImage?: string;
     zIndex?: number;
-    transition?: "fade" | "fadeDown" | "fadeUp" | "fadeRight" | "fadeLeft" | "zoom" | "zoomOver" | "collapsVerticle" | "collapsHorizental"
+    transition?: TransitionProps['type'];
     onOpen?: () => void;
     onClose?: () => void;
     onClickOutside?: () => void;
     transitionProps?: Omit<UseTransitionsProps, "onFinish" | "type">;
     contentProps?: Omit<TagProps<"div">, "children" | "content">;
     rootProps?: Omit<TagProps<"div">, "children" | "content">;
-    container: HTMLDivElement
 }
 
+type LayerPrivateProps = LayerProps & {
+    id: string;
+    content: LayerContentType;
+    container: HTMLDivElement
+}
 
 const state = new Map<string, Function>()
 
 
-const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, container, transitionProps, rootProps, contentProps }: LayerProps) => {
+const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, container, transitionProps, rootProps, contentProps }: LayerPrivateProps) => {
     const [open, setOpen] = useState(true)
     const contentRef = useRef<HTMLDivElement>()
     const blurCss = useBlurCss(blur)

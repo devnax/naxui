@@ -10,15 +10,19 @@ export type ModalContentType = LayerContentType
 export type ModalPropsType = {
     closeButton?: boolean;
     closeButtonProps?: IconButtonProps;
+    closeOnClickOutside?: boolean;
+    rootProps?: Omit<TagProps<"div">, 'children' | "content">
+    transition?: LayerProps['transition'];
     transitionProps?: LayerProps['transitionProps'];
+
+    // Layer Props
     bgImage?: string;
     blur?: number;
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
     onClickOutside?: () => void;
-    closeOnClickOutside?: boolean;
-    rootProps?: Omit<TagProps<"div">, 'children' | "content">
+    layerProps?: LayerProps
 }
 
 const Modal = {
@@ -28,14 +32,18 @@ const Modal = {
             closeButton,
             closeButtonProps,
             transitionProps,
+            transition,
+            closeOnClickOutside,
+            rootProps,
+
+            // layer
             bgImage,
             blur,
             zIndex,
             onOpen,
             onClose,
             onClickOutside,
-            closeOnClickOutside,
-            rootProps
+            layerProps
         } = props || {}
 
         closeOnClickOutside = closeOnClickOutside ?? true
@@ -44,7 +52,7 @@ const Modal = {
             return (
                 <Transition
                     in={open}
-                    type="zoom"
+                    type={transition || "zoom"}
                     {...transitionProps}
                 >
                     <Tag
@@ -97,6 +105,7 @@ const Modal = {
             zIndex,
             onOpen,
             onClose,
+            ...layerProps,
             onClickOutside: () => {
                 closeOnClickOutside && Layer.close(id)
                 onClickOutside && onClickOutside()
@@ -105,7 +114,8 @@ const Modal = {
                 bgcolor: blur ? "transparent" : alpha("#000000", .3),
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                ...layerProps?.contentProps
             }
         })
     },

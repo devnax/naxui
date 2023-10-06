@@ -106,6 +106,7 @@ const Layer = {
             const root = createRoot(container)
             root.render(<View {...props} id={id} container={container} content={content} />)
         }
+        return id
     },
     close: (id: string) => {
         const dispatch = state.get(id)

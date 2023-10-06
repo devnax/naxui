@@ -99,7 +99,7 @@ const Modal = {
             )
         }
 
-        Layer.open(id, layerCallback, {
+        return Layer.open(id, layerCallback, {
             bgImage,
             blur,
             zIndex,

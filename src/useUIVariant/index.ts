@@ -2,7 +2,7 @@
 import { alpha } from 'naxui-manager'
 
 export type UseUIVariantTypes = "filled" | "outlined" | "text"
-export type UseUIVariantColorTypes = "default" | "primary" | "secondary" | "success" | "error" | "warning"
+export type UseUIVariantColorTypes = "default" | "info" | "primary" | "secondary" | "success" | "error" | "warning"
 
 const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes, softness?: number): object => {
     color = color || "default"

@@ -5,7 +5,7 @@ import Button from "../../src/Button"
 import Container from "../../src/Container"
 import Confirm from "../../src/Confirm"
 import MetaBox from "../MetaBox"
-import Alert from "../../src/Alert"
+import AlertDialog from "../../src/AlertDialog"
 import Modal from "../../src/Modal"
 
 const sleep = () => new Promise(r => setTimeout(r, 3000))
@@ -25,14 +25,15 @@ const Confirms = () => {
                                 transition: "fadeDown"
                             })
                             if (is) {
-                                let lid = Alert.info({
+                                let lid = AlertDialog({
                                     title: "Loading",
                                     message: "Your data is deleting...",
                                     modalProps: { closeButton: false }
                                 })
                                 await sleep()
                                 Modal.close(lid)
-                                Alert.success({
+                                AlertDialog.success({
+                                    inlineText: true,
                                     title: "Success",
                                     message: "Your action complete successflly",
                                 })

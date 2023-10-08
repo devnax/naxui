@@ -1,40 +1,49 @@
-import React from "react"
-import Stack from "../../src/Stack"
-import Button from "../../src/Button"
-import Container from "../../src/Container"
-import Alert from "../../src/Alert"
-import MetaBox from "../MetaBox"
+import React from 'react'
+import Alert from '../../src/Alert'
+import Stack from '../../src/Stack'
+import Button from '../../src/Button'
 
 const Alerts = () => {
     return (
-        <Container maxWidth="md">
-            <MetaBox title="Alerts">
-                <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
-                    <Button
-                        onClick={async () => {
-                            Alert({
-                                title: "Are you sure?",
-                                message: "This action cannot be undone. All values associate with this field will be lost",
-                                type: "error",
-                                inlineText: true,
-                                transition: "zoomOver"
-                            })
-
-                        }}
-                    >Open</Button>
-                    <Button
-                        onClick={async () => {
-                            Alert({
-                                title: "Failed",
-                                message: "You may lost the data so you need to recover again.",
-                                type: "error",
-                            })
-                        }}
-                    >Another</Button>
-                </Stack>
-            </MetaBox >
-        </Container >
+        <Stack gap={8}>
+            <Alert
+                title="Error"
+                type='error'
+                footer={<>
+                    <Button size="small" variant='text' color="error">Finish</Button>
+                </>}
+            >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.
+            </Alert>
+            <Alert
+                title="Information"
+                type='info'
+            >
+                You have know some thing before continue
+            </Alert>
+            <Alert
+                title="Warning"
+                type='warning'
+            >
+                You have know some thing before continue
+            </Alert>
+            <Alert
+                // title="Success"
+                type='success'
+                variant='filled'
+            >
+                Your proccess has been success. now you can enjoy
+            </Alert>
+            <Alert
+                title="Information"
+                type='info'
+                variant='outlined'
+            >
+                Your proccess has been success. now you can enjoy
+            </Alert>
+        </Stack>
     )
 }
+
 
 export default Alerts

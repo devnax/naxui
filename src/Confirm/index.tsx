@@ -3,7 +3,7 @@ import { Tag } from "naxui-manager"
 import React, { isValidElement, ReactElement } from "react"
 import Button from "../Button"
 import Modal from "../Modal"
-import Alert, { AlertProps } from "../Alert"
+import Alert, { AlertProps } from "../AlertDialog"
 
 export type ConfirmProps = Omit<AlertProps, "footer" | "header"> & {
     buttonText?: [string, string];

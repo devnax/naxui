@@ -11,18 +11,17 @@ export type ChipProps<T extends TagComponenntType = 'div'> = Omit<TagProps<T>, "
     endIcon?: ReactElement;
     color?: UseUIVariantColorTypes;
     variant?: UseUIVariantTypes;
-    softness?: number;
     corner?: UseCornerVariantTypes;
 }
 
 
-const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, softness, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
+const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
     color = color || "primary"
     corner = corner || "circle"
     const cornerCss = useCornerVariant(corner)
-    const uiCss = useUIVariant(variant, color, softness)
+    const uiCss = useUIVariant(variant, color)
 
     return (
         <Tag

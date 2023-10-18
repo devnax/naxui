@@ -55,7 +55,7 @@ const ConfirmMain = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: 
             sx={{ ..._bcon[buttonPlacement || "right"] }}
         >
             {cancelText && <Button
-                color="default"
+                color="paper"
                 variant={buttonPlacement === "full" || buttonPlacement === 'half' ? "outlined" : "text"}
                 onClick={() => {
                     onConfirm && onConfirm(false)

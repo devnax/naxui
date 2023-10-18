@@ -35,7 +35,7 @@ const _List = <T extends TagComponenntType = "ul">({ children, sx, color, ...res
                     color: `color.${color}.text`
                 },
                 "& .list-item-icon": {
-                    color: "color.subtext"
+                    color: "color.paper.subtext"
                 },
                 ...(sx || {} as any)
             }}

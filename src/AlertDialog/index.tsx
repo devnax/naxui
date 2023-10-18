@@ -35,10 +35,10 @@ export const AlertView = ({ message, title, icon, type, color, inlineText, rootP
     let _color = color ?? type ?? "primary"
 
     const icons: any = {
-        "info": <InfoIcon fontSize={40} color={color === 'default' ? "color.text" : `color.${_color}`} />,
-        "warning": <WarningIcon fontSize={40} color={color === 'default' ? "color.text" : `color.${_color}`} />,
-        "success": <SuccessIcon fontSize={40} color={color === 'default' ? "color.text" : `color.${_color}`} />,
-        "error": <ErrorIcon fontSize={40} color={color === 'default' ? "color.text" : `color.${_color}`} />
+        "info": <InfoIcon fontSize={40} color={color === 'default' ? "color.paper.text" : `color.${_color}`} />,
+        "warning": <WarningIcon fontSize={40} color={color === 'default' ? "color.paper.text" : `color.${_color}`} />,
+        "success": <SuccessIcon fontSize={40} color={color === 'default' ? "color.paper.text" : `color.${_color}`} />,
+        "error": <ErrorIcon fontSize={40} color={color === 'default' ? "color.paper.text" : `color.${_color}`} />
     }
 
     let _icon = icon || icons[type || "info"]
@@ -66,7 +66,7 @@ export const AlertView = ({ message, title, icon, type, color, inlineText, rootP
                     sx={{
                         "& svg": {
                             fontSize: 40,
-                            color: color === 'default' ? "color.text" : `color.${_color}`
+                            color: color === 'default' ? "color.paper.text" : `color.${_color}`
                         }
                     }}
                 >

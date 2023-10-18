@@ -28,7 +28,7 @@ const _Table = <T extends TagComponenntType = "table">({ children, evenColor, de
                 },
                 "& tr:not(:last-child) td, & tr:not(:last-child) th": {
                     borderBottom: "1px solid",
-                    borderColor: "color.divider",
+                    borderColor: "color.paper.divider",
                 },
                 "& tbody tr:hover": {
                     bgcolor: "color.paper"

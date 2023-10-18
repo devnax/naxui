@@ -52,7 +52,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
     }, [_focus])
 
     variant = variant || "outlined"
-    let borderColor = _focus ? "color.primary" : (variant === "filled" ? "transparent" : "color.divider")
+    let borderColor = _focus ? "color.primary" : (variant === "filled" ? "transparent" : "color.paper.divider")
     borderColor = error ? "color.error" : borderColor
 
     return (
@@ -71,7 +71,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 borderRadius={1}
                 {...containerProps}
             >
-                {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} mr={.4}>{startIcon}</Tag>}
+                {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} mr={.4}>{startIcon}</Tag>}
                 <Tag
                     flex={1}
                     component='input'
@@ -79,7 +79,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                     outline={0}
                     bgcolor="transparent"
                     width="100%"
-                    color={error ? "color.error" : "color.text"}
+                    color={error ? "color.error" : "color.paper.text"}
                     fontSize="fontsize.text"
                     py={1.5}
                     px={1.5}
@@ -94,9 +94,9 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                         onBlur && onBlur(e)
                     }}
                 />
-                {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.subtext"} >{endIcon}</Tag>}
+                {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} >{endIcon}</Tag>}
             </Stack>
-            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "color.error" : "color.text"}>{helperText}</Text>}
+            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "color.error" : "color.paper.text"}>{helperText}</Text>}
         </Box>
     )
 }

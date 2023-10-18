@@ -19,41 +19,45 @@ const App = () => {
   const [active, setActive] = React.useState(keys[keys.length - 1])
   const theme = useTheme()
   return (
-    <ThemeProvider>
-      <Stack height="100vh" flexRow >
-        <ViewBox
-          width={250}
-          bgcolor="color.paper"
-          p={1}
-          height="100%"
-          footer={<Stack>
-            <IconButton
-              onClick={() => {
-                changeTheme(theme.name === 'default' ? "default-dark" : "default")
-              }}
-            >
-              {theme.name === 'default' ? <DarkModeIcon /> : <LightModeIcon />}
-            </IconButton>
-          </Stack>}
-        >
-          <Text variant='text' fontWeight={600} mb={2}>Components</Text>
-          <List>
-            {
-              keys.map(c => <ListItem
-                key={c}
-                onClick={() => setActive(c)}
-                selected={c === active}
-              >{c}</ListItem>)
-            }
-          </List>
-        </ViewBox>
-        <Stack flex={1} height="100%" p={2}>
-          {components[active]}
-        </Stack>
+    <Stack height="100vh" flexRow >
+      <ViewBox
+        width={250}
+        p={1}
+        height="100%"
+        footer={<Stack>
+          <IconButton
+            onClick={() => {
+              changeTheme(theme.name === 'default' ? "default-dark" : "default")
+            }}
+          >
+            {theme.name === 'default' ? <DarkModeIcon /> : <LightModeIcon />}
+          </IconButton>
+        </Stack>}
+      >
+        <Text variant='text' fontWeight={600} mb={2}>Components</Text>
+        <List>
+          {
+            keys.map(c => <ListItem
+              key={c}
+              onClick={() => setActive(c)}
+              selected={c === active}
+            >{c}</ListItem>)
+          }
+        </List>
+      </ViewBox>
+      <Stack flex={1} height="100%" p={2}>
+        {components[active]}
       </Stack>
-    </ThemeProvider>
+    </Stack>
   );
 };
 
+
+const Root = () => {
+  return <ThemeProvider>
+    <App />
+  </ThemeProvider>
+}
+
 const root = createRoot(document.getElementById('root') as any)
-root.render(<App />);
+root.render(<Root />);

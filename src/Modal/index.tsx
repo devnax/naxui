@@ -73,7 +73,7 @@ const Modal = {
                             xs: "100%",
                             sm: "auto"
                         }}
-                        bgcolor="color.common"
+                        bgcolor="color.paper.light"
                         {...rootProps}
                         position="relative"
                         baseClass='modal'
@@ -84,7 +84,7 @@ const Modal = {
                                 top={10}
                                 right={10}
                                 size={34}
-                                color="default"
+                                color="paper"
                                 opacity={.5}
                                 hover={{ opacity: 1 }}
                                 onClick={() => Layer.close(id)}

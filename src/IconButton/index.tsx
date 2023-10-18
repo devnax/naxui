@@ -10,22 +10,17 @@ export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagPr
     size?: number;
     color?: UseUIVariantColorTypes;
     variant?: UseUIVariantTypes;
-    softness?: number;
     corner?: UseCornerVariantTypes;
 }
 
-const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant, corner, softness, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
+const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant, corner, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     size = size || 40
     color = color || "primary"
     corner = corner || "circle"
 
     const cornerCss = useCornerVariant(corner)
-    const uiCss = useUIVariant(variant || "text", color, softness)
-    if (!variant) {
-        softness = 0
-    }
-    const uiHoverCss = useUIVariant(variant || "filled", color, softness === undefined ? .9 : parseFloat(softness as any) + .1)
+    const uiCss: any = useUIVariant(variant || "text", color,)
 
     return (
         <Tag
@@ -48,7 +43,7 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant
             {...uiCss}
             {...rest}
             hover={{
-                ...uiHoverCss,
+                ...uiCss.hover,
                 ...((rest as any).hover || {})
             }}
         >

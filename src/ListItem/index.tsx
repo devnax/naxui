@@ -32,9 +32,9 @@ const _ListItem = <T extends TagComponenntType = "li">({ children, selected, sta
         >
             {startIcon && <Tag mr={1} component="span" display="inline-block" className='list-item-icon'>{startIcon}</Tag>}
             <Tag flex={1}>
-                {typeof children === "string" ? <Text variant="text" typography='text' lineHeight="initial" fontWeight={400} color={selected ? "color.primary.text" : "color.text"}>{children}</Text> : children}
+                {typeof children === "string" ? <Text variant="text" typography='text' lineHeight="initial" fontWeight={400} color={selected ? "color.primary.text" : "color.paper.text"}>{children}</Text> : children}
                 {
-                    subtitle && (typeof subtitle === 'string' ? <Text variant="subtext" typography='text' lineHeight="initial" color="color.subtext" fontWeight={400} fontSize="fontsize.block" className='list-item-subtitle' >{subtitle}</Text> : subtitle)
+                    subtitle && (typeof subtitle === 'string' ? <Text variant="subtext" typography='text' lineHeight="initial" color="color.paper.subtext" fontWeight={400} fontSize="fontsize.block" className='list-item-subtitle' >{subtitle}</Text> : subtitle)
                 }
             </Tag>
             {endIcon && <Tag ml={1} component="span" display="inline-block" className='list-item-icon'>{endIcon}</Tag>}

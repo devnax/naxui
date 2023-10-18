@@ -35,7 +35,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, expa
         <Tag
             bgcolor="color.paper"
             borderBottom="1px solid"
-            borderColor="color.divider"
+            borderColor="color.paper.divider"
             shadow={1}
             {...rest}
             baseClass='accordion'
@@ -72,7 +72,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, expa
                 transitionProps={{
                     onStart: () => {
                         if (expand) {
-                            setBorderColor("color.divider")
+                            setBorderColor("color.paper.divider")
                         }
                     },
                     onFinish: () => {
@@ -85,7 +85,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, expa
                 <Tag
                     p={2}
                     py={1}
-                    bgcolor="color.common"
+                    bgcolor="color.paper.light"
                     {...contentProps}
                     baseClass='accordio-content'
                 >

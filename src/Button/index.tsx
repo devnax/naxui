@@ -10,20 +10,18 @@ export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<
     endIcon?: ReactElement;
     color?: UseUIVariantColorTypes;
     variant?: UseUIVariantTypes;
-    softness?: number;
     corner?: UseCornerVariantTypes;
     size?: "small" | "medium" | "large"
 }
 
 
-const _Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, softness, corner, size, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
+const _Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, corner, size, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
     color = color || "primary"
     corner = corner || "rounded"
     const cornerCss = useCornerVariant(corner)
-    const uiCss = useUIVariant(variant, color, softness)
-    const uiHoverCss = useUIVariant(variant, color, softness === undefined ? .9 : parseFloat(softness as any) + .1)
+    const uiCss: any = useUIVariant(variant, color)
 
     const sizes = {
         small: {
@@ -55,20 +53,20 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             alignItems="center"
             justifyContent="center"
             transition="background .3s"
-            lineHeight={1.75}
+            lineHeight={!(startIcon || endIcon) ? 1.75 : "inherit"}
             {...cornerCss}
             {...uiCss}
             {...(sizes[size || "medium"] || {})}
             {...rest}
             hover={{
-                ...uiHoverCss,
+                ...uiCss.hover,
                 ...((rest as any).hover || {})
             }}
             ref={ref}
         >
-            {startIcon && <Tag component='span' mr={1} mt={"-1.5px"} display="inline-block">{startIcon}</Tag>}
+            {startIcon && <Tag component='span' mr={1} ml={-.5} display="inline-block">{startIcon}</Tag>}
             {children}
-            {endIcon && <Tag component='span' ml={1} mt={"-1.5px"} display="inline-block">{endIcon}</Tag>}
+            {endIcon && <Tag component='span' ml={1} mr={-.5} display="inline-block">{endIcon}</Tag>}
         </Tag>
     )
 }

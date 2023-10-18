@@ -14,7 +14,7 @@ export type AlertProps = {
     icon?: false | ReactElement;
     variant?: UseUIVariantTypes;
     type?: "info" | "warning" | "success" | "error";
-    color?: "default" | "primary" | "secondary" | "warning" | "success" | "error";
+    color?: "paper" | "primary" | "secondary" | "warning" | "success" | "error";
     inline?: boolean;
     rootProps?: Omit<TagProps<"div">, 'children' | "content">
     contentainerProps?: Omit<TagProps<"div">, 'children' | "content">;
@@ -23,28 +23,24 @@ export type AlertProps = {
 
 export type AlertMesssageType = string | ReactElement | AlertProps
 
+
+
 export const Alert = ({ children, title, variant, icon, type, color, inline, rootProps, contentainerProps, footer }: AlertProps) => {
 
-    let softness: any;
-    if (!variant) {
-        variant = 'filled'
-        softness = .15
-    }
-    const v: any = useUIVariant(variant, color || type, softness) || {}
+    const v: any = useUIVariant(variant || "soft", color || type) || {}
 
     inline = inline ?? true
 
     const icons: any = {
-        "info": <InfoIcon color={color === 'default' ? "color.text" : v.color} />,
-        "warning": <WarningIcon color={color === 'default' ? "color.text" : v.color} />,
-        "success": <SuccessIcon color={color === 'default' ? "color.text" : v.color} />,
-        "error": <ErrorIcon color={color === 'default' ? "color.text" : v.color} />
+        "info": <InfoIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
+        "warning": <WarningIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
+        "success": <SuccessIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
+        "error": <ErrorIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />
     }
 
     let _icon = icon || icons[type || "info"]
     return (
         <Tag
-            height="100%"
             flexBox
             flexColumn
             radius={1}
@@ -54,31 +50,33 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
             {...v}
             {...rootProps}
             baseClass="alert-view-root"
+            justifyContent="flex-start"
+            width={500}
         >
             <Tag
                 flexBox
                 gap={8}
-                alignItems="center"
-                justifyContent="center"
+                direction={inline ? "row" : "column"}
                 {...contentainerProps}
                 baseClass="alert-view-contentainer"
-                direction={inline ? "row" : "column"}
-                textAlign={inline ? "left" : "center"}
             >
-                <Tag
-                    baseClass="alert-view-icon"
-                    flexBox
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{
-                        "& svg": {
-                            color: color === 'default' ? "color.text" : v.color
-                        }
-                    }}
-                >
-                    {_icon}
-                </Tag>
-                <Tag baseClass="alert-view-text" flex={1}>
+                {
+                    _icon && <Tag
+                        py={1}
+                        baseClass="alert-view-icon"
+                        flexBox
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{
+                            "& svg": {
+                                color: color === 'paper' ? "color.paper.text" : v.color
+                            }
+                        }}
+                    >
+                        {_icon}
+                    </Tag>
+                }
+                <Tag baseClass="alert-view-text" flex={1} py={1}>
                     {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={v.color}>{title}</Text>}
                     {typeof children === 'string' ? <Text fontWeight={500} variant="subtext" fontSize="fontsize.block" color={v.color} lineHeight={1.4}>{children}</Text> : children}
                 </Tag>

@@ -7,6 +7,9 @@ import WarningIcon from 'naxui-icons/round/Warning';
 import SuccessIcon from 'naxui-icons/round/CheckCircle';
 import ErrorIcon from 'naxui-icons/round/Cancel';
 import useUIVariant, { UseUIVariantTypes } from "../useUIVariant";
+import IconClose from 'naxui-icons/round/Close';
+import IconButton from "../IconButton";
+
 
 export type AlertProps = {
     children: any;
@@ -19,23 +22,22 @@ export type AlertProps = {
     rootProps?: Omit<TagProps<"div">, 'children' | "content">
     contentainerProps?: Omit<TagProps<"div">, 'children' | "content">;
     footer?: ReactElement;
+    onClose?: React.DOMAttributes<"button">['onClick']
 }
 
 export type AlertMesssageType = string | ReactElement | AlertProps
 
+export const Alert = ({ children, title, variant, icon, type, color, inline, rootProps, contentainerProps, footer, onClose }: AlertProps) => {
+    color = (color || type || "paper") as any
 
-
-export const Alert = ({ children, title, variant, icon, type, color, inline, rootProps, contentainerProps, footer }: AlertProps) => {
-
-    const v: any = useUIVariant(variant || "soft", color || type) || {}
-
+    let { hover, ...uiCss }: any = useUIVariant(variant || "soft", color || type) || {}
     inline = inline ?? true
 
     const icons: any = {
-        "info": <InfoIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
-        "warning": <WarningIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
-        "success": <SuccessIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />,
-        "error": <ErrorIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : v.color} />
+        "info": <InfoIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "warning": <WarningIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "success": <SuccessIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "error": <ErrorIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />
     }
 
     let _icon = icon || icons[type || "info"]
@@ -46,13 +48,25 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
             radius={1}
             p={1}
             px={1.5}
-            bgcolor={v.bgcolor}
-            {...v}
+            {...uiCss}
             {...rootProps}
             baseClass="alert-view-root"
             justifyContent="flex-start"
-            width={500}
+            position="relative"
         >
+            {
+                onClose && <IconButton
+                    color={color}
+                    variant={variant === 'filled' ? "filled" : "text"}
+                    size={25}
+                    position="absolute"
+                    top={5}
+                    right={5}
+                    onClick={onClose}
+                >
+                    <IconClose fontSize={18} />
+                </IconButton>
+            }
             <Tag
                 flexBox
                 gap={8}
@@ -69,16 +83,16 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
                         justifyContent="center"
                         sx={{
                             "& svg": {
-                                color: color === 'paper' ? "color.paper.text" : v.color
+                                color: color === 'paper' ? "color.paper.text" : uiCss.color
                             }
                         }}
                     >
                         {_icon}
                     </Tag>
                 }
-                <Tag baseClass="alert-view-text" flex={1} py={1}>
-                    {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={v.color}>{title}</Text>}
-                    {typeof children === 'string' ? <Text fontWeight={500} variant="subtext" fontSize="fontsize.block" color={v.color} lineHeight={1.4}>{children}</Text> : children}
+                <Tag baseClass="alert-view-text" flexBox gap={4} flexColumn flex={1} py={1} fontSize="fontsize.button" lineHeight={1.5}>
+                    {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={uiCss.color}>{title}</Text>}
+                    {children}
                 </Tag>
             </Tag>
             {footer && <Tag pt={1}>

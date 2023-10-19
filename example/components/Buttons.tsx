@@ -1,14 +1,22 @@
 import React from "react"
 import Stack from "../../src/Stack"
 import Button from "../../src/Button"
+import IconButton from "../../src/IconButton"
 import Container from "../../src/Container"
 import MetaBox from "../MetaBox"
 import InfoIcon from 'naxui-icons/round/Info';
 import HomeIcon from 'naxui-icons/round/Home';
+import IconClose from 'naxui-icons/round/Close';
+
 
 const Buttons = () => {
     return (
         <Container maxWidth="md">
+            <MetaBox title="Icon Button">
+                <IconButton color="error" >
+                    <IconClose />
+                </IconButton>
+            </MetaBox>
             <MetaBox title="Colors">
                 <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
                     <Button color="paper" >Button</Button>

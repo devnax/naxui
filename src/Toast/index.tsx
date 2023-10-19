@@ -108,7 +108,7 @@ const Item = (item: ToastProps) => {
         return (
             <Transition
                 in={collapsIn}
-                duration={collapsIn ? 0 : 400}
+                duration={collapsIn ? 0 : 200}
                 type="collapsVerticle"
                 onFinish={() => {
                     if (!open) {
@@ -119,6 +119,7 @@ const Item = (item: ToastProps) => {
             >
                 <Tag {...rootProps} baseClass='toast' >
                     <Transition
+                        duration={300}
                         easing="easeOut"
                         {...transitionProps}
                         in={open}

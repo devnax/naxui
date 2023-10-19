@@ -23,35 +23,15 @@ function adjustColor(hex: any, factor: number) {
 }
 
 
-function getContrastText(hexColor) {
-    // Remove the '#' from the beginning if it's present
-    hexColor = hexColor.replace(/^#/, '');
-
-    // Convert the hex color to RGB
-    const r = parseInt(hexColor.slice(0, 2), 16);
-    const g = parseInt(hexColor.slice(2, 4), 16);
-    const b = parseInt(hexColor.slice(4, 6), 16);
-
-    // Calculate the relative luminance (Y) using the formula for sRGB color space
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-    // Determine whether to use black or white text based on luminance
-    const textColor = luminance > 0.5 ? '#111111' : '#FFFFFF';
-
-    return textColor;
-}
 
 
 const Alerts = () => {
-    let col = "#0066ff"
     return (
         <Stack gap={8}>
-            <Stack p={2} gap={16} flexRow>
-                <Stack p={2} flex={1} radius={2} bgcolor={adjustColor(col, 1)} color={adjustColor(getContrastText(col), .9)} >
-                    Hello World
-                </Stack>
-            </Stack>
             <Alert
+                onClose={(e) => {
+
+                }}
                 title="Error"
                 type='error'
                 footer={<>

@@ -25,7 +25,7 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant
     return (
         <Tag
             component='button'
-            baseClass='button'
+            baseClass='icon-button'
             border={0}
             radius={size}
             height={size}

@@ -10,7 +10,7 @@ export type TransitionProps = UseTransitionsProps & {
 
 const _Transition = ({ children, type, in: _in, ...rest }: TransitionProps, ref: React.Ref<any>) => {
 
-    const [_ref, cls] = useTransitions(type || "fade", _in, { duration: 500, ...rest })
+    const [_ref, cls] = useTransitions(type || "fade", _in, { duration: 400, ...rest })
 
     useEffect(() => {
         if (ref) ref = _ref

@@ -27,21 +27,22 @@ const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes):
             }
         case "outlined":
             return {
+                bgcolor: "transparent",
                 border: 1,
                 borderColor: `color.${color}`,
-                color: `color.${color}`,
+                color: color === "paper" ? `color.${color}.text` : `color.${color}`,
                 hover: {
                     bgcolor: `color.${color}.soft`,
-                    color: `color.${color}`
+                    color: color === "paper" ? `color.${color}.text` : `color.${color}`
                 }
             }
         case "text":
             return {
                 bgcolor: `transparent`,
-                color: `color.${color}`,
+                color: color === "paper" ? `color.${color}.text` : `color.${color}`,
                 hover: {
-                    bgcolor: `color.${color}.soft`,
-                    color: `color.${color}`
+                    bgcolor: color === "paper" ? `color.paper` : `color.${color}.soft`,
+                    color: color === "paper" ? `color.${color}.text` : `color.${color}`
                 }
             }
     }

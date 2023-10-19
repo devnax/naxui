@@ -5,6 +5,7 @@ import { Tag, TagProps, UseTransitionsProps } from 'naxui-manager'
 import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
 import Transition, { TransitionProps } from '../Transition'
+
 export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
 
 export type LayerProps = {

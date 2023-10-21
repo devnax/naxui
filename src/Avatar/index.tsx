@@ -4,7 +4,7 @@ import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 import PersonIcon from 'naxui-icons/round/Person'
 
 export type AvatarProps<T extends TagComponenntType = "img"> = TagProps<T> & {
-    src: string;
+    src?: string;
     size?: number;
 }
 

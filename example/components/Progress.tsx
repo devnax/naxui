@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import CircleProgress from '../../src/CircleProgress'
+import LineProgress from '../../src/LineProgress'
 import Stack from '../../src/Stack'
 import Button from '../../src/Button'
 import IconButton from '../../src/IconButton'
 import PlusIcon from 'naxui-icons/round/Add'
 import MetaBox from "../MetaBox"
+
+
 
 const CircleProgresss = () => {
     const [progress, setProgress] = useState(0)
@@ -17,8 +20,12 @@ const CircleProgresss = () => {
             }
         }, 10);
     }
+
+
     return (
         <Stack>
+            <MetaBox title="Color" >
+            </MetaBox>
             <MetaBox title="Color" >
                 <Stack flexRow gap={16}>
                     <CircleProgress color="paper" />
@@ -64,6 +71,17 @@ const CircleProgresss = () => {
                 <Button onClick={() => {
                     update()
                 }}>Toggle</Button>
+            </MetaBox>
+            <MetaBox title="Value" >
+                <Stack gap={16} mb={2}>
+                    <LineProgress color="paper" duration={.5} />
+                    <LineProgress color="primary" duration={1} />
+                    <LineProgress color="secondary" duration={1.5} />
+                    <LineProgress color="info" duration={2} />
+                    <LineProgress color="success" duration={2.5} />
+                    <LineProgress color="warning" duration={3} />
+                    <LineProgress color="error" duration={3.5} value={progress} />
+                </Stack>
             </MetaBox>
         </Stack>
     )

@@ -11,15 +11,17 @@ export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagP
     track?: boolean;
     trackSize?: number;
     showPercentage?: boolean;
+    duration?: number;
 }
 
-const _CircleProgress = <T extends TagComponenntType = "div">({ children, color, size, value, thumbSize, track, trackSize, showPercentage, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
+const _CircleProgress = <T extends TagComponenntType = "div">({ children, color, size, value, thumbSize, track, trackSize, showPercentage, duration, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
 
     color = color ?? "primary"
     size = size ?? 30
     thumbSize = thumbSize ?? 4
     track = track ?? true
     trackSize = trackSize ?? thumbSize
+    duration = duration ?? 1.3
     let isVal = value != undefined
 
     const animrotate = !isVal && keyframes({ "100%": { transform: "rotate(360deg)" } })
@@ -36,13 +38,13 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
 
     return (
         <Tag
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="center"
             {...rest}
             baseClass='circle-progress'
             sx={{
-                "& svg.progress-svg-root": {
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                "& svg.circle-progress-svg": {
                     zIndex: 1,
                     position: "absolute",
                     top: 0,
@@ -53,16 +55,16 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
                     transformOrigin: isVal ? "center" : "initial",
                     animation: isVal ? "none" : `${animrotate} 1.5s linear infinite`,
 
-                    "& circle.progress-root": {
+                    "& circle.circle-progress-thumb": {
                         strokeDasharray: circumference,
                         strokeDashoffset: percent,
                         stroke: color === 'paper' ? `color.paper.dark` : `color.${color}`,
                         fill: "none",
                         strokeWidth: thumbSize,
                         strokeLinecap: "round",
-                        animation: isVal ? "none" : `${animdash} 1.3s ease-in-out infinite`
+                        animation: isVal ? "none" : `${animdash} ${duration}s ease-in-out infinite`
                     },
-                    "& circle.track-root": {
+                    "& circle.circle-progress-track": {
                         fill: "none",
                         stroke: color === 'paper' ? `color.paper` : `color.${color}.soft`,
                         strokeWidth: trackSize,
@@ -75,9 +77,9 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
             }}
             ref={ref}
         >
-            <svg viewBox="0 0 50 50" className="progress-svg-root">
-                {track && <circle className="track-root track-bar" cx="25" cy="25" r={radius} />}
-                <circle className="progress-root progress-bar" cx="25" cy="25" r={radius} />
+            <svg viewBox="0 0 50 50" className="circle-progress-svg">
+                {track && <circle className="circle-progress-track" cx="25" cy="25" r={radius} />}
+                <circle className="circle-progress-thumb progress-bar" cx="25" cy="25" r={radius} />
             </svg>
             {!!children && <Tag
                 zIndex={2}

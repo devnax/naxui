@@ -6,7 +6,7 @@ import AlertDialogs from './components/AlertDialogs'
 import Confirms from './components/Confirms'
 import Alerts from './components/Alerts'
 import Inputs from './components/Inputs'
-import CircleProgress from './components/CircleProgress'
+import Progress from './components/Progress'
 
 export default {
     "Inputs": <Inputs />,
@@ -16,5 +16,5 @@ export default {
     "AlertDialogs": <AlertDialogs />,
     "Confirms": <Confirms />,
     "Alerts": <Alerts />,
-    "CircleProgress": <CircleProgress />,
+    "Progress": <Progress />,
 }

@@ -8,7 +8,7 @@ export type RadioProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
     size?: number;
-    checked: boolean;
+    checked?: boolean;
     value: string | number;
 }
 

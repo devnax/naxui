@@ -9,6 +9,8 @@ import Transition, { TransitionProps } from '../Transition'
 export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
 
 export type LayerProps = {
+    open: boolean;
+    children: LayerContentType;
     blur?: number;
     bgImage?: string;
     zIndex?: number;
@@ -21,23 +23,11 @@ export type LayerProps = {
     rootProps?: Omit<TagProps<"div">, "children" | "content">;
 }
 
-type LayerPrivateProps = LayerProps & {
-    id: string;
-    content: LayerContentType;
-    container: HTMLDivElement
-}
-
 const state = new Map<string, Function>()
 
-
-const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, container, transitionProps, rootProps, contentProps }: LayerPrivateProps) => {
-    const [open, setOpen] = useState(true)
+const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, transitionProps, rootProps, contentProps }: LayerProps) => {
     const contentRef = useRef<HTMLDivElement>()
     const blurCss = useBlurCss(blur)
-    useEffect(() => {
-        state.set(id, () => setOpen(!open))
-    }, [])
-
     let bgcss: any = {}
     if (bgImage) {
         bgcss = {
@@ -57,8 +47,7 @@ const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen,
                     onOpen && onOpen()
                 } else {
                     onClose && onClose()
-                    container.remove()
-                    state.delete(id)
+
                 }
             }}
             type={transition || "fade"}
@@ -99,22 +88,48 @@ const View = ({ id, content: Content, zIndex, blur, bgImage, transition, onOpen,
 }
 
 
-const Layer = {
-    open: (id: string, content: LayerContentType, props?: Omit<LayerProps, 'id' | 'container' | 'content'>) => {
-        if (!state.has(id)) {
-            const container = document.createElement("div")
-            document.body.append(container)
-            const root = createRoot(container)
-            root.render(<View {...props} id={id} container={container} content={content} />)
+const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id: string }) => {
+    const [open, setOpen] = useState(true)
+    useEffect(() => {
+        state.set(id, () => setOpen(!open))
+        return () => {
+            state.delete(id)
         }
-        return id
-    },
-    close: (id: string) => {
-        const dispatch = state.get(id)
-        dispatch && dispatch()
-    },
-    closeAll: () => state.forEach((_v, id) => Layer.close(id)),
-    isOpen: (id: string) => state.has(id)
+    }, [])
+
+    return (
+        <Layer {...props} open={open} >
+            {Content}
+        </Layer>
+    )
 }
+
+Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'id' | 'children' | 'open'>) => {
+    if (id && !state.has(id)) {
+        const container = document.createElement("div")
+        document.body.append(container)
+        const root = createRoot(container)
+        root.render(<LayerWithAction
+            {...props}
+            open={true}
+            id={id}
+            onClose={() => {
+                container.remove()
+                state.delete(id)
+                props?.onClose && props.onClose()
+            }}
+        >
+            {content}
+        </LayerWithAction>)
+    }
+    return id
+}
+Layer.close = (id: string) => {
+    const dispatch = state.get(id)
+    dispatch && dispatch()
+}
+Layer.closeAll = () => state.forEach((_v, id) => Layer.close(id))
+Layer.isOpen = (id: string) => state.has(id)
+
 
 export default Layer

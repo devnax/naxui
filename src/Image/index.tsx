@@ -27,7 +27,7 @@ const _Image = <T extends TagComponenntType = "img">({ children, src, alt, error
     }
     return (
         <Tag
-            baseClass='Image'
+            baseClass='image'
             component="img"
             objectFit="cover"
             alt={alt}

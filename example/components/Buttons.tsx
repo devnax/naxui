@@ -19,8 +19,8 @@ const Buttons = () => {
             </MetaBox>
             <MetaBox title="Colors">
                 <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
-                    <Button color="paper" >Button</Button>
-                    <Button startIcon={<InfoIcon />} color="primary">Button</Button>
+                    <Button color="paper" loading>Button</Button>
+                    <Button startIcon={<InfoIcon />} color="primary" loading>Button</Button>
                     <Button startIcon={<InfoIcon />} color="info">Button</Button>
                     <Button color="secondary" endIcon={<HomeIcon />}>Button</Button>
                     <Button color="warning">Button</Button>

@@ -8,18 +8,15 @@ export type LineProgressProps<T extends TagComponenntType = "div"> = Omit<TagPro
     color?: UseUIVariantColorTypes;
     value?: number;
     hideTrack?: boolean;
-    showPercentage?: boolean;
-    duration?: number;
+    speed?: number;
 }
 
 
-const _LineProgress = <T extends TagComponenntType = "div">({ children, color, value, thumbSize, hideTrack, showPercentage, duration, ...rest }: LineProgressProps<T>, ref: React.Ref<any>) => {
+const _LineProgress = <T extends TagComponenntType = "div">({ children, color, value, thumbSize, hideTrack, speed, ...rest }: LineProgressProps<T>, ref: React.Ref<any>) => {
 
     color = color ?? "primary"
     thumbSize = thumbSize ?? 4
-    hideTrack = hideTrack ?? false
-    duration = duration ?? 1
-    let isVal = value != undefined
+    let isVal = typeof value === 'number'
 
     const anim = isVal ? "none" : keyframes({
         "0%": { left: "-40%" },
@@ -27,7 +24,7 @@ const _LineProgress = <T extends TagComponenntType = "div">({ children, color, v
         "100%": { left: "100%", width: "100%" }
     })
 
-    if (value != undefined && value > 100) value = 100
+    if (isVal && (value as number) > 100) value = 100
 
     return (
         <Tag
@@ -53,10 +50,9 @@ const _LineProgress = <T extends TagComponenntType = "div">({ children, color, v
                     bgcolor: color === 'paper' ? `color.paper.dark` : `color.${color}`,
                     width: isVal ? `${value}%` : "50%",
                     height: thumbSize,
-                    radius: 2,
                     position: "absolute",
                     left: 0,
-                    animation: isVal ? "none" : `${anim} ${duration}s linear infinite`
+                    animation: isVal ? "none" : `${anim} ${speed ?? 1}s linear infinite`
                 }}
             />
         </Tag >

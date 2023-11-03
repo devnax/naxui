@@ -66,6 +66,9 @@ const Item = (item: ToastProps) => {
 
     useEffect(() => {
         state.set(id, { ...item, close: () => setOpen(false) })
+        return () => {
+            state.delete(id)
+        }
     }, [])
 
     const transitions: any = {
@@ -78,10 +81,14 @@ const Item = (item: ToastProps) => {
     }
 
     useEffect(() => {
+        let t: any;
         if (autoClose) {
-            setTimer(setTimeout(() => {
+            t = setTimer(setTimeout(() => {
                 setOpen(false)
             }, autoCloseDuration || 5000))
+        }
+        return () => {
+            t && clearTimeout(t)
         }
     }, [])
     Color = Color || "paper"

@@ -18,21 +18,23 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
             <Tag
                 baseClass='avatar'
                 component="div"
-                display="inline-flex"
-                justifyContent="center"
-                alignItems="center"
-                bgcolor={"color.paper"}
-                fontSize={size - 12}
-                radius={size}
-                width={size}
-                height={size}
                 src={src}
                 {...rest}
                 sx={{
+                    display: "inline-flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    bgcolor: "color.paper",
+                    radius: size,
+                    fontSize: size - 12,
+                    width: size,
+                    height: size,
+                    userSelect: "none",
                     '& svg': {
                         fontSize: size - 8,
                         opacity: .6
-                    }
+                    },
+                    ...((rest as any).sx || {})
                 }}
                 ref={ref}
             >{t}</Tag>

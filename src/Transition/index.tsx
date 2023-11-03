@@ -19,9 +19,9 @@ const _Transition = ({ children, type, in: _in, ...rest }: TransitionProps, ref:
 
     const first: any = Children.toArray(children).shift();
     return cloneElement(first, {
-        classNames: [cls],
+        className: cls,
         ref: _ref
-    });
+    }) as any
 }
 
 const Transition = React.forwardRef(_Transition) as typeof _Transition

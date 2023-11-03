@@ -7,6 +7,7 @@ import Confirms from './components/Confirms'
 import Alerts from './components/Alerts'
 import Inputs from './components/Inputs'
 import Progress from './components/Progress'
+import Forms from './components/Forms'
 
 export default {
     "Inputs": <Inputs />,
@@ -17,4 +18,5 @@ export default {
     "Confirms": <Confirms />,
     "Alerts": <Alerts />,
     "Progress": <Progress />,
+    "Forms": <Forms />,
 }

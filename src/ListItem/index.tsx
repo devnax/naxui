@@ -24,7 +24,6 @@ const _ListItem = <T extends TagComponenntType = "li">({ children, selected, sta
             display="flex"
             flexDirection="row"
             alignItems="center"
-
             {...rest}
             baseClass='list-item'
             classNames={[{ "list-item-selected": selected as boolean }, ...(rest.classNames || [])]}

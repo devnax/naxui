@@ -25,7 +25,6 @@ const _Tooltip = ({ children, title }: BoxProps) => {
             <Menu
                 target={target}
                 placement='right'
-                duration={150}
                 p={1}
                 radius={1}
             >

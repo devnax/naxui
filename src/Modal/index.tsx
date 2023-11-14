@@ -28,6 +28,7 @@ export type ModalPropsType = {
 const Modal = {
     open: (id: string, content: ModalContentType, props?: ModalPropsType) => {
         let Content = content
+        id = "modal_" + id
         let {
             closeButton,
             closeButtonProps,

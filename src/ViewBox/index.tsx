@@ -1,25 +1,31 @@
 'use client'
 import React, { ReactElement } from 'react'
-import Stack, { StackProps } from '../Stack'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'
 
-export type ViewBoxProps = StackProps & {
+import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+
+export type ViewBoxProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     header?: ReactElement;
     footer?: ReactElement;
     scrollbarProps?: Omit<ScrollbarProps, 'children'>;
     horizental?: boolean;
 }
 
-const ViewBox = ({ header, footer, children, scrollbarProps, horizental, ...rest }: ViewBoxProps) => {
+
+const _ViewBox = ({ header, footer, children, scrollbarProps, horizental, ...rest }: ViewBoxProps, ref?: any) => {
     return (
-        <Stack
+        <Tag
+            flexBox
             justifyContent="space-between"
             {...rest}
+            baseClass='viewbox'
             flexDirection={horizental ? "row" : "column"}
+            ref={ref}
         >
-            {header && <Stack flexDirection={horizental ? "row" : "column"}>{header}</Stack>}
+            {header && <Tag baseClass='viewbox-header' flexBox flexDirection={horizental ? "row" : "column"}>{header}</Tag>}
             <Scrollbar
                 {...scrollbarProps}
+                className='ui-viewbox-content'
                 style={{
                     flex: 1,
                     display: "flex",
@@ -29,9 +35,11 @@ const ViewBox = ({ header, footer, children, scrollbarProps, horizental, ...rest
             >
                 {children}
             </Scrollbar>
-            {footer && <Stack flexDirection={horizental ? "row" : "column"}>{footer}</Stack>}
-        </Stack>
+            {footer && <Tag baseClass='viewbox-footer' flexBox flexDirection={horizental ? "row" : "column"}>{footer}</Tag>}
+        </Tag>
     )
 }
 
+
+const ViewBox = React.forwardRef(_ViewBox) as typeof _ViewBox
 export default ViewBox

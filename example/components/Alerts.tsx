@@ -28,19 +28,21 @@ function adjustColor(hex: any, factor: number) {
 const Alerts = () => {
     return (
         <Stack gap={8}>
+            <Button onClick={() => {
+                Alert.open({
+                    title: "Are You Sure?",
+                    type: "error",
+                    content: <>This action cannot be undone. so be carefull go confirm this action.</>
+                })
+            }}>Open</Button>
             <Alert
+                width={300}
+                inline={false}
                 onClose={(e) => {
 
                 }}
                 title="Error"
-                type='error'
-                footer={<>
-                    <Button size="small" variant='text' color="error"
-                        sx={{
-                            color: adjustColor("#dc2626", .8)
-                        }}
-                    >Finish</Button>
-                </>}
+            // type='error'
             >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.
             </Alert>

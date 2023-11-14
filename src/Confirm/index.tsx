@@ -3,11 +3,12 @@ import { Tag } from "naxui-manager"
 import React, { isValidElement, ReactElement } from "react"
 import Button from "../Button"
 import Modal from "../Modal"
-import Alert, { AlertProps } from "../AlertDialog"
+import Alert, { AlertPropsWithContent } from "../Alert"
 
-export type ConfirmProps = Omit<AlertProps, "footer" | "header"> & {
+export type ConfirmProps = Omit<AlertPropsWithContent, "footer" | "header" | "content"> & {
     buttonText?: [string, string];
-    buttonPlacement?: "left" | "center" | "right" | "half" | "full"
+    buttonPlacement?: "left" | "center" | "right" | "half" | "full";
+    message: AlertPropsWithContent['content']
 }
 export type ConfirmMesssageType = string | ReactElement | ConfirmProps
 
@@ -34,17 +35,9 @@ const ConfirmMain = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: 
     let cancelText = _buttonText[0] ?? "cancel"
     let okText = _buttonText[1] ?? "confirm"
 
-    const id = Alert({
+    const id = Alert.open({
         ...props,
-        rootProps: {
-            ...props.rootProps,
-            justifyContent: "space-between"
-        },
-        modalProps: {
-            ...props.modalProps,
-            closeButton: false,
-        },
-
+        content: props.message,
         footer: <Tag
             baseClass="confirm-actions"
             flexBox
@@ -82,30 +75,6 @@ const Confirm = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: bool
         })
     }
     return ConfirmMain(msg_or_props, onConfirm)
-}
-
-Confirm.info = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: boolean) => void) => {
-    let p = makeProps(msg_or_props)
-    p.type = 'info'
-    return Confirm(p, onConfirm)
-}
-
-Confirm.warning = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: boolean) => void) => {
-    let p = makeProps(msg_or_props)
-    p.type = 'warning'
-    return Confirm(p, onConfirm)
-}
-
-Confirm.success = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: boolean) => void) => {
-    let p = makeProps(msg_or_props)
-    p.type = 'success'
-    return Confirm(p, onConfirm)
-}
-
-Confirm.error = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: boolean) => void) => {
-    let p = makeProps(msg_or_props)
-    p.type = 'error'
-    return Confirm(p, onConfirm)
 }
 
 export default Confirm

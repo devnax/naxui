@@ -12,7 +12,7 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
     const [faild, setFaild] = useState<boolean>()
     size = size || 36
 
-    if (faild === false) {
+    if (faild === false || !src) {
         let t = alt?.charAt(0).toUpperCase() || (children || <PersonIcon />)
         return (
             <Tag

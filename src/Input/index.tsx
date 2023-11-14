@@ -1,8 +1,6 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import Stack, { StackProps } from '../Stack';
-import Box from '../Box';
 import Text from '../Text';
 
 export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
@@ -10,11 +8,12 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     endIcon?: ReactElement;
     focused?: boolean;
     autoFocused?: boolean;
-    containerProps?: StackProps;
+    containerProps?: TagProps<"div">;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
     variant?: "filled" | "outlined";
     error?: boolean;
     helperText?: string;
+    multiline?: boolean;
 }
 
 const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
@@ -32,6 +31,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
         variant,
         error,
         helperText,
+        multiline,
         ...rest
     } = props
     const [_focused, setFocused] = useState(autoFocused || false)
@@ -56,16 +56,17 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
     borderColor = error ? "color.error" : borderColor
 
     return (
-        <Box>
-            <Stack
+        <Tag>
+            <Tag
                 baseClass='input'
                 disabled={disabled || false}
                 ref={conRef}
+                flexBox
                 flexDirection="row"
                 alignItems="center"
                 minWidth={150}
                 transitionProperty="border, box-shadow, background"
-                bgcolor={variant === "filled" ? "color.paper" : "transparent"}
+                bgcolor={variant === "filled" ? "color.paper" : "color.paper.light"}
                 border={1}
                 borderColor={borderColor}
                 borderRadius={1}
@@ -74,15 +75,15 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} mr={.4}>{startIcon}</Tag>}
                 <Tag
                     flex={1}
-                    component='input'
+                    component={multiline ? 'textarea' : 'input'}
                     border={0}
                     outline={0}
                     bgcolor="transparent"
                     width="100%"
                     color={error ? "color.error" : "color.paper.text"}
                     fontSize="fontsize.text"
-                    py={1.5}
-                    px={1.5}
+                    py={1}
+                    px={1}
                     {...rest}
                     ref={inpRef}
                     onFocus={(e: any) => {
@@ -95,9 +96,9 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                     }}
                 />
                 {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} >{endIcon}</Tag>}
-            </Stack>
+            </Tag>
             {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "color.error" : "color.paper.text"}>{helperText}</Text>}
-        </Box>
+        </Tag>
     )
 }
 const Input = React.forwardRef(_Input) as typeof _Input

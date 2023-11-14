@@ -15,6 +15,7 @@ export type LayerProps = {
     bgImage?: string;
     zIndex?: number;
     transition?: TransitionProps['type'];
+    fadeMode?: "dark" | "light" | "transparent"
     onOpen?: () => void;
     onClose?: () => void;
     onClickOutside?: () => void;
@@ -25,10 +26,11 @@ export type LayerProps = {
 
 const state = new Map<string, Function>()
 
-const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, onOpen, onClose, onClickOutside, transitionProps, rootProps, contentProps }: LayerProps) => {
+const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, fadeMode, onOpen, onClose, onClickOutside, transitionProps, rootProps, contentProps }: LayerProps) => {
     const contentRef = useRef<HTMLDivElement>()
-    const blurCss = useBlurCss(blur)
+    const blurCss = blur ? useBlurCss(blur) : {}
     let bgcss: any = {}
+    fadeMode ||= "dark"
     if (bgImage) {
         bgcss = {
             backgroundImage: `url(${bgImage})`,
@@ -47,7 +49,6 @@ const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, onO
                     onOpen && onOpen()
                 } else {
                     onClose && onClose()
-
                 }
             }}
             type={transition || "fade"}
@@ -62,9 +63,9 @@ const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, onO
                 width="100%"
                 baseClass='layer-root'
                 zIndex={1000 + state.size + (zIndex || 0)}
-                bgcolor="rgba(0,0,0,.01)"
                 {...bgcss}
                 {...(!bgImage ? blurCss : {})}
+                bgcolor={fadeMode === 'dark' ? "rgba(0,0,0,.1)" : (fadeMode === 'light' ? "rgba(255,255,255,.2)" : "tranparent")}
             >
                 <Tag
                     {...contentProps}
@@ -90,6 +91,7 @@ const Layer = ({ open, children: Content, zIndex, blur, bgImage, transition, onO
 
 const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id: string }) => {
     const [open, setOpen] = useState(true)
+    const [closed, setClosed] = useState(false)
     useEffect(() => {
         state.set(id, () => setOpen(!open))
         return () => {
@@ -97,8 +99,16 @@ const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id:
         }
     }, [])
 
+    if (closed) return <></>
+
     return (
-        <Layer {...props} open={open} >
+        <Layer {...props}
+            open={open}
+            onClose={() => {
+                props.onClose && props.onClose()
+                setClosed(true)
+            }}
+        >
             {Content}
         </Layer>
     )
@@ -114,9 +124,9 @@ Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'i
             open={true}
             id={id}
             onClose={() => {
-                container.remove()
                 state.delete(id)
                 props?.onClose && props.onClose()
+                container.remove()
             }}
         >
             {content}
@@ -130,6 +140,5 @@ Layer.close = (id: string) => {
 }
 Layer.closeAll = () => state.forEach((_v, id) => Layer.close(id))
 Layer.isOpen = (id: string) => state.has(id)
-
 
 export default Layer

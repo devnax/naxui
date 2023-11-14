@@ -1,24 +1,27 @@
 'use client'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { useTransitions, UseTransitionsProps, UseTransitionsVariantsTypes, useWindowResize } from 'naxui-manager';
-import { getOrigin } from './getorigin';
+import { getOrigin } from './getOrigin';
 import { placedMenu, PlacementTypes } from './placedMenu'
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 import Portal from '../Portal'
+import { createRoot } from 'react-dom/client';
 
 
-export type MenuProps<T extends TagComponenntType = "div"> = TagProps<T> & UseTransitionsProps & {
+export type MenuProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "target"> & {
     target?: HTMLElement;
     placement?: PlacementTypes;
     transition?: UseTransitionsVariantsTypes;
+    transitionProps?: UseTransitionsProps;
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
     onClickOutside?: () => void;
+    menuRef?: any;
 }
 
 
-const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref: any) => {
+const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
     let {
         children,
         target,
@@ -28,17 +31,23 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
         onOpen,
         onClose,
         onClickOutside,
-
+        transitionProps,
+        menuRef,
+        ...rest
+    } = props
+    let {
         duration,
         delay,
         ease,
         onStart,
-        onFinish,
-        ...rest
-    } = props
+        onFinish
+    } = transitionProps || {}
+
+
     placement = placement || "left"
     const [placed, setPlaced] = useState<any>(placement)
-    ref = ref || useRef()
+
+    let ref: any = useRef()
     let [animRef, cls] = useTransitions(transition || "grow", !!target, {
         ease: ease || "ease",
         duration: duration || 200,
@@ -66,7 +75,7 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
     }, [placement, target])
 
     useEffect(() => {
-        ref && (ref.current = ref.current)
+        props.menuRef && (props.menuRef.current = ref?.current)
         const detect = (e: MouseEvent) => {
             if (onClickOutside && !ref?.current.contains(e.target)) {
                 onClickOutside()
@@ -86,7 +95,7 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
             <Tag
                 overflow="hidden"
                 baseClass='menu'
-                bgcolor="color.paper"
+                bgcolor="color.paper.light"
                 shadow={5}
                 radius={1}
                 ref={animRef}
@@ -100,10 +109,9 @@ const _MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>,
     )
 }
 
-const MenuMainView = forwardRef(_MenuMainView) as typeof _MenuMainView
 
 
-const _Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: React.Ref<any>) => {
+const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
     const { target, children, onClose, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
     const [key, setKey] = useState(0)
@@ -124,7 +132,6 @@ const _Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: R
                 key={key}
                 {...rest}
                 target={target}
-                ref={ref}
                 onClose={() => {
                     setDestroy(true)
                     onClose && onClose()
@@ -136,5 +143,76 @@ const _Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>, ref?: R
     )
 
 }
-const Menu = React.forwardRef(_Menu) as typeof _Menu
+
+
+const state = new Map<any, Function>()
+
+const MenuWithAction = ({ children: Content, id, target, ...props }: MenuProps) => {
+    const [open, setOpen] = useState(true)
+    useEffect(() => {
+        state.set(target, () => setOpen(!open))
+        return () => {
+            state.delete(target)
+        }
+    }, [])
+
+    return (
+        <Menu
+            placement='bottom'
+            {...props}
+            target={open ? target : undefined}
+        >
+            {Content}
+        </Menu>
+    )
+}
+
+Menu.open = (target: MenuProps['target'], content: ReactElement, props?: Omit<MenuProps, "target"> & { closeClickOutside?: boolean }) => {
+    if (target) {
+        const container = document.createElement("div")
+        document.body.append(container)
+        const root = createRoot(container)
+
+        root.render(<MenuWithAction
+            {...props}
+            onClickOutside={() => {
+                if (props?.closeClickOutside !== false || typeof props?.onClickOutside !== 'function') {
+                    Menu.close()
+                } else if (typeof props?.onClickOutside === 'function') {
+                    (props as any).onClickOutside()
+                }
+            }}
+            target={target}
+        >
+            {content}
+        </MenuWithAction>)
+    }
+}
+
+Menu.close = () => state.forEach(m => m())
+
+Menu.openContextMenu = (event: React.MouseEvent<any, MouseEvent>, content: ReactElement, props?: Omit<MenuProps, "target">) => {
+    Menu.close()
+    const id = "ctx-menu"
+    let target = document.getElementById(id);
+    if (!target) {
+        target = document.createElement('div')
+        target.id = id
+        target.style.position = "fixed"
+        target.style.zIndex = "9999999999999"
+        document.body.append(target)
+    }
+    target.style.left = `${event.pageX}px`;
+    target.style.top = `${event.pageY}px`;
+
+    Menu.open(target, content, {
+        ...props,
+        closeClickOutside: true,
+        placement: "bottom-left",
+        transitionProps: {
+            duration: 150,
+            ...props?.transitionProps
+        }
+    })
+}
 export default Menu

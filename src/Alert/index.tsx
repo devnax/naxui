@@ -9,9 +9,10 @@ import ErrorIcon from 'naxui-icons/round/Cancel';
 import useUIVariant, { UseUIVariantTypes } from "../useUIVariant";
 import IconClose from 'naxui-icons/round/Close';
 import IconButton from "../IconButton";
+import Modal from "../Modal";
 
 
-export type AlertProps = {
+export type AlertProps = Omit<TagProps<"div">, 'children' | "content" | "title"> & {
     children: any;
     title?: string;
     icon?: false | ReactElement;
@@ -19,7 +20,6 @@ export type AlertProps = {
     type?: "info" | "warning" | "success" | "error";
     color?: "paper" | "primary" | "secondary" | "warning" | "success" | "error";
     inline?: boolean;
-    rootProps?: Omit<TagProps<"div">, 'children' | "content">
     contentainerProps?: Omit<TagProps<"div">, 'children' | "content">;
     footer?: ReactElement;
     onClose?: React.DOMAttributes<"button">['onClick']
@@ -27,17 +27,21 @@ export type AlertProps = {
 
 export type AlertMesssageType = string | ReactElement | AlertProps
 
-export const Alert = ({ children, title, variant, icon, type, color, inline, rootProps, contentainerProps, footer, onClose }: AlertProps) => {
+export type AlertPropsWithContent = Omit<AlertProps, 'children'> & {
+    content: ReactElement | string
+}
+
+export const Alert = ({ children, title, variant, icon, type, color, inline, contentainerProps, footer, onClose, ...rest }: AlertProps) => {
     color = (color || type || "paper") as any
 
     let { hover, ...uiCss }: any = useUIVariant(variant || "soft", color || type) || {}
     inline = inline ?? true
 
     const icons: any = {
-        "info": <InfoIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
-        "warning": <WarningIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
-        "success": <SuccessIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
-        "error": <ErrorIcon fontSize={22} color={color === 'paper' ? "color.paper.text" : uiCss.color} />
+        "info": <InfoIcon fontSize={inline ? 22 : 40} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "warning": <WarningIcon fontSize={inline ? 22 : 40} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "success": <SuccessIcon fontSize={inline ? 22 : 40} color={color === 'paper' ? "color.paper.text" : uiCss.color} />,
+        "error": <ErrorIcon fontSize={inline ? 22 : 40} color={color === 'paper' ? "color.paper.text" : uiCss.color} />
     }
 
     let _icon = icon || icons[type || "info"]
@@ -49,7 +53,7 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
             p={1}
             px={1.5}
             {...uiCss}
-            {...rootProps}
+            {...rest}
             baseClass="alert-view-root"
             justifyContent="flex-start"
             position="relative"
@@ -76,7 +80,7 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
             >
                 {
                     _icon && <Tag
-                        py={1}
+                        py={inline ? 1 : 0}
                         baseClass="alert-view-icon"
                         flexBox
                         alignItems="center"
@@ -90,8 +94,8 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
                         {_icon}
                     </Tag>
                 }
-                <Tag baseClass="alert-view-text" flexBox gap={4} flexColumn flex={1} py={1} fontSize="fontsize.button" lineHeight={1.5}>
-                    {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={uiCss.color}>{title}</Text>}
+                <Tag baseClass="alert-view-text" textAlign={inline ? "left" : "center"} flexBox gap={4} flexColumn flex={1} color={color === 'paper' ? "color.paper.subtext" : uiCss.color} py={1} fontSize="fontsize.button" lineHeight={1.5}>
+                    {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={color === 'paper' ? "color.paper.text" : uiCss.color}>{title}</Text>}
                     {children}
                 </Tag>
             </Tag>
@@ -100,6 +104,22 @@ export const Alert = ({ children, title, variant, icon, type, color, inline, roo
             </Tag>}
         </Tag>
     )
+}
+
+Alert.open = (props: AlertPropsWithContent) => {
+    const id = "_" + Math.random().toString(16)
+    const { content, ...rest } = props
+    return Modal.open(id, <Alert
+        inline={false}
+        bgcolor="color.paper.light"
+        {...rest}
+    >
+        {content}
+    </Alert>, {
+        rootProps: {
+            width: 350
+        }
+    })
 }
 
 export default Alert

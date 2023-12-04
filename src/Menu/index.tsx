@@ -4,7 +4,7 @@ import { useTransitions, UseTransitionsProps, UseTransitionsVariantsTypes, useWi
 import { getOrigin } from './getOrigin';
 import { placedMenu, PlacementTypes } from './placedMenu'
 import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import Portal from '../Portal'
+import Portal, { PortalProps } from '../Portal'
 import { createRoot } from 'react-dom/client';
 
 
@@ -18,6 +18,7 @@ export type MenuProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "
     onClose?: () => void;
     onClickOutside?: () => void;
     menuRef?: any;
+    portalProps?: Omit<PortalProps, "children">
 }
 
 
@@ -76,8 +77,9 @@ const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) 
 
     useEffect(() => {
         props.menuRef && (props.menuRef.current = ref?.current)
-        const detect = (e: MouseEvent) => {
-            if (onClickOutside && !ref?.current.contains(e.target)) {
+        const detect = (e: any) => {
+            let isClickOutside = !(ref?.current.contains(e.target) || target?.contains(e.target))
+            if (onClickOutside && isClickOutside) {
                 onClickOutside()
             }
         }
@@ -90,7 +92,7 @@ const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) 
             ref={ref}
             baseClass='menu-root'
             zIndex={1500 + (zIndex || 0)}
-            position="absolute"
+            position="fixed"
         >
             <Tag
                 overflow="hidden"
@@ -112,7 +114,7 @@ const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) 
 
 
 const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
-    const { target, children, onClose, ...rest } = props
+    const { target, children, onClose, portalProps, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
     const [key, setKey] = useState(0)
 
@@ -127,7 +129,7 @@ const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
     if (destroy) return <></>
 
     return (
-        <Portal>
+        <Portal {...portalProps}>
             <MenuMainView
                 key={key}
                 {...rest}
@@ -161,6 +163,10 @@ const MenuWithAction = ({ children: Content, id, target, ...props }: MenuProps) 
             placement='bottom'
             {...props}
             target={open ? target : undefined}
+            onClose={() => {
+                state.delete(target)
+                props.onClose && props.onClose()
+            }}
         >
             {Content}
         </Menu>
@@ -169,18 +175,24 @@ const MenuWithAction = ({ children: Content, id, target, ...props }: MenuProps) 
 
 Menu.open = (target: MenuProps['target'], content: ReactElement, props?: Omit<MenuProps, "target"> & { closeClickOutside?: boolean }) => {
     if (target) {
+        if (state.has(target)) return
         const container = document.createElement("div")
         document.body.append(container)
         const root = createRoot(container)
+        const { closeClickOutside, ...rest } = props || {}
 
         root.render(<MenuWithAction
-            {...props}
+            {...rest}
             onClickOutside={() => {
-                if (props?.closeClickOutside !== false || typeof props?.onClickOutside !== 'function') {
+                if (closeClickOutside !== false || typeof rest?.onClickOutside !== 'function') {
                     Menu.close()
-                } else if (typeof props?.onClickOutside === 'function') {
-                    (props as any).onClickOutside()
+                } else if (typeof rest?.onClickOutside === 'function') {
+                    (rest as any).onClickOutside()
                 }
+            }}
+            onClose={() => {
+                props?.onClose && props.onClose()
+                container.remove()
             }}
             target={target}
         >
@@ -190,6 +202,7 @@ Menu.open = (target: MenuProps['target'], content: ReactElement, props?: Omit<Me
 }
 
 Menu.close = () => state.forEach(m => m())
+Menu.isOpen = (target?: MenuProps['target']) => (target ? state.has(target) : state.size)
 
 Menu.openContextMenu = (event: React.MouseEvent<any, MouseEvent>, content: ReactElement, props?: Omit<MenuProps, "target">) => {
     Menu.close()

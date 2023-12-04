@@ -16,14 +16,14 @@ const _Divider = <T extends TagComponenntType = "div">({ children, direction, co
     let isHori = direction === 'horizental'
     return (
         <Tag
-            baseClass='divider'
             {...rest}
+            baseClass='divider-root'
             sx={{
                 width: isHori ? "100%" : size,
                 height: isHori ? size : "100%",
                 bgcolor: `color.${color}.divider`,
-                my: isHori ? 1 : 0,
-                mx: isHori ? 0 : 1,
+                // my: isHori ? 1 : 0,
+                // mx: isHori ? 0 : 1,
                 ...((rest as any).sx || {})
             }}
             ref={ref}

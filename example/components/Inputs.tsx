@@ -6,7 +6,7 @@ import Stack from '../../src/Stack'
 const Inputs = () => {
     return (
         <div>
-            <Input />
+            <Input autoFocus />
         </div>
     )
 }

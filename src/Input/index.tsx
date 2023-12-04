@@ -40,6 +40,12 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
     let _focus = focused || _focused
 
     useEffect(() => {
+        if (autoFocused && !_focus) {
+            setFocused(true)
+        }
+    }, [])
+
+    useEffect(() => {
         if (containerRef) {
             (containerRef as any).current = conRef?.current
         }

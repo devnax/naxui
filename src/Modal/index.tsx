@@ -25,10 +25,13 @@ export type ModalPropsType = {
     layerProps?: LayerProps
 }
 
+
+let _id_prefix = "modal_"
+
 const Modal = {
     open: (id: string, content: ModalContentType, props?: ModalPropsType) => {
         let Content = content
-        id = "modal_" + id
+        id = _id_prefix + id
         let {
             closeButton,
             closeButtonProps,
@@ -120,8 +123,8 @@ const Modal = {
             }
         })
     },
-    close: (id: string) => Layer.close(id),
-    isOpen: (id: string) => Layer.isOpen(id)
+    close: (id: string) => Layer.close(_id_prefix + id),
+    isOpen: (id: string) => Layer.isOpen(_id_prefix + id)
 }
 
 export default Modal

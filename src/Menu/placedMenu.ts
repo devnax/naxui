@@ -95,12 +95,17 @@ let setStyles = ({ place, menu, target }: Props) => {
 export const placedMenu = ({ place, menu, target }: Props) => {
     setStyles({ place, menu, target })
     if (isOffScreen(menu)) {
+        let found_placement = false
         for (let i = 0; i < placements.length; i++) {
             let _place = placements[i]
             setStyles({ place: _place, menu, target })
             if (!isOffScreen(menu)) {
+                found_placement = true
                 return _place
             }
+        }
+        if (!found_placement) {
+            setStyles({ place, menu, target })
         }
     }
     return place

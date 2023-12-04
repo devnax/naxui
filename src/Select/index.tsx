@@ -64,7 +64,6 @@ const _Select = ({ onChange, value, menuProps, children, ...inputProps }: Select
                 ref={ref}
             />
             <Menu
-                baseClass='select-menu'
                 target={target}
                 placement="bottom"
                 width={conRef && (conRef?.current as any)?.clientWidth}

@@ -20,11 +20,11 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, expa
     onChange = onChange || setExpand as any
     expand = expand === undefined ? _expand : expand
     globalCss("ui-accordion", {
-        '.ui-accordion:first-child': {
+        '.$prefix-accordion:first-child': {
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
         },
-        '.ui-accordion:last-child': {
+        '.$prefix-accordion:last-child': {
             borderBottom: 0,
             borderBottomLeftRadius: 8,
             borderBottomRightRadius: 8,

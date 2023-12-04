@@ -60,7 +60,6 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
-            transition="background .3s"
             lineHeight={!(startIcon || endIcon) ? 1.75 : "inherit"}
             position="relative"
             overflow="hidden"

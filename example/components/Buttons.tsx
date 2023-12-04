@@ -3,6 +3,7 @@ import Stack from "../../src/Stack"
 import Button from "../../src/Button"
 import IconButton from "../../src/IconButton"
 import Container from "../../src/Container"
+import Badge from "../../src/Badge"
 import MetaBox from "../MetaBox"
 import InfoIcon from 'naxui-icons/round/Info';
 import HomeIcon from 'naxui-icons/round/Home';
@@ -13,9 +14,12 @@ const Buttons = () => {
     return (
         <Container maxWidth="md">
             <MetaBox title="Icon Button">
-                <IconButton color="error" >
-                    <IconClose />
-                </IconButton>
+                <Badge content={<HomeIcon fontSize={10} />}>
+                    <IconButton color="error" >
+                        <IconClose />
+                    </IconButton>
+                </Badge>
+
             </MetaBox>
             <MetaBox title="Colors">
                 <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">

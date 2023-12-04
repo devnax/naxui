@@ -1,11 +1,11 @@
 'use client'
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Tag, TagProps, TagComponenntType, useTransitions } from 'naxui-manager';
 import useUIVariant, { UseUIVariantColorTypes } from '../useUIVariant'
 
 
 export type BadgeProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
-    content?: number;
+    content?: number | ReactElement;
     color?: UseUIVariantColorTypes;
     placement?: "left-top" | "left-bottom" | "right-top" | "right-bottom";
     visible?: boolean
@@ -19,7 +19,7 @@ const _Badge = <T extends TagComponenntType = "div">({ children, content, color,
 
     let _css: any = {}
     let pos = -3;
-    if (content) {
+    if (typeof content === "number") {
         if (content.toString().length === 2) {
             pos = -5
         } else if (content.toString().length > 2) {
@@ -56,7 +56,7 @@ const _Badge = <T extends TagComponenntType = "div">({ children, content, color,
             {...rest}
             position="relative"
             display="inline-block"
-            baseClass='badge'
+            baseClass='badge-root'
             ref={ref}
         >
             <Tag
@@ -75,7 +75,7 @@ const _Badge = <T extends TagComponenntType = "div">({ children, content, color,
                 fontSize={11}
                 {..._css}
             >
-                {content && content >= 100 ? "99+" : content}
+                {typeof content === 'number' ? (content >= 100 ? "99+" : content) : content}
             </Tag>
             {children}
         </Tag>

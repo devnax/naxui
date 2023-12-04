@@ -11,15 +11,17 @@ export type DrawerProps = {
     children?: DrawerChildrenType;
     placement?: "left" | "right" | "bottom" | "top";
     open?: boolean;
+    size?: number;
     onClickOutside?: () => void;
     layerProps?: Omit<LayerProps, 'id' | 'children' | 'open'>;
     rootProps?: TagProps<"div">
 }
 
-const MainView = ({ children, placement, open, onClickOutside, rootProps, ...rest }: DrawerProps) => {
+const MainView = ({ children, placement, open, size, onClickOutside, rootProps, ...rest }: DrawerProps) => {
     placement ||= 'left'
     let isSide = placement === 'left' || placement === 'right'
     let animType: any = "fadeRight"
+    size ||= 300
     onClickOutside ||= () => { }
 
     switch (placement) {
@@ -36,13 +38,13 @@ const MainView = ({ children, placement, open, onClickOutside, rootProps, ...res
 
     return (
         <Tag
-            {...rootProps}
             baseClass='drawer-root'
             width="100%"
             height="100%"
             flexBox
             direction={isSide ? "row" : "column"}
             justifyContent={placement === 'left' || placement === 'top' ? "flex-start" : "flex-end"}
+            {...rootProps}
         >
             <Transition
                 in={open}
@@ -52,8 +54,8 @@ const MainView = ({ children, placement, open, onClickOutside, rootProps, ...res
                 <Tag>
                     <ClickOutside onClickOutside={onClickOutside}>
                         <Tag
-                            width={isSide ? 300 : "100%"}
-                            height={isSide ? "100%" : 300}
+                            width={isSide ? size : "100%"}
+                            height={isSide ? "100%" : size}
                             {...rest}
                             baseClass='drawer-content'
                             bgcolor="color.paper.light"
@@ -90,9 +92,7 @@ Drawer.open = (content: DrawerChildrenType, props?: Omit<DrawerProps, "children"
     Layer.open(drawerId, ({ open }) => {
         return (
             <MainView
-                onClickOutside={() => {
-                    Layer.close(drawerId)
-                }}
+                onClickOutside={() => Layer.close(drawerId)}
                 {...rest}
                 open={open}
             >{content}</MainView>

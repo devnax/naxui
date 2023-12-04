@@ -19,7 +19,6 @@ const _ListItem = <T extends TagComponenntType = "li">({ children, selected, sta
             lineHeight={1.4}
             radius={.5}
             cursor="pointer"
-            transition="all .3s"
             userSelect="none"
             display="flex"
             flexDirection="row"

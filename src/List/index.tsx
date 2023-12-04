@@ -18,10 +18,7 @@ const _List = <T extends TagComponenntType = "ul">({ children, sx, color, ...res
             listStyle="none"
             {...rest}
             sx={{
-                '& > *': {
-                    mb: .4
-                },
-                "& .ui-list-item:not(.list-item-selected):hover": {
+                "& .$prefix-list-item:not(.list-item-selected):hover": {
                     bgcolor: "color.paper"
                 },
                 "& .list-item-selected": {

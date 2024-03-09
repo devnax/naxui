@@ -15,9 +15,10 @@ const ClickOutside = ({ children, onClickOutside }: ClickOutsideProps) => {
     }
 
     useEffect(() => {
+        document.removeEventListener("click", handler)
         setTimeout(() => {
             document.addEventListener("click", handler)
-        }, 10);
+        }, 0);
         return () => {
             document.removeEventListener("click", handler)
         }

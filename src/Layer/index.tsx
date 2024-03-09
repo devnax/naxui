@@ -137,7 +137,9 @@ Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'i
 Layer.close = (id: string) => {
     const dispatch = state.get(id)
     dispatch && dispatch()
+    state.delete(id)
 }
+
 Layer.closeAll = () => state.forEach((_v, id) => Layer.close(id))
 Layer.isOpen = (id: string) => state.has(id)
 

@@ -70,7 +70,7 @@ const MainView = ({ children, placement, open, size, onClickOutside, rootProps, 
     )
 }
 
-let drawerId = "layer_drawer_id_kdfjnd8jdmfjf"
+let drawerId = Math.random().toString()
 
 const Drawer = ({ children, open, layerProps, ...rest }: DrawerProps) => {
     return (

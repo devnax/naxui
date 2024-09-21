@@ -1,7 +1,7 @@
 'use client'
 
 export type UseUIVariantTypes = "filled" | "outlined" | "soft" | "text"
-export type UseUIVariantColorTypes = "paper" | "primary" | "secondary" | "info" | "success" | "error" | "warning"
+export type UseUIVariantColorTypes = "default" | "brand" | "accent" | "info" | "success" | "error" | "warning"
 
 const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes): object => {
     type = type ?? "filled"
@@ -9,40 +9,40 @@ const useUIVariant = (type?: UseUIVariantTypes, color?: UseUIVariantColorTypes):
     switch (type) {
         case "filled":
             return {
-                bgcolor: `color.${color}`,
-                color: `color.${color}.text`,
+                bgcolor: `${color}`,
+                color: `${color}.text`,
                 hover: {
-                    bgcolor: `color.${color}.light`,
-                    color: `color.${color}.text`
+                    bgcolor: `${color}.secondary`,
+                    color: `${color}.primary`
                 }
             }
         case "soft":
             return {
-                bgcolor: `color.${color}.soft`,
-                color: `color.${color}`,
+                bgcolor: `${color}.soft`,
+                color: `${color}`,
                 hover: {
-                    bgcolor: `color.${color}.soft`,
-                    color: `color.${color}`,
+                    bgcolor: `${color}.soft`,
+                    color: `${color}`,
                 }
             }
         case "outlined":
             return {
                 bgcolor: "transparent",
                 border: 1,
-                borderColor: `color.${color}`,
-                color: color === "paper" ? `color.${color}.text` : `color.${color}`,
+                borderColor: `${color}`,
+                color: color === "default" ? `${color}.text` : `${color}`,
                 hover: {
-                    bgcolor: `color.${color}.soft`,
-                    color: color === "paper" ? `color.${color}.text` : `color.${color}`
+                    bgcolor: `${color}.soft`,
+                    color: color === "default" ? `${color}.text` : `${color}`
                 }
             }
         case "text":
             return {
                 bgcolor: `transparent`,
-                color: color === "paper" ? `color.${color}.text` : `color.${color}`,
+                color: color === "default" ? `${color}.text` : `${color}`,
                 hover: {
-                    bgcolor: color === "paper" ? `color.paper` : `color.${color}.soft`,
-                    color: color === "paper" ? `color.${color}.text` : `color.${color}`
+                    bgcolor: color === "default" ? `default` : `${color}.soft`,
+                    color: color === "default" ? `${color}.text` : `${color}`
                 }
             }
     }

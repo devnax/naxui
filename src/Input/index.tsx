@@ -58,8 +58,8 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
     }, [_focus])
 
     variant = variant || "outlined"
-    let borderColor = _focus ? "color.primary" : (variant === "filled" ? "transparent" : "color.paper.divider")
-    borderColor = error ? "color.error" : borderColor
+    let borderColor = _focus ? "primary" : (variant === "filled" ? "transparent" : "background.secondary")
+    borderColor = error ? "error" : borderColor
 
     return (
         <Tag>
@@ -72,13 +72,13 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 alignItems="center"
                 minWidth={150}
                 transitionProperty="border, box-shadow, background"
-                bgcolor={variant === "filled" ? "color.paper" : "color.paper.light"}
+                bgcolor={variant === "filled" ? "paper" : "background.primary"}
                 border={1}
                 borderColor={borderColor}
                 borderRadius={1}
                 {...containerProps}
             >
-                {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} mr={.4}>{startIcon}</Tag>}
+                {startIcon && <Tag component='span' flexBox pl={1} width={30} justifyContent="center" alignItems="center" color={error ? "error" : "text.secondary"} mr={.4}>{startIcon}</Tag>}
                 <Tag
                     flex={1}
                     component={multiline ? 'textarea' : 'input'}
@@ -86,7 +86,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                     outline={0}
                     bgcolor="transparent"
                     width="100%"
-                    color={error ? "color.error" : "color.paper.text"}
+                    color={error ? "error" : "text.primary"}
                     fontSize="fontsize.text"
                     py={1}
                     px={1}
@@ -101,9 +101,9 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                         onBlur && onBlur(e)
                     }}
                 />
-                {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "color.error" : "color.paper.subtext"} >{endIcon}</Tag>}
+                {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "error" : "text.secondary"} >{endIcon}</Tag>}
             </Tag>
-            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "color.error" : "color.paper.text"}>{helperText}</Text>}
+            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "error" : "text.primary"}>{helperText}</Text>}
         </Tag>
     )
 }

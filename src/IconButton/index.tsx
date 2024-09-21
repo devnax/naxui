@@ -1,26 +1,28 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-
-import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
-import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
-
+import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
+import useCornerVariant from '../useCornerVariant'
 
 export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
     size?: number;
-    color?: UseUIVariantColorTypes;
-    variant?: UseUIVariantTypes;
-    corner?: UseCornerVariantTypes;
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
+    corner?: "square" | "rounded" | "circle";
 }
 
-const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant, corner, color, size, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
+const _IconButton = <T extends TagComponenntType = 'button'>({ children, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
+
     rest.sx = (rest as any).sx || {};
-    size = size || 40
-    color = color || "primary"
-    corner = corner || "circle"
+
+    let { variant, corner, color, size, ..._props } = useInterface("IconButton", {
+        variant: "fill",
+        corner: "circle",
+        color: "brand",
+        size: 40
+    }, rest)
+    let template = useColorTemplate(color, variant)
 
     const cornerCss = useCornerVariant(corner)
-    const uiCss: any = useUIVariant(variant || "text", color,)
 
     return (
         <Tag
@@ -31,7 +33,7 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant
             height={size}
             width={size}
             cursor="pointer"
-            typography="button"
+            fontFamily="theme"
             display="inline-flex"
             flexDirection="row"
             alignItems="center"
@@ -40,11 +42,17 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, variant
             bgcolor="transparent"
             ref={ref}
             {...cornerCss}
-            {...uiCss}
-            {...rest}
+            {..._props}
+            {...template}
+            sx={{
+                ..._props.sx,
+                "& svg": {
+                    fontSize: (size / 3) * 2
+                }
+            }}
             hover={{
-                ...uiCss.hover,
-                ...((rest as any).hover || {})
+                ...((template as any).hover || {}),
+                ...((_props as any).hover || {})
             }}
         >
             {children}

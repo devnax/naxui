@@ -37,7 +37,7 @@ const ShowYears = ({ year, today, boxWidth, onClick }: any) => {
                 variant={selected ? "filled" : 'text'}
                 onClick={() => onClick(y)}
                 sx={{
-                    color: selected ? "color.primary.text" : "color.paper.text"
+                    color: selected ? "brand.text" : "text.primary"
                 }}
             >
                 {y}
@@ -178,7 +178,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                         onButtonClick && onButtonClick("month", v)
                     }}
                     sx={{
-                        color: selected ? "color.primary.text" : "color.paper.text"
+                        color: selected ? "brand.text" : "text.primary"
                     }}
                 >
                     {monthNames[m]}
@@ -234,7 +234,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                                 <Text
                                     fontWeight={500}
                                     fontSize="fontsize.button"
-                                    color="color.paper.subtext"
+                                    color="text.secondary"
                                 >
                                     {day}
                                 </Text>
@@ -254,7 +254,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
             maxHeight={308}
             width={boxWidth + 12}
             radius={1}
-            bgcolor="color.paper.light"
+            bgcolor="background.primary"
             header={
                 <Stack className='calender-header' flexRow alignItems="center" justifyContent="space-between" p={1}>
                     <Text
@@ -267,7 +267,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                     </Text>
                     <IconButton
                         sx={{
-                            color: "color.paper.subtext"
+                            color: "text.secondary"
                         }}
                         size={28}
                         onClick={() => {
@@ -279,7 +279,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                     </IconButton>
                     <IconButton
                         sx={{
-                            color: "color.paper.subtext"
+                            color: "text.secondary"
                         }}
                         size={28}
                         onClick={() => {
@@ -290,7 +290,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                     </IconButton>
                     <IconButton
                         sx={{
-                            color: "color.paper.subtext"
+                            color: "text.secondary"
                         }}
                         size={28}
                         onClick={() => {

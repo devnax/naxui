@@ -5,14 +5,14 @@ import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 export type SwitchProps<T extends TagComponenntType = "input"> = Omit<TagProps<T>, 'color'> & {
     checked?: boolean;
     size?: number;
-    color?: "primary" | "secondary" | "success" | "error" | "warning";
+    color?: "brand" | "accent" | "success" | "error" | "warning";
 }
 
 const _Switch = <T extends TagComponenntType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 44
-    let _color = `color.${color || "primary"}`
+    let _color = `${color || "primary"}`
     rest.onChange = rest.onChange || (() => set(!c));
     let height = (size / 2) + 4
     let thumbSize = height - 4
@@ -29,7 +29,7 @@ const _Switch = <T extends TagComponenntType = "input">({ children, size, checke
             disabled={disabled}
             position="relative"
             verticalAlign="middle"
-            bgcolor={checked ? _color : "color.paper"}
+            bgcolor={checked ? _color : "paper"}
             width={size}
             height={height}
             radius={2}

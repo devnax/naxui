@@ -55,7 +55,7 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
                     onChange && onChange(child.props.value)
                 },
                 classNames: [child.props.className, { "tab-selected": selected }],
-                color: selected ? "color.primary" : "color.subtext"
+                color: selected ? "primary" : "subtext"
             })
         })
 
@@ -121,7 +121,7 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
                 className={cls}
                 position="absolute"
                 radius={1}
-                bgcolor="color.primary"
+                bgcolor="primary"
                 width={verticle ? indicatorSize : 0}
                 height={verticle ? 0 : indicatorSize}
                 bottom={verticle ? "initial" : 0}

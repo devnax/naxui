@@ -28,7 +28,7 @@ const _Checkbox = <T extends TagComponenntType = "input">({ children, size, chec
             component='span'
             cursor="pointer"
             display="inline-block"
-            color={checked ? (`color.${color || "primary"}`) : "color.paper.subtext"}
+            color={checked ? (`${color || "primary"}`) : "text.secondary"}
             disabled={disabled}
             position="relative"
             verticalAlign="middle"

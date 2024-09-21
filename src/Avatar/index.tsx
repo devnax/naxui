@@ -24,7 +24,7 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
                     display: "inline-flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    bgcolor: "color.paper",
+                    bgcolor: "paper",
                     radius: size,
                     fontSize: size - 12,
                     width: size,

@@ -58,7 +58,7 @@ const MainView = ({ children, placement, open, size, onClickOutside, rootProps, 
                             height={isSide ? "100%" : size}
                             {...rest}
                             baseClass='drawer-content'
-                            bgcolor="color.paper.light"
+                            bgcolor="background.primary"
                             shadow={4}
                         >
                             {children}

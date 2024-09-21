@@ -45,14 +45,14 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
         <Tag
             flexBox
             flexRow
-            gap={8}
+            gap={1}
             alignItems="center"
             {...rootProps}
             baseClass='table-pagination-root'
             ref={ref}
         >
             {
-                isPerpage && <Tag baseClass='table-pagination-perpage' flexBox flexRow gap={8} alignItems="center">
+                isPerpage && <Tag baseClass='table-pagination-perpage' flexBox flexRow gap={1} alignItems="center">
                     <Text fontSize="fontsize.button">PER PAGE</Text>
                     <Select
                         className='table-pagination-perpage-select'
@@ -78,7 +78,7 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
                 </Tag>
             }
             <Text fontSize="fontsize.button">{current?.from}-{current.to} of {total}</Text>
-            <Tag baseClass='table-pagination-prev-next' flexBox flexRow gap={4} >
+            <Tag baseClass='table-pagination-prev-next' flexBox flexRow gap={.4} >
                 <IconButton
                     color="paper"
                     size={30}

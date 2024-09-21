@@ -27,7 +27,7 @@ function adjustColor(hex: any, factor: number) {
 
 const Alerts = () => {
     return (
-        <Stack gap={8}>
+        <Stack gap={1}>
             <Button onClick={() => {
                 Alert.open({
                     title: "Are You Sure?",

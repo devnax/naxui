@@ -1,38 +1,79 @@
 'use client'
 import React, { forwardRef } from 'react'
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager'
+import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors } from 'naxui-manager'
 
 export type ListProps<T extends TagComponenntType = "ul"> = Omit<TagProps<T>, 'color'> & {
-    color?: "primary" | "secondary" | "success" | "warning" | "error"
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
+    hoverColor?: useColorTemplateColors;
+    hoverVariant?: useColorTemplateType;
 }
 
-const _List = <T extends TagComponenntType = "ul">({ children, sx, color, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
-    color = color || "primary"
+const _List = <T extends TagComponenntType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
+    let { sx, color, variant, hoverColor, hoverVariant, ...props } = useInterface("List", {
+        color: "brand",
+        variant: "fill"
+    }, rest)
+    hoverColor = hoverColor || "default"
+    hoverVariant = hoverVariant || "alpha"
+    const template = { ...useColorTemplate(color, variant) }
+    const hoverTemplate = { ...useColorTemplate(hoverColor, hoverVariant) }
+    delete template.hover
+    delete hoverTemplate.hover
+
+    let sxOutline: any = {}
+    if (hoverVariant == 'outline' || variant === 'outline') {
+        sxOutline = {
+            "& .$prefix-list-item": {
+                border: 1,
+                borderColor: "transparent"
+            }
+        }
+    }
 
     return (
         <Tag
             component='ul'
-            baseClass='list'
             m={0}
             p={0}
             listStyle="none"
-            {...rest}
+            {...props}
+            baseClass='list'
             sx={{
-                "& .$prefix-list-item:not(.list-item-selected):hover": {
-                    bgcolor: "color.paper"
+                ...sxOutline,
+
+                "& .listItemIcon": {
+                    color: "text.secondary"
                 },
-                "& .list-item-selected": {
-                    bgcolor: `color.${color}`,
-                    color: `color.${color}.text`,
+                "& .listItemText": {
+                    color: "text.primary"
                 },
-                "& .list-item-selected .list-item-icon": {
-                    color: `color.${color}.text`
+                "& .listItemSubtitle": {
+                    color: "text.secondary"
                 },
-                "& .list-item-selected .list-item-subtitle": {
-                    color: `color.${color}.text`
+                "& .$prefix-listItem:not(.listItemSelected):hover": {
+                    ...hoverTemplate,
+                    "& .listItemIcon": {
+                        color: hoverTemplate.color
+                    },
+                    "& .listItemText": {
+                        color: hoverTemplate.color
+                    },
+                    "& .listItemSubtitle": {
+                        color: hoverColor === 'default' ? "text.secondary" : hoverTemplate.color
+                    },
                 },
-                "& .list-item-icon": {
-                    color: "color.paper.subtext"
+                "& .$prefix-listItem.listItemSelected": {
+                    ...template,
+                    "& .listItemIcon": {
+                        color: template.color
+                    },
+                    "& .listItemText": {
+                        color: template.color
+                    },
+                    "& .listItemSubtitle": {
+                        color: template.color
+                    },
                 },
                 ...(sx || {} as any)
             }}

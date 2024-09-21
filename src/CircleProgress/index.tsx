@@ -1,12 +1,11 @@
 "use client"
 import React from "react"
-import { Tag, TagProps, TagComponenntType, keyframes } from 'naxui-manager';
-import { UseUIVariantColorTypes } from "../useUIVariant";
+import { Tag, TagProps, TagComponenntType, keyframes, useTheme } from 'naxui-manager';
 
 export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
     size?: number;
     thumbSize?: number;
-    color?: UseUIVariantColorTypes;
+    color?: "default" | "brand" | "accent" | "info" | "success" | "error" | "warning";
     value?: number;
     hideTrack?: boolean;
     trackSize?: number;
@@ -18,18 +17,18 @@ export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagP
 
 const _CircleProgress = <T extends TagComponenntType = "div">({ children, color, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed, trackColor, thumbColor, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
 
-    color = color ?? "primary"
+    color = color ?? "brand"
     size = size ?? 30
     thumbSize = thumbSize ?? 4
     speed = speed ?? 1.3
     let isVal = typeof value === 'number'
-
-    const animrotate = !isVal && keyframes({ "100%": { transform: "rotate(360deg)" } })
+    const theme = useTheme()
+    const animrotate = !isVal && keyframes({ "100%": { transform: "rotate(360deg)" } }, theme)
     const animdash = !isVal && keyframes({
         "0%": { strokeDasharray: "1, 150", strokeDashoffset: 0 },
         "50%": { strokeDasharray: "90, 150", strokeDashoffset: -35 },
         "100%": { strokeDasharray: "90, 150", strokeDashoffset: -124 }
-    })
+    }, theme)
 
     if (isVal && (value as number) > 100) value = 100
     const circumference = 125.66370614359172 //radius * 2 * Math.PI
@@ -38,7 +37,7 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
     if (showPercentage && !children) {
         children = <Tag
             sx={{
-                color: color === 'paper' ? "color.paper.text" : `color.${color}`,
+                color: color === 'default' ? "text.primary" : `${color}`,
                 fontSize: size / 4
             }}
         >{value}%</Tag>
@@ -66,7 +65,7 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
                     "& circle.circle-progress-thumb": {
                         strokeDasharray: circumference,
                         strokeDashoffset: percent,
-                        stroke: thumbColor || (color === 'paper' ? `color.paper.dark` : `color.${color}`),
+                        stroke: thumbColor || (color === 'default' ? `background.secondary` : `${color}.primary`),
                         fill: "none",
                         strokeWidth: thumbSize,
                         strokeLinecap: "round",
@@ -74,7 +73,7 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
                     },
                     "& circle.circle-progress-track": {
                         fill: "none",
-                        stroke: trackColor || (color === 'paper' ? `color.paper` : `color.${color}.soft`),
+                        stroke: trackColor || (color === 'default' ? `background.secondary` : `${color}.primary`),
                         strokeWidth: trackSize ?? thumbSize,
                     }
                 },

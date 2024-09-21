@@ -34,7 +34,7 @@ const CalenderInput = ({ value, onChange, getInputValue, inputProps, menuProps }
                                 onChange && onChange(null)
                             }}
                             sx={{
-                                color: "color.paper.subtext"
+                                color: "text.secondary"
                             }}
                         >
                             <ClearIcon fontSize={20} />

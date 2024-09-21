@@ -1,35 +1,37 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
-import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
+import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
 import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
 import CircleProgress from '../CircleProgress'
 
 export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
-    color?: UseUIVariantColorTypes;
-    variant?: UseUIVariantTypes;
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
     corner?: UseCornerVariantTypes;
     size?: "small" | "medium" | "large";
     loading?: boolean;
 }
 
 
-const _Button = <T extends TagComponenntType = 'button'>({ children, variant, startIcon, endIcon, color, corner, size, loading, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
+const _Button = <T extends TagComponenntType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
-    variant = variant || "filled"
-    color = color || "primary"
-    corner = corner || "rounded"
-    size = size ?? "medium"
-    const cornerCss = useCornerVariant(corner)
-    const uiCss: any = useUIVariant(variant, color)
+    let { variant, startIcon, endIcon, color, corner, size, loading, ..._props } = useInterface('Button', {
+        variant: "fill",
+        color: "brand",
+        corner: "rounded",
+        size: "medium"
+    }, rest)
 
-    const sizes = {
+    const template = useColorTemplate(color, variant)
+    const cornerCss = useCornerVariant(corner)
+
+    const sizes: any = {
         small: {
             px: 1.2,
             py: .5,
-            fontSize: "fontsize.block"
+            fontSize: "small"
         },
         medium: {
             px: 2,
@@ -38,7 +40,7 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
         large: {
             px: 2,
             py: 1,
-            fontSize: "fontsize.text"
+            fontSize: "text"
         }
     }
 
@@ -54,24 +56,26 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
             baseClass='button'
             border={0}
             cursor="pointer"
-            typography="button"
+            fontFamily="theme"
+            fontSize="button"
+            fontWeight="button"
             display="inline-flex"
             textTransform="uppercase"
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
-            lineHeight={!(startIcon || endIcon) ? 1.75 : "inherit"}
+            lineHeight={!(startIcon || endIcon) ? 1.75 : "button"}
             position="relative"
             overflow="hidden"
             {...cornerCss}
-            {...uiCss}
-            {...(sizes[size] || {})}
-            {...rest}
+            {...(sizes[size as any] || {})}
+            {..._props}
+            {...template}
             hover={{
-                ...uiCss.hover,
-                ...((rest as any).hover || {})
+                ...template.hover,
+                ...((_props as any).hover || {})
             }}
-            disabled={loading ?? rest.disabled ?? false}
+            disabled={loading ?? _props.disabled ?? false}
             ref={ref}
         >
             {loading && <Tag
@@ -85,13 +89,11 @@ const _Button = <T extends TagComponenntType = 'button'>({ children, variant, st
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    bgcolor: `color.${color}`
                 }}
             >
                 <CircleProgress
-                    color="paper"
+                    color={color === 'default' ? `brand` : "default"}
                     hideTrack
-                    thumbColor={color === 'paper' ? `color.paper.dark` : `color.${color}.text`}
                     size={progressSizes[size]}
                 />
             </Tag>}

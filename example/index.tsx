@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import { changeTheme, getTheme, ThemeProvider, useTheme } from 'naxui-manager';
+import { ThemeProvider, useTheme } from 'naxui-manager';
 import List from '../src/List'
 import ListItem from '../src/ListItem'
 import Text from '../src/Text';
@@ -17,46 +17,47 @@ import LightModeIcon from 'naxui-icons/round/LightMode';
 const App = () => {
   let keys = Object.keys(components)
   const [active, setActive] = React.useState(keys[keys.length - 1])
-  const theme = useTheme()
+  const [theme, setTheme] = React.useState("light")
   return (
-    <Stack height="100vh" flexRow >
-      <ViewBox
-        width={250}
-        p={1}
-        height="100%"
-        footer={<Stack>
-          <IconButton
-            onClick={() => {
-              changeTheme(theme.name === 'default' ? "default-dark" : "default")
-            }}
-          >
-            {theme.name === 'default' ? <DarkModeIcon /> : <LightModeIcon />}
-          </IconButton>
-        </Stack>}
-      >
-        <Text variant='text' fontWeight={600} mb={2}>Components</Text>
-        <List>
-          {
-            keys.map(c => <ListItem
-              key={c}
-              onClick={() => setActive(c)}
-              selected={c === active}
-            >{c}</ListItem>)
-          }
-        </List>
-      </ViewBox>
-      <Stack flex={1} height="100%" p={2}>
-        {components[active]}
+    <ThemeProvider resetCss theme={theme}>
+      <Stack height="100vh" flexRow bgcolor="paper">
+        <ViewBox
+          width={250}
+          p={1}
+          height="100%"
+          bgcolor="background.secondary"
+          endContent={<Stack>
+            <IconButton
+              onClick={() => {
+                setTheme(theme === 'light' ? "dark" : "light")
+              }}
+            >
+              {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
+          </Stack>}
+        >
+          <Text variant='text' fontWeight={600} mb={2} color="text.primary">Components</Text>
+          <List>
+            {
+              keys.map(c => <ListItem
+                key={c}
+                onClick={() => setActive(c)}
+                selected={c === active}
+              >{c}</ListItem>)
+            }
+          </List>
+        </ViewBox>
+        <Stack flex={1} height="100%" p={2} overflow="auto">
+          {components[active]}
+        </Stack>
       </Stack>
-    </Stack>
+    </ThemeProvider>
   );
 };
 
 
 const Root = () => {
-  return <ThemeProvider>
-    <App />
-  </ThemeProvider>
+  return <App />
 }
 
 const root = createRoot(document.getElementById('root') as any)

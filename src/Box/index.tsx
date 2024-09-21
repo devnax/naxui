@@ -4,9 +4,13 @@ import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
 
 export type BoxProps<T extends TagComponenntType = "div"> = TagProps<T>
 
-const _Box = <T extends TagComponenntType = "div">({ children, ...rest }: BoxProps<T>, ref: React.Ref<any>) => {
+const _Box = <T extends TagComponenntType = "div">({ children, ...props }: BoxProps<T>, ref: React.Ref<any>) => {
     return (
-        <Tag baseClass='box' {...rest} ref={ref}>{children}</Tag>
+        <Tag
+            {...props}
+            baseClass='box'
+            ref={ref}
+        >{children}</Tag>
     )
 }
 

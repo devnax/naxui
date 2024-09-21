@@ -97,7 +97,7 @@ const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) 
             <Tag
                 overflow="hidden"
                 baseClass='menu'
-                bgcolor="color.paper.light"
+                bgcolor="background.primary"
                 shadow={5}
                 radius={1}
                 ref={animRef}

@@ -36,7 +36,7 @@ const CircleProgresss = () => {
                 </List>
             </MetaBox>
             <MetaBox title="Color" >
-                <Stack flexRow gap={16}>
+                <Stack flexRow gap={2}>
                     <CircleProgress color="paper" />
                     <CircleProgress color="primary" />
                     <CircleProgress color="secondary" />
@@ -48,7 +48,7 @@ const CircleProgresss = () => {
             </MetaBox>
 
             <MetaBox title="Size" >
-                <Stack flexRow gap={16}>
+                <Stack flexRow gap={2}>
                     <CircleProgress color="paper" size={20} />
                     <CircleProgress color="primary" size={30} />
                     <CircleProgress color="secondary" size={40} />
@@ -59,7 +59,7 @@ const CircleProgresss = () => {
                 </Stack>
             </MetaBox>
             <MetaBox title="Value" >
-                <Stack flexRow gap={16} mb={2}>
+                <Stack flexRow gap={2} mb={2}>
                     <CircleProgress color="paper" value={progress} size={50} showPercentage />
                     <CircleProgress color="success" size={50} thumbSize={5} >
                         <IconButton
@@ -83,7 +83,7 @@ const CircleProgresss = () => {
                 }}>Toggle</Button>
             </MetaBox>
             <MetaBox title="Value" >
-                <Stack gap={16} mb={2}>
+                <Stack gap={2} mb={2}>
                     <LineProgress color="paper" speed={.5} />
                     <LineProgress color="primary" speed={1} />
                     <LineProgress color="secondary" speed={1.5} />

@@ -10,7 +10,7 @@ const Toasts = () => {
     return (
         <Container maxWidth="md">
             <MetaBox title="Colors">
-                <Stack gap={16} flexWrap="wrap">
+                <Stack gap={2} flexWrap="wrap">
                     <Button
                         onClick={() => {
                             Toast.open(Math.random().toString(), "Hi Naxrul Ahmed", {

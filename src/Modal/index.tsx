@@ -77,7 +77,7 @@ const Modal = {
                             xs: "100%",
                             sm: "auto"
                         }}
-                        bgcolor="color.paper.light"
+                        bgcolor="background.primary"
                         {...rootProps}
                         position="relative"
                         baseClass='modal'

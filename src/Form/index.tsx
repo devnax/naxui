@@ -44,7 +44,7 @@ const _Form = <T extends TagComponenntType = "form">({ children, ...rest }: Form
                 });
             }}
             sx={{
-                bgcolor: "color.paper",
+                bgcolor: "paper",
                 p: 2,
                 maxWidth: 400,
                 radius: 1,

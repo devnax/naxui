@@ -9,7 +9,7 @@ const _Tab = <T extends TagComponenntType = "div">({ children, ...props }: TabPr
         <Tag
             p={1.5}
             cursor="pointer"
-            color="color.subtext"
+            color="subtext"
             fontWeight={500}
             userSelect="none"
             {...props}

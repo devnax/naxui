@@ -129,7 +129,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
                 '& thead': fixedHeader ? {
                     position: "sticky",
                     top: 0,
-                    bgcolor: "color.paper.light",
+                    bgcolor: "background.primary",
                     zIndex: 1
                 } : {},
                 ...((viewboxProps as any)?.sx || {})
@@ -144,7 +144,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
                     {...headerProps}
                     baseClass='datatable-header'
                 >
-                    <Stack className='datatable-header-left-area' gap={20} flexRow>
+                    <Stack className='datatable-header-left-area' gap={2.4} flexRow>
                         {
                             tabs && <Tabs
                                 onChange={(value: any) => {
@@ -162,7 +162,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
                     <Stack className='datatable-header-filter-area' flex={1} flexRow>
                         {headerContent}
                         {
-                            filters && <Stack flexRow gap={16} px={2}>
+                            filters && <Stack flexRow gap={2} px={2}>
                                 {
                                     Object.keys(filters).map(name => {
                                         const items: DatatableFilter[] = (filters as any)[name]
@@ -191,7 +191,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
                             </Stack>
                         }
                     </Stack>
-                    <Stack flexRow gap={16} className='datatable-header-right-area'>
+                    <Stack flexRow gap={2} className='datatable-header-right-area'>
                         {!hidePagination && <TablePagination
                             total={total_count || rows.length}
                             page={state.paginationState.page}

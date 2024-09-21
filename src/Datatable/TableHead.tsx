@@ -18,11 +18,11 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
 
     return (
         <TableHead position="relative">
-            <TableRow bgcolor="color.paper" borderBottom={1} >
+            <TableRow bgcolor="paper" borderBottom={1} >
                 <TableCell th width={40}>
                     {
                         (checked) && <Stack
-                            bgcolor="color.paper"
+                            bgcolor="paper"
                             position='absolute'
                             top={0}
                             left={0}
@@ -38,7 +38,7 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
                             </Stack>
                             <Stack
                                 flexRow
-                                gap={8}
+                                gap={1}
                             >
                                 {rowAction && rowAction({ row: null, state }).map(({ label, icon, ...bprops }) => {
                                     return (

@@ -12,7 +12,7 @@ const _Label = <T extends TagComponenntType = "label">({ children, ...rest }: La
         alignItems="center"
         verticalAlign="middle"
         fontSize="fontsize.button"
-        gap={4}
+        gap={.4}
         {...rest}
         ref={ref}
     >{children}</Tag>

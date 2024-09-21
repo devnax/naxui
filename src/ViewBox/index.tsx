@@ -2,40 +2,44 @@
 import React, { ReactElement } from 'react'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'
 
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType, useInterface } from 'naxui-manager';
 
 export type ViewBoxProps<T extends TagComponenntType = "div"> = TagProps<T> & {
-    header?: ReactElement;
-    footer?: ReactElement;
-    scrollbarProps?: Omit<ScrollbarProps, 'children'>;
+    startContent?: ReactElement;
+    endContent?: ReactElement;
     horizental?: boolean;
+    slotProps?: {
+        scrollbar?: Omit<ScrollbarProps, 'children'>;
+    }
 }
 
 
-const _ViewBox = ({ header, footer, children, scrollbarProps, horizental, ...rest }: ViewBoxProps, ref?: any) => {
+const _ViewBox = ({ children, ...rest }: ViewBoxProps, ref?: any) => {
+    const { startContent, endContent, slotProps, horizental, ...props } = useInterface("ViewBox", {}, rest)
+
     return (
         <Tag
             flexBox
             justifyContent="space-between"
-            {...rest}
+            {...props}
             baseClass='viewbox'
             flexDirection={horizental ? "row" : "column"}
             ref={ref}
         >
-            {header && <Tag baseClass='viewbox-header' flexBox flexDirection={horizental ? "row" : "column"}>{header}</Tag>}
+            {startContent && <Tag baseClass='viewboxStartContent' flexBox flexDirection={horizental ? "row" : "column"}>{startContent}</Tag>}
             <Scrollbar
-                {...scrollbarProps}
-                className='ui-viewbox-content'
+                {...slotProps?.scrollbar}
+                className='viewboxContent'
                 style={{
                     flex: 1,
                     display: "flex",
                     flexDirection: horizental ? "row" : "column",
-                    ...(scrollbarProps?.style || {})
+                    ...(slotProps?.scrollbar?.style || {})
                 }}
             >
                 {children}
             </Scrollbar>
-            {footer && <Tag baseClass='viewbox-footer' flexBox flexDirection={horizental ? "row" : "column"}>{footer}</Tag>}
+            {endContent && <Tag baseClass='viewboxEndContent' flexBox flexDirection={horizental ? "row" : "column"}>{endContent}</Tag>}
         </Tag>
     )
 }

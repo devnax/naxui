@@ -10,7 +10,7 @@ const Confirms = () => {
     return (
         <Container maxWidth="md">
             <MetaBox title="Confirms">
-                <Stack flexRow gap={16} alignItems="center" flexWrap="wrap">
+                <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
                     <Button
                         onClick={async () => {
                             const is = await Confirm({

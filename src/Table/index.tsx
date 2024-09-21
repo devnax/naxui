@@ -13,7 +13,7 @@ const _Table = <T extends TagComponenntType = "table">({ children, evenColor, de
     if (evenColor) {
         sx = {
             "& tbody tr:nth-child(even)": {
-                bgcolor: "color.paper"
+                bgcolor: "paper"
             }
         }
     }
@@ -28,10 +28,10 @@ const _Table = <T extends TagComponenntType = "table">({ children, evenColor, de
                 },
                 "& tr:not(:last-child) td, & tr:not(:last-child) th": {
                     borderBottom: "1px solid",
-                    borderColor: "color.paper.divider",
+                    borderColor: "background.secondary",
                 },
                 "& tbody tr:hover": {
-                    bgcolor: "color.paper"
+                    bgcolor: "paper"
                 },
                 ...sx,
                 ...((rest as any).sx || {})

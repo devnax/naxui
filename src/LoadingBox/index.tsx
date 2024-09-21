@@ -38,13 +38,13 @@ const _LoadingBox = <T extends TagComponenntType = "div">({ children, loading, c
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    bgcolor: `color.paper`
+                    bgcolor: `paper`
                 }}
             >
                 <CircleProgress
                     color="paper"
                     hideTrack
-                    thumbColor={color === 'paper' ? `color.paper.dark` : `color.${color}.text`}
+                    thumbColor={color === 'paper' ? `background.secondary` : `${color}.text`}
                     {...progressProps}
                 />
             </Tag>}

@@ -18,7 +18,7 @@ export type ChipProps<T extends TagComponenntType = 'div'> = Omit<TagProps<T>, "
 const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
-    color = color || "primary"
+    color = color || "brand"
     corner = corner || "circle"
     const cornerCss = useCornerVariant(corner)
     const uiCss = useUIVariant(variant, color)

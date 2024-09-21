@@ -1,7 +1,7 @@
 ### How to use
 this is a simple box that like html div element.
 
-```tsx
+```jsx
 import Box, {BoxProps} from 'naxui/Box'
 
 const App = () => {

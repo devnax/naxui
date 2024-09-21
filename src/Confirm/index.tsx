@@ -43,13 +43,13 @@ const ConfirmMain = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: 
             flexBox
             flexRow
             justifyContent="flex-end"
-            gap={8}
+            gap={1}
             mt={2}
             sx={{ ..._bcon[buttonPlacement || "right"] }}
         >
             {cancelText && <Button
-                color="paper"
-                variant={buttonPlacement === "full" || buttonPlacement === 'half' ? "outlined" : "text"}
+                color="default"
+                variant={buttonPlacement === "full" || buttonPlacement === 'half' ? "outline" : "text"}
                 onClick={() => {
                     onConfirm && onConfirm(false)
                     Modal.close(id)

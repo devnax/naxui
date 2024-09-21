@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { Tag, TagProps, TagComponenntType, keyframes } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType, keyframes, useTheme } from 'naxui-manager';
 import { UseUIVariantColorTypes } from "../useUIVariant";
 
 export type LineProgressProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
@@ -17,12 +17,12 @@ const _LineProgress = <T extends TagComponenntType = "div">({ children, color, v
     color = color ?? "primary"
     thumbSize = thumbSize ?? 4
     let isVal = typeof value === 'number'
-
+    const theme = useTheme()
     const anim = isVal ? "none" : keyframes({
         "0%": { left: "-40%" },
         "50%": { left: "20%", width: "80%" },
         "100%": { left: "100%", width: "100%" }
-    })
+    }, theme)
 
     if (isVal && (value as number) > 100) value = 100
 
@@ -37,7 +37,7 @@ const _LineProgress = <T extends TagComponenntType = "div">({ children, color, v
                 height: thumbSize,
                 position: "relative",
                 overflow: "hidden",
-                bgcolor: hideTrack ? "transparent" : (color === 'paper' ? `color.paper` : `color.${color}.soft`),
+                bgcolor: hideTrack ? "transparent" : (color === 'paper' ? `paper` : `${color}.soft`),
                 radius: 2,
                 ...((rest as any)?.sx || {})
             }}
@@ -47,7 +47,7 @@ const _LineProgress = <T extends TagComponenntType = "div">({ children, color, v
                 component="span"
                 baseClass="line-progress-thumb"
                 sx={{
-                    bgcolor: color === 'paper' ? `color.paper.dark` : `color.${color}`,
+                    bgcolor: color === 'paper' ? `background.secondary` : `${color}`,
                     width: isVal ? `${value}%` : "50%",
                     height: thumbSize,
                     position: "absolute",

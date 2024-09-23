@@ -8,11 +8,18 @@ import MetaBox from "../MetaBox"
 import InfoIcon from 'naxui-icons/round/Info';
 import HomeIcon from 'naxui-icons/round/Home';
 import IconClose from 'naxui-icons/round/Close';
+import CircleProgress from "../../src/CircleProgress"
 
 
 const Buttons = () => {
     return (
         <Container maxWidth="md">
+            <MetaBox title="Icon Button" gap={2}>
+                <CircleProgress
+                    showPercentage
+                    size={40}
+                />
+            </MetaBox>
             <MetaBox title="Icon Button" gap={2}>
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
                     <IconButton color="default">

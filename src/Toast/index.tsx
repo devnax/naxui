@@ -185,7 +185,7 @@ const Item = (item: ToastProps) => {
                                     Toast.close(id)
                                 }}
                             >
-                                <CloseIcon color={color} fontSize="fontsize.text" />
+                                <CloseIcon color={color} fontSize="text" />
                             </IconButton>}
                         </Tag>
                     </Transition>

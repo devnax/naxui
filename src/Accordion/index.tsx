@@ -1,38 +1,40 @@
 'use client'
 import React, { ReactElement, useState } from 'react';
-import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
+import { Tag, TagProps, useInterface, useColorTemplateColors, useColorTemplateType, TagComponenntType } from 'naxui-manager';
 import ExpandIcon from "naxui-icons/round/ExpandMore";
 import Collaps, { CollapsProps } from '../Collaps';
-import List from '../List';
-import ListItem from '../ListItem';
+import List, { ListProps } from '../List';
+import ListItem, { ListItemProps } from '../ListItem';
+import Box, { BoxProps } from '../Box';
 
-export type AccordionProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, 'color'> & {
+export type AccordionProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
     title: ReactElement | string;
     subtitle?: ReactElement | string;
-
     expand?: boolean;
-    onChange?: (expand: boolean) => void;
-
+    onClick?: () => void;
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     expandIcon?: ReactElement;
     expandIconPlacement?: "start" | "end";
     expandAction?: "header" | "icon";
-
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
     hoverColor?: useColorTemplateColors;
     hoverVariant?: useColorTemplateType;
-
-    collapsProps?: Omit<CollapsProps, "children" | "in">
+    slotProps?: {
+        header?: Omit<ListProps, "children" | "color" | "variant" | "hoverColor" | "hoverVariant" | "className">;
+        headerContent?: Omit<ListItemProps, "children" | "subtitle" | "selected" | "startIcon" | "endIcon" | "onClick" | "className">
+        collaps?: Omit<CollapsProps, "children" | "in">;
+        content?: Omit<BoxProps, "children">;
+        expandIconContainer?: Omit<TagProps<"div">, 'children' | 'className'>;
+    }
 }
 
 const _Accordion = <T extends TagComponenntType = "div">({ children, title, subtitle, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
     const [_expand, setExpand] = useState(false)
     let {
-        contentProps,
         expand,
-        onChange,
+        onClick,
         color,
         variant,
         hoverColor,
@@ -41,22 +43,31 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, subt
         expandIconPlacement,
         startIcon,
         endIcon,
-        collapsProps,
         classNames,
         expandAction,
-        ...props
+        slotProps,
+        ...rootProps
     } = useInterface("Accordion", {
-        onChange: setExpand as any,
+        onClick: () => setExpand(!_expand) as any,
         color: "brand",
         variant: "alpha"
     }, rest)
 
     expand = expand === undefined ? _expand : expand
-    expandIcon = expandIcon || <Tag
+    expandIcon = expandIcon ? <Tag
+        cursor="pointer"
+        {...slotProps?.expandIconContainer}
+        onClick={expandAction === 'icon' && onClick ? () => onClick() : () => { }}
+        className='expand-icon-container'
+    >
+        {expandIcon}
+    </Tag> : <Tag
         transform={`rotate(${expand ? 0 : -180}deg)`}
         transition="transform .4s"
-        onClick={expandAction === 'icon' ? () => onChange(!expand) : () => { }}
         cursor="pointer"
+        {...slotProps?.expandIconContainer}
+        onClick={expandAction === 'icon' && onClick ? () => onClick() : () => { }}
+        className='expand-icon-container'
     >
         <ExpandIcon />
     </Tag>
@@ -65,7 +76,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, subt
 
     if (expandIconPlacement === 'start') {
         itemSx = {
-            startIcon: <Tag flexBox flexRow gap={1}>
+            startIcon: <Tag className='start-icon-container' flexBox flexRow alignItems="center" gap={1}>
                 {expandIcon}
                 {startIcon}
             </Tag>,
@@ -74,7 +85,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, subt
 
     } else {
         itemSx = {
-            endIcon: <Tag flexBox flexRow gap={1}>
+            endIcon: <Tag className='end-icon-container' flexBox flexRow alignItems="center" gap={1}>
                 {endIcon}
                 {expandIcon}
             </Tag>,
@@ -87,51 +98,50 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, subt
         itemSx.cursor = "initial!important"
     }
 
-
     return (
         <Tag
             fontFamily="theme"
             bgcolor="background.primary"
-            {...props}
+            {...rootProps}
             baseClass='accordion'
-            classNames={[{ "accordionExpanded": expand }, ...(classNames || [])]}
+            classNames={[{ "accordion-expanded": expand }, ...(classNames || [])]}
             ref={ref}
         >
             <List
                 component='div'
+                {...slotProps?.header}
                 color={color}
                 variant={variant}
                 hoverColor={hoverColor}
                 hoverVariant={hoverVariant}
-                className='accoutdionHeaderContainer'
+                className='accoutdion-header'
             >
                 <ListItem
                     minHeight={55}
-                    subtitle={subtitle}
-                    component='div'
-                    selected={expand}
                     radius={0}
-                    onClick={() => onChange && onChange(!expand)}
+                    component='div'
+                    {...slotProps?.headerContent}
                     {...itemSx}
-                    className="accordionHeader"
-                    classNames={[{ accordionHeaderExpand: expand }]}
+                    subtitle={subtitle}
+                    selected={expand}
+                    onClick={() => onClick && onClick()}
+                    className="accordion-header-content"
                 >{title}</ListItem>
                 <Collaps
-                    {...collapsProps}
+                    {...slotProps?.collaps}
                     in={expand}
-                    className="accordionContent"
-                    classNames={[{ accordionContentExpand: expand }]}
+                    className="accordion-collaps"
                 >
-                    <Tag
+                    <Box
                         color="text.primary"
                         p={2}
                         py={1}
                         bgcolor="background.primary"
-                        {...contentProps}
-                        baseClass='accordio-content'
+                        {...slotProps?.content}
+                        className='accordion-content'
                     >
                         {children}
-                    </Tag>
+                    </Box>
                 </Collaps>
             </List>
         </Tag>

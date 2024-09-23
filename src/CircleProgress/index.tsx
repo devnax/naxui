@@ -1,11 +1,11 @@
 "use client"
 import React from "react"
-import { Tag, TagProps, TagComponenntType, keyframes, useTheme } from 'naxui-manager';
+import { Tag, TagProps, TagComponenntType, useColorTemplateColors, keyframes, useTheme } from 'naxui-manager';
 
 export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
     size?: number;
     thumbSize?: number;
-    color?: "default" | "brand" | "accent" | "info" | "success" | "error" | "warning";
+    color?: useColorTemplateColors;
     value?: number;
     hideTrack?: boolean;
     trackSize?: number;
@@ -17,10 +17,10 @@ export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagP
 
 const _CircleProgress = <T extends TagComponenntType = "div">({ children, color, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed, trackColor, thumbColor, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
 
-    color = color ?? "brand"
-    size = size ?? 30
-    thumbSize = thumbSize ?? 4
-    speed = speed ?? 1.3
+    color ??= "brand"
+    size ??= 30
+    thumbSize ??= 4
+    speed ??= 1.3
     let isVal = typeof value === 'number'
     const theme = useTheme()
     const animrotate = !isVal && keyframes({ "100%": { transform: "rotate(360deg)" } }, theme)
@@ -37,7 +37,7 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
     if (showPercentage && !children) {
         children = <Tag
             sx={{
-                color: color === 'default' ? "text.primary" : `${color}`,
+                color: color === 'default' ? "text.primary" : `${color}.primary`,
                 fontSize: size / 4
             }}
         >{value}%</Tag>
@@ -73,7 +73,7 @@ const _CircleProgress = <T extends TagComponenntType = "div">({ children, color,
                     },
                     "& circle.circle-progress-track": {
                         fill: "none",
-                        stroke: trackColor || (color === 'default' ? `background.secondary` : `${color}.primary`),
+                        stroke: trackColor || (color === 'default' ? `background.secondary` : `${color}.alpha`),
                         strokeWidth: trackSize ?? thumbSize,
                     }
                 },

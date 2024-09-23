@@ -23,11 +23,11 @@ const _GridItem = <T extends TagComponenntType = "div">({ children, xs, sm, md, 
     return (
         <Tag
             ref={ref}
-            baseClass="grid-item"
             {...rest}
             maxWidth={w}
             flexBasis={w}
             flexGrow={0}
+            baseClass="grid-item"
         >
             {children}
         </Tag>

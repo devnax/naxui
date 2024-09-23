@@ -13,26 +13,25 @@ const _Image = <T extends TagComponenntType = "img">({ children, src, alt, error
         let t = errorView || alt?.charAt(0).toUpperCase() || children
         return (
             <Tag
-                baseClass='image'
-                component="div"
                 display="inline-flex"
                 justifyContent="center"
                 alignItems="center"
                 src={src}
-                {...rest}
-
+                {...rest as any}
+                component="div"
+                baseClass='image'
                 ref={ref}
             >{t}</Tag>
         )
     }
     return (
         <Tag
-            baseClass='image'
-            component="img"
             objectFit="cover"
+            {...rest as any}
+            component="img"
             alt={alt}
             src={src}
-            {...rest}
+            baseClass='image'
             onError={(e) => {
                 setFaild(false)
                 rest.onError && rest.onError(e as any)

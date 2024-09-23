@@ -16,10 +16,10 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
         let t = alt?.charAt(0).toUpperCase() || (children || <PersonIcon />)
         return (
             <Tag
-                baseClass='avatar'
                 component="div"
                 src={src}
                 {...rest}
+                baseClass='avatar'
                 sx={{
                     display: "inline-flex",
                     justifyContent: "center",
@@ -42,7 +42,6 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
     }
     return (
         <Tag
-            baseClass='avatar'
             component="img"
             radius={size}
             width={size}
@@ -51,6 +50,7 @@ const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt
             alt={alt}
             src={src}
             {...rest}
+            baseClass='avatar'
             onError={(e) => {
                 setFaild(false)
                 rest.onError && rest.onError(e as any)

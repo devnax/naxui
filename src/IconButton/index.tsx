@@ -38,7 +38,6 @@ const _IconButton = <T extends TagComponenntType = 'button'>({ children, ...rest
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
-            transition="background .3s"
             bgcolor="transparent"
             ref={ref}
             {...cornerCss}

@@ -6,12 +6,11 @@ export type ContainerProps<T extends TagComponenntType = "div"> = TagProps<T> & 
     maxWidth?: 'lg' | 'md' | "sm" | 'xs'
 }
 
-const _Container = <T extends TagComponenntType = "div">({ children, maxWidth, className, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
+const _Container = <T extends TagComponenntType = "div">({ children, maxWidth, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
     const { breakpoints } = useTheme()
     maxWidth = maxWidth || "lg"
     return (
         <Tag
-            baseClass="container"
             width="100%"
             maxWidth={{
                 xs: "100%",
@@ -21,6 +20,7 @@ const _Container = <T extends TagComponenntType = "div">({ children, maxWidth, c
             mx="auto"
             px={2}
             {...rest}
+            baseClass="container"
             ref={ref}
         >{children}</Tag>
     )

@@ -96,8 +96,8 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                         {_icon}
                     </Tag>
                 }
-                <Tag baseClass="alert-view-text" textAlign={inline ? "left" : "center"} flexBox gap={.4} flexColumn flex={1} color={color === 'paper' ? "text.secondary" : uiCss.color} py={1} fontSize="fontsize.button" lineHeight={1.5}>
-                    {title && <Text variant="text" fontSize="fontsize.button" fontWeight="bold" color={color === 'paper' ? "text" : uiCss.color}>{title}</Text>}
+                <Tag baseClass="alert-view-text" textAlign={inline ? "left" : "center"} flexBox gap={.4} flexColumn flex={1} color={color === 'paper' ? "text.secondary" : uiCss.color} py={1} fontSize="button" lineHeight={1.5}>
+                    {title && <Text variant="text" fontSize="button" fontWeight="bold" color={color === 'paper' ? "text" : uiCss.color}>{title}</Text>}
                     {children}
                 </Tag>
             </Tag>

@@ -32,7 +32,7 @@ const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon,
             flexDirection="row"
             alignItems="center"
             transition="background .3s"
-            fontSize="fontsize.block"
+            fontSize="small"
             p={.5}
             px={1}
             {...cornerCss}

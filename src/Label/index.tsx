@@ -6,14 +6,14 @@ export type LabelProps<T extends TagComponenntType = "label"> = TagProps<T>
 
 const _Label = <T extends TagComponenntType = "label">({ children, ...rest }: LabelProps<T>, ref: React.Ref<any>) => {
     return <Tag
-        baseClass='label'
         component='label'
         display="inline-flex"
         alignItems="center"
         verticalAlign="middle"
-        fontSize="fontsize.button"
+        fontSize="button"
         gap={.4}
         {...rest}
+        baseClass='label'
         ref={ref}
     >{children}</Tag>
 }

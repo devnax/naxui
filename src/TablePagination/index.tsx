@@ -53,10 +53,10 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
         >
             {
                 isPerpage && <Tag baseClass='table-pagination-perpage' flexBox flexRow gap={1} alignItems="center">
-                    <Text fontSize="fontsize.button">PER PAGE</Text>
+                    <Text fontSize="button">PER PAGE</Text>
                     <Select
                         className='table-pagination-perpage-select'
-                        fontSize="fontsize.button"
+                        fontSize="button"
                         containerProps={{
                             width: 70,
                             minWidth: "auto"
@@ -77,7 +77,7 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
                     </Select>
                 </Tag>
             }
-            <Text fontSize="fontsize.button">{current?.from}-{current.to} of {total}</Text>
+            <Text fontSize="button">{current?.from}-{current.to} of {total}</Text>
             <Tag baseClass='table-pagination-prev-next' flexBox flexRow gap={.4} >
                 <IconButton
                     color="paper"

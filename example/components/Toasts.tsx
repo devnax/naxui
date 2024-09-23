@@ -54,7 +54,7 @@ const Toasts = () => {
                         onClick={() => {
                             Toast.open(Math.random().toString(), <>
                                 <Text fontWeight={500} lineHeight="initial" color="#fff">Success</Text>
-                                <Text lineHeight="initial" type="subtext" fontSize="fontsize.block" color="#fff">
+                                <Text lineHeight="initial" type="subtext" fontSize="small" color="#fff">
                                     You have successfully created your account
                                 </Text>
                             </>, {

@@ -4,13 +4,16 @@ import { Tag, TagProps, TagComponenntType, useTransitions, UseTransitionsProps, 
 
 export type CollapsProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     in?: boolean,
-    transitionProps?: UseTransitionsProps
+    slotProps?: {
+        transition?: UseTransitionsProps
+    }
 }
 
-const _Collaps = <T extends TagComponenntType = "div">({ children, in: In, transitionProps, ...rest }: CollapsProps<T>, ref: any) => {
+const _Collaps = <T extends TagComponenntType = "div">({ children, in: In, slotProps, ...rest }: CollapsProps<T>, ref: any) => {
+
     const [_ref, cls] = useTransitions("collapsVerticle", In || false, {
         easing: "easeOut",
-        ...transitionProps
+        ...slotProps?.transition
     })
 
     useEffect(() => {
@@ -20,7 +23,12 @@ const _Collaps = <T extends TagComponenntType = "div">({ children, in: In, trans
     }, [])
 
     return (
-        <Tag baseClass='collaps' {...rest} className={classNames(cls, (rest as any)?.className)} ref={_ref}>{children}</Tag>
+        <Tag
+            {...rest}
+            baseClass='collaps'
+            className={classNames(cls, (rest as any)?.className)}
+            ref={_ref}
+        >{children}</Tag>
     )
 }
 

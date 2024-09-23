@@ -233,7 +233,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                             >
                                 <Text
                                     fontWeight={500}
-                                    fontSize="fontsize.button"
+                                    fontSize="button"
                                     color="text.secondary"
                                 >
                                     {day}

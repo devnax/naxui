@@ -8,23 +8,25 @@ import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
 
-export type SelectProps = InputProps & {
+export type SelectProps = {
     value?: string | number;
     onChange?: (item: OptionProps) => void;
-    menuProps?: Omit<MenuProps, 'children' | 'target'>;
-    children: ReactElement<OptionProps> | ReactElement<OptionProps>[]
+    children: ReactElement<OptionProps> | ReactElement<OptionProps>[];
+    slotProps?: {
+        menu?: Omit<MenuProps, 'children' | 'target'>;
+        input?: InputProps
+    }
 }
 
-const _Select = ({ onChange, value, menuProps, children, ...inputProps }: SelectProps, ref: React.Ref<any>) => {
+const _Select = ({ onChange, value, slotProps, children }: SelectProps, ref: React.Ref<any>) => {
     const [target, setTarget] = useState<any>()
     const conRef = useRef()
     const { childs, selectedProps } = useMemo(() => {
         let sProps: any = {}
         const c = Children.map(children, (child: any) => {
             let selected = child.props.value === value
-            if (selected) {
-                sProps = child.props
-            }
+            if (selected) sProps = child.props
+
             return cloneElement(child, {
                 value: undefined,
                 selected,
@@ -45,7 +47,6 @@ const _Select = ({ onChange, value, menuProps, children, ...inputProps }: Select
     return (
         <>
             <Input
-                baseClass='select-input'
                 endIcon={<Stack flexDirection="row" component="span" > {(target ? <UpIcon /> : <DownIcon />)}</Stack>}
                 readOnly
                 value={typeof selectedProps.children === 'string' ? selectedProps.children : value}
@@ -53,11 +54,11 @@ const _Select = ({ onChange, value, menuProps, children, ...inputProps }: Select
                 userSelect="none"
                 startIcon={selectedProps.startIcon}
                 focused={!!target}
-                {...inputProps}
+                {...slotProps?.input}
                 containerProps={{
                     cursor: "pointer",
                     userSelect: "none",
-                    ...(inputProps.containerProps || {}),
+                    ...(slotProps?.input?.containerProps || {}),
                     onClick: toggleMenu,
                 }}
                 containerRef={conRef}
@@ -68,7 +69,7 @@ const _Select = ({ onChange, value, menuProps, children, ...inputProps }: Select
                 placement="bottom"
                 width={conRef && (conRef?.current as any)?.clientWidth}
                 mt={.5}
-                {...menuProps}
+                {...slotProps?.menu}
                 onClickOutside={toggleMenu}
             >
                 <List

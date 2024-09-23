@@ -7,14 +7,14 @@ export type TextProps<T extends TagComponenntType = "p"> = TagProps<T> & {
 }
 
 const _Text = <T extends TagComponenntType = "p">({ children, variant, ...props }: TextProps<T>, ref?: React.Ref<any>) => {
-    let comp: any = variant === 'text' || variant === 'small' ? "p" : variant
     return (
         <Tag
-            component={comp || "p"}
+            component={variant === 'text' || variant === 'small' ? "p" : variant}
             fontSize={variant}
             lineHeight={variant}
             fontWeight={variant}
             fontFamily="theme"
+            color="text.primary"
             {...props}
             baseClass='text'
             ref={ref}

@@ -20,8 +20,8 @@ const _Table = <T extends TagComponenntType = "table">({ children, evenColor, de
 
     return (
         <Tag
-            baseClass='table'
             {...rest}
+            baseClass='table'
             sx={{
                 "& td,& th": {
                     p: dense ? 1 : 1.5

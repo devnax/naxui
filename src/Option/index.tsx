@@ -11,5 +11,6 @@ const _Option = ({ value, children, ...props }: OptionProps, ref: React.Ref<any>
         <ListItem {...props} ref={ref}>{children}</ListItem>
     )
 }
+
 const Option = forwardRef(_Option) as typeof _Option
-export default Option 
+export default Option

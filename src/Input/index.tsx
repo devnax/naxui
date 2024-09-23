@@ -87,7 +87,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                     bgcolor="transparent"
                     width="100%"
                     color={error ? "error" : "text.primary"}
-                    fontSize="fontsize.text"
+                    fontSize="text"
                     py={1}
                     px={1}
                     {...rest}
@@ -103,7 +103,7 @@ const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref
                 />
                 {endIcon && <Tag flexBox component='span' width={30} pr={1} justifyContent="center" alignItems="center" color={error ? "error" : "text.secondary"} >{endIcon}</Tag>}
             </Tag>
-            {helperText && <Text mt={.5} className="input-helper-text" fontSize="fontsize.block" color={error ? "error" : "text.primary"}>{helperText}</Text>}
+            {helperText && <Text mt={.5} className="input-helper-text" fontSize="small" color={error ? "error" : "text.primary"}>{helperText}</Text>}
         </Tag>
     )
 }

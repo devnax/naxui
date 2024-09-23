@@ -1,27 +1,48 @@
 'use client'
-import React, { ReactElement, cloneElement, Children, useEffect } from 'react';
-import { UseTransitionsVariantsTypes, UseTransitionsVariantCallback, useTransitions, UseTransitionsProps } from 'naxui-manager';
+import React, { useEffect } from 'react';
+import { UseTransitionsVariantsTypes, UseTransitionsVariantCallback, useTransitions, UseTransitionsProps, Tag, TagProps, useInterface } from 'naxui-manager';
 
-export type TransitionProps = UseTransitionsProps & {
-    children?: ReactElement;
+export type TransitionProps = TagProps<"div"> & UseTransitionsProps & {
     in?: boolean;
     type?: UseTransitionsVariantsTypes | UseTransitionsVariantCallback;
 }
 
-const _Transition = ({ children, type, in: _in, ...rest }: TransitionProps, ref: React.Ref<any>) => {
+const _Transition = ({ children, in: _in, ...rest }: TransitionProps, ref: React.Ref<any>) => {
+    const {
+        type,
+        ease,
+        easing,
+        duration,
+        delay,
+        onStart,
+        onFinish,
+        ...rootProps
+    } = useInterface("Transition", {}, rest)
 
-    const [_ref, cls] = useTransitions(type || "fade", _in, { duration: 400, ...rest })
+    const [_ref, cls] = useTransitions(type || "fade", _in, {
+        ease,
+        easing,
+        duration: duration || 400,
+        delay,
+        onStart,
+        onFinish
+    })
 
     useEffect(() => {
         if (ref) ref = _ref
     }, [])
-    if (!children || Array.isArray(children)) throw new Error("Invalid children in Transion")
 
-    const first: any = Children.toArray(children).shift();
-    return cloneElement(first, {
-        className: cls,
-        ref: _ref
-    }) as any
+    return (
+        <Tag
+            display="inline-block"
+            {...rootProps}
+            className={cls}
+            baseClass='transition'
+            ref={_ref}
+        >
+            {children}
+        </Tag>
+    )
 }
 
 const Transition = React.forwardRef(_Transition) as typeof _Transition

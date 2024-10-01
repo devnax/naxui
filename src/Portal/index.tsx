@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom';
-import { useProps, TagProps, TagComponenntType } from 'naxui-manager';
-export type PortalProps<T extends TagComponenntType = "div"> = TagProps<T> & {
+import { useProps, TagProps, TagComponentType } from 'naxui-manager';
+export type PortalProps<T extends TagComponentType = "div"> = TagProps<T> & {
     appendTo?: HTMLElement;
     container?: HTMLElement;
 }
 
-const _Portal = <T extends TagComponenntType = "div">({ children, component, appendTo, container, ...rest }: PortalProps<T>, ref?: React.Ref<any>) => {
+const _Portal = <T extends TagComponentType = "div">({ children, component, appendTo, container, ...rest }: PortalProps<T>, ref?: React.Ref<any>) => {
     const [_container, setContainer] = useState<HTMLElement | undefined>(container)
     let props = useProps(rest)
 

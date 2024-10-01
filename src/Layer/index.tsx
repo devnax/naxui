@@ -1,36 +1,36 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import useBlurCss from '../useBlurCss'
-import { Tag, TagProps, useInterface, UseTransitionsProps } from 'naxui-manager'
+import { Tag, TagProps, useInterface } from 'naxui-manager'
 import { ReactElement } from "react";
 import { createRoot } from 'react-dom/client'
 import Transition, { TransitionProps } from '../Transition'
 
+const actionState = new Map<string, Function>()
+
 export type LayerContentType = ReactElement | ((props: { open: boolean }) => ReactElement)
 
-export type LayerProps = {
+export type LayerProps = Omit<TagProps<"div">, "children" | "content"> & {
     open: boolean;
     children: LayerContentType;
     blur?: number;
     bgImage?: string;
     zIndex?: number;
-    transition?: TransitionProps['type'];
 
     onOpened?: () => void;
     onClosed?: () => void;
     onClickOutside?: () => void;
+    closeOutsideClick?: boolean;
+
     slotProps?: {
-        root?: Omit<TagProps<"div">, "children" | "content">;
-        transition?: Omit<UseTransitionsProps, "onFinish" | "type">;
+        transition?: Omit<TransitionProps, "onFinish" | "type">;
         content?: Omit<TagProps<"div">, "children" | "content">;
     }
 }
 
-const state = new Map<string, Function>()
-
-const Layer = ({ open, children: Content, ...rest }: LayerProps) => {
+const Layer = ({ open, children: Content, id, ...rest }: LayerProps) => {
     const contentRef = useRef<HTMLDivElement>()
-    let { zIndex, blur, bgImage, transition, onOpened, onClosed, onClickOutside, slotProps } = useInterface("Layer", {}, rest)
+    let { zIndex, blur, bgImage, transition, onOpened, onClosed, onClickOutside, closeOutsideClick, slotProps, ...rootProps } = useInterface("Layer", {}, rest)
     const blurCss = blur ? useBlurCss(blur) : {}
     let bgcss: any = {}
 
@@ -45,28 +45,26 @@ const Layer = ({ open, children: Content, ...rest }: LayerProps) => {
 
     return (
         <Transition
-            in={open}
-            easing="easeOut"
-            onFinish={() => {
-                if (open) {
-                    onOpened && onOpened()
-                } else {
-                    onClosed && onClosed()
-                }
+            open={open}
+            // easing="easeOut"
+            onOpened={() => {
+                onOpened && onOpened()
             }}
-            type={transition || "fade"}
+            onClosed={() => {
+                onClosed && onClosed()
+            }}
+            variant={transition || "zoom"}
             {...slotProps?.transition}
         >
             <Tag
-                bgcolor="red"
-                {...transition?.root}
+                {...rootProps}
                 position="fixed"
                 top={0}
                 left={0}
                 height="100%"
                 width="100%"
                 baseClass='layer'
-                zIndex={1000 + state.size + (zIndex || 0)}
+                zIndex={1000 + actionState.size + (zIndex || 0)}
                 {...bgcss}
                 {...(!bgImage ? blurCss : {})}
             >
@@ -77,9 +75,12 @@ const Layer = ({ open, children: Content, ...rest }: LayerProps) => {
                     width="100%"
                     baseClass='layer-content'
                     onClick={(e: any) => {
-                        if (onClickOutside && contentRef) {
-                            if (!e.currentTarget.firstChild?.contains(e.target)) {
+                        if (!e.currentTarget.firstChild?.contains(e.target)) {
+                            if (onClickOutside && contentRef) {
                                 onClickOutside()
+                            }
+                            if (closeOutsideClick && id) {
+                                Layer.close(id)
                             }
                         }
                     }}
@@ -97,9 +98,9 @@ const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id:
     const [closed, setClosed] = useState(false)
 
     useEffect(() => {
-        state.set(id, () => setOpen(!open))
+        actionState.set(id, () => setOpen(!open))
         return () => {
-            state.delete(id)
+            actionState.delete(id)
         }
     }, [])
 
@@ -108,6 +109,7 @@ const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id:
     return (
         <Layer
             {...props}
+            id={id}
             open={open}
             onClosed={() => {
                 props.onClosed && props.onClosed()
@@ -120,7 +122,7 @@ const LayerWithAction = ({ children: Content, id, ...props }: LayerProps & { id:
 }
 
 Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'id' | 'children' | 'open'>) => {
-    if (id && !state.has(id)) {
+    if (id && !actionState.has(id)) {
         const container = document.createElement("div")
         document.body.append(container)
         const root = createRoot(container)
@@ -129,7 +131,7 @@ Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'i
             open={true}
             id={id}
             onClosed={() => {
-                state.delete(id)
+                actionState.delete(id)
                 props?.onClosed && props.onClosed()
                 container.remove()
             }}
@@ -141,12 +143,12 @@ Layer.open = (id: string, content: LayerContentType, props?: Omit<LayerProps, 'i
 }
 
 Layer.close = (id: string) => {
-    const dispatch = state.get(id)
+    const dispatch = actionState.get(id)
     dispatch && dispatch()
-    state.delete(id)
+    actionState.delete(id)
 }
 
-Layer.closeAll = () => state.forEach((_v, id) => Layer.close(id))
-Layer.isOpen = (id: string) => state.has(id)
+// Layer.closeAll = () => actionState.forEach((_v, id) => Layer.close(id))
+Layer.isOpen = (id: string) => actionState.has(id)
 
 export default Layer

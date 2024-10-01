@@ -1,13 +1,13 @@
 'use client'
 import React, { ReactElement, useState } from 'react';
-import { Tag, TagProps, useInterface, useColorTemplateColors, useColorTemplateType, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, useInterface, useColorTemplateColors, useColorTemplateType, TagComponentType } from 'naxui-manager';
 import ExpandIcon from "naxui-icons/round/ExpandMore";
 import Collaps, { CollapsProps } from '../Collaps';
 import List, { ListProps } from '../List';
 import ListItem, { ListItemProps } from '../ListItem';
 import Box, { BoxProps } from '../Box';
 
-export type AccordionProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
+export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     title: ReactElement | string;
     subtitle?: ReactElement | string;
     expand?: boolean;
@@ -30,7 +30,7 @@ export type AccordionProps<T extends TagComponenntType = "div"> = Omit<TagProps<
     }
 }
 
-const _Accordion = <T extends TagComponenntType = "div">({ children, title, subtitle, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
+const _Accordion = <T extends TagComponentType = "div">({ children, title, subtitle, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
     const [_expand, setExpand] = useState(false)
     let {
         expand,
@@ -129,7 +129,7 @@ const _Accordion = <T extends TagComponenntType = "div">({ children, title, subt
                 >{title}</ListItem>
                 <Collaps
                     {...slotProps?.collaps}
-                    in={expand}
+                    open={expand}
                     className="accordion-collaps"
                 >
                     <Box

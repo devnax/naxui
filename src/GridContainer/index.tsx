@@ -1,9 +1,9 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type GridContainerProps<T extends TagComponenntType = "div"> = TagProps<T>
-const _GridContainer = <T extends TagComponenntType = "div">({ children, ...rest }: GridContainerProps<T>, ref?: React.Ref<any>) => {
+export type GridContainerProps<T extends TagComponentType = "div"> = TagProps<T>
+const _GridContainer = <T extends TagComponentType = "div">({ children, ...rest }: GridContainerProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
             display="flex"

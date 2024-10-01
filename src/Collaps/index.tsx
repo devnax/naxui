@@ -1,34 +1,51 @@
 'use client'
-import React, { useEffect } from 'react';
-import { Tag, TagProps, TagComponenntType, useTransitions, UseTransitionsProps, classNames } from 'naxui-manager';
+import React from 'react';
+import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
+import Transition, { TransitionProps } from '../Transition';
 
-export type CollapsProps<T extends TagComponenntType = "div"> = TagProps<T> & {
-    in?: boolean,
-    slotProps?: {
-        transition?: UseTransitionsProps
-    }
-}
+export type CollapsProps<T extends TagComponentType = "div"> = TagProps<T> & Omit<TransitionProps, "variant"> & {}
 
-const _Collaps = <T extends TagComponenntType = "div">({ children, in: In, slotProps, ...rest }: CollapsProps<T>, ref: any) => {
+const _Collaps = <T extends TagComponentType = "div">({ children, open, ...props }: CollapsProps<T>, ref: any) => {
+    let {
+        ease,
+        easing,
+        duration,
+        delay,
+        onStart,
+        onFinish,
+        onOpen,
+        onOpened,
+        onClose,
+        onClosed,
+        ...rest
+    } = useInterface("Collaps", {}, props)
 
-    const [_ref, cls] = useTransitions("collapsVerticle", In || false, {
-        easing: "easeOut",
-        ...slotProps?.transition
-    })
-
-    useEffect(() => {
-        if (ref) {
-            ref.current = _ref.current
-        }
-    }, [])
+    open ??= false
+    easing ??= "easeOut"
 
     return (
-        <Tag
-            {...rest}
-            baseClass='collaps'
-            className={classNames(cls, (rest as any)?.className)}
-            ref={_ref}
-        >{children}</Tag>
+        <Transition
+            {...{
+                ease,
+                easing,
+                duration,
+                delay,
+                onStart,
+                onFinish,
+                onOpen,
+                onOpened,
+                onClose,
+                onClosed
+            }}
+            variant="collapsVerticle"
+            open={open}
+        >
+            <Tag
+                {...rest}
+                baseClass='collaps'
+                ref={ref}
+            >{children}</Tag>
+        </Transition>
     )
 }
 

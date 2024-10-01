@@ -1,8 +1,8 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type GridItemProps<T extends TagComponenntType = "div"> = TagProps<T> & {
+export type GridItemProps<T extends TagComponentType = "div"> = TagProps<T> & {
     xs?: number;
     sm?: number;
     md?: number;
@@ -10,7 +10,7 @@ export type GridItemProps<T extends TagComponenntType = "div"> = TagProps<T> & {
     xl?: number;
 }
 
-const _GridItem = <T extends TagComponenntType = "div">({ children, xs, sm, md, lg, xl, ...rest }: GridItemProps<T>, ref?: React.Ref<any>) => {
+const _GridItem = <T extends TagComponentType = "div">({ children, xs, sm, md, lg, xl, ...rest }: GridItemProps<T>, ref?: React.Ref<any>) => {
 
     let w: any = {}
 

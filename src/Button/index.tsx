@@ -1,10 +1,10 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
 import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
 import CircleProgress from '../CircleProgress'
 
-export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
+export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     color?: useColorTemplateColors;
@@ -15,7 +15,7 @@ export type ButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<
 }
 
 
-const _Button = <T extends TagComponenntType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
+const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     let { variant, startIcon, endIcon, color, corner, size, loading, ..._props } = useInterface('Button', {
         variant: "fill",

@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type TableFooterProps<T extends TagComponenntType = "tfoot"> = TagProps<T>
+export type TableFooterProps<T extends TagComponentType = "tfoot"> = TagProps<T>
 
-const _TableFooter = <T extends TagComponenntType = "tfoot">({ children, ...rest }: TableFooterProps<T>, ref: React.Ref<any>) => {
+const _TableFooter = <T extends TagComponentType = "tfoot">({ children, ...rest }: TableFooterProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
             {...rest}

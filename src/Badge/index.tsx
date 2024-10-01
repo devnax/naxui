@@ -1,17 +1,17 @@
 'use client'
 import React, { ReactElement } from 'react';
-import { Tag, TagProps, TagComponenntType, useTransitions } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useTransitions } from 'naxui-manager';
 import useUIVariant, { UseUIVariantColorTypes } from '../useUIVariant'
 
 
-export type BadgeProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
+export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
     content?: number | ReactElement;
     color?: UseUIVariantColorTypes;
     placement?: "left-top" | "left-bottom" | "right-top" | "right-bottom";
     visible?: boolean
 }
 
-const _Badge = <T extends TagComponenntType = "div">({ children, content, color, placement, visible, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
+const _Badge = <T extends TagComponentType = "div">({ children, content, color, placement, visible, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
     visible = visible ?? true
     placement = placement || "right-top"
     const colorCss = useUIVariant("filled", color || "error")

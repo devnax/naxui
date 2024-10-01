@@ -3,12 +3,12 @@ import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { useTransitions, UseTransitionsProps, UseTransitionsVariantsTypes, useWindowResize } from 'naxui-manager';
 import { getOrigin } from './getOrigin';
 import { placedMenu, PlacementTypes } from './placedMenu'
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import Portal, { PortalProps } from '../Portal'
 import { createRoot } from 'react-dom/client';
 
 
-export type MenuProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "target"> & {
+export type MenuProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "target"> & {
     target?: HTMLElement;
     placement?: PlacementTypes;
     transition?: UseTransitionsVariantsTypes;
@@ -22,7 +22,7 @@ export type MenuProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "
 }
 
 
-const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
+const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
     let {
         children,
         target,
@@ -113,7 +113,7 @@ const MenuMainView = <T extends TagComponenntType = "div">(props: MenuProps<T>) 
 
 
 
-const Menu = <T extends TagComponenntType = "div">(props: MenuProps<T>) => {
+const Menu = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
     const { target, children, onClose, portalProps, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
     const [key, setKey] = useState(0)

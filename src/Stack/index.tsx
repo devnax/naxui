@@ -1,10 +1,10 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type StackProps<T extends TagComponenntType = "div"> = TagProps<T>
+export type StackProps<T extends TagComponentType = "div"> = TagProps<T>
 
-const _Stack = <T extends TagComponenntType = "div">({ children, ...props }: StackProps<T>, ref?: React.Ref<any>) => {
+const _Stack = <T extends TagComponentType = "div">({ children, ...props }: StackProps<T>, ref?: React.Ref<any>) => {
 
     return (
         <Tag

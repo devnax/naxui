@@ -1,10 +1,10 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType, useInterface } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 
-export type PaperProps<T extends TagComponenntType = "div"> = TagProps<T>
+export type PaperProps<T extends TagComponentType = "div"> = TagProps<T>
 
-const _Paper = <T extends TagComponenntType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
+const _Paper = <T extends TagComponentType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
     const props = useInterface("Paper", {}, rest)
     return (
         <Tag

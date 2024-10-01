@@ -1,18 +1,18 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import { UseUIVariantColorTypes } from '../useUIVariant'
 
 import CircleProgress, { CircleProgressProps } from '../CircleProgress';
 
-export type LoadingBoxProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
+export type LoadingBoxProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     loading?: boolean;
     color?: UseUIVariantColorTypes;
     progressProps?: Omit<CircleProgressProps, "value">
 
 }
 
-const _LoadingBox = <T extends TagComponenntType = "div">({ children, loading, color, progressProps, ...rest }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
+const _LoadingBox = <T extends TagComponentType = "div">({ children, loading, color, progressProps, ...rest }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
     color = color ?? "paper"
 
     return (

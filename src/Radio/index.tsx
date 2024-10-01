@@ -1,10 +1,10 @@
 'use client'
 import React, { ReactElement } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import CheckIcon from 'naxui-icons/round/RadioButtonChecked'
 import UnCheckIcon from 'naxui-icons/round/RadioButtonUnchecked'
 
-export type RadioProps<T extends TagComponenntType = "input"> = TagProps<T> & {
+export type RadioProps<T extends TagComponentType = "input"> = TagProps<T> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
     size?: number;
@@ -12,7 +12,7 @@ export type RadioProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     value: string | number;
 }
 
-const _Radio = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, value, checked, color, disabled, ...rest }: RadioProps<T>, ref?: React.Ref<any>) => {
+const _Radio = <T extends TagComponentType = "input">({ children, size, checkIcon, uncheckIcon, value, checked, color, disabled, ...rest }: RadioProps<T>, ref?: React.Ref<any>) => {
     size = size || 22
     return (
         <Tag

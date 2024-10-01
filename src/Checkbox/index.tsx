@@ -1,11 +1,11 @@
 'use client'
 import React, { useState, ReactElement } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import CheckIcon from 'naxui-icons/round/CheckBox'
 import UnCheckIcon from 'naxui-icons/round/CheckBoxOutlineBlank'
 import IndeterminateCheckBoxIcon from 'naxui-icons/round/IndeterminateCheckBox';
 
-export type CheckboxProps<T extends TagComponenntType = "input"> = TagProps<T> & {
+export type CheckboxProps<T extends TagComponentType = "input"> = TagProps<T> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
     indeterminate?: boolean;
@@ -13,7 +13,7 @@ export type CheckboxProps<T extends TagComponenntType = "input"> = TagProps<T> &
     size?: number;
 }
 
-const _Checkbox = <T extends TagComponenntType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
+const _Checkbox = <T extends TagComponentType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 22

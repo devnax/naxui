@@ -1,14 +1,14 @@
 'use client'
 import React, { useState } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import PersonIcon from 'naxui-icons/round/Person'
 
-export type AvatarProps<T extends TagComponenntType = "img"> = TagProps<T> & {
+export type AvatarProps<T extends TagComponentType = "img"> = TagProps<T> & {
     src?: string;
     size?: number;
 }
 
-const _Avatar = <T extends TagComponenntType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
+const _Avatar = <T extends TagComponentType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
     size = size || 36
 

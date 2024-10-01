@@ -1,16 +1,16 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
 import useCornerVariant from '../useCornerVariant'
 
-export type IconButtonProps<T extends TagComponenntType = 'button'> = Omit<TagProps<T>, "color"> & {
+export type IconButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color"> & {
     size?: number;
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
     corner?: "square" | "rounded" | "circle";
 }
 
-const _IconButton = <T extends TagComponenntType = 'button'>({ children, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
+const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
 
     rest.sx = (rest as any).sx || {};
 

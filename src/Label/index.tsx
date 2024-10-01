@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type LabelProps<T extends TagComponenntType = "label"> = TagProps<T>
+export type LabelProps<T extends TagComponentType = "label"> = TagProps<T>
 
-const _Label = <T extends TagComponenntType = "label">({ children, ...rest }: LabelProps<T>, ref: React.Ref<any>) => {
+const _Label = <T extends TagComponentType = "label">({ children, ...rest }: LabelProps<T>, ref: React.Ref<any>) => {
     return <Tag
         component='label'
         display="inline-flex"

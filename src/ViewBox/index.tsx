@@ -2,9 +2,9 @@
 import React, { ReactElement } from 'react'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'
 
-import { Tag, TagProps, TagComponenntType, useInterface } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 
-export type ViewBoxProps<T extends TagComponenntType = "div"> = TagProps<T> & {
+export type ViewBoxProps<T extends TagComponentType = "div"> = TagProps<T> & {
     startContent?: ReactElement;
     endContent?: ReactElement;
     horizental?: boolean;

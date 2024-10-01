@@ -1,9 +1,9 @@
 "use client"
 import React from "react"
-import { Tag, TagProps, TagComponenntType, keyframes, useTheme } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, keyframes, useTheme } from 'naxui-manager';
 import { UseUIVariantColorTypes } from "../useUIVariant";
 
-export type LineProgressProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
+export type LineProgressProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     thumbSize?: number;
     color?: UseUIVariantColorTypes;
     value?: number;
@@ -12,7 +12,7 @@ export type LineProgressProps<T extends TagComponenntType = "div"> = Omit<TagPro
 }
 
 
-const _LineProgress = <T extends TagComponenntType = "div">({ children, color, value, thumbSize, hideTrack, speed, ...rest }: LineProgressProps<T>, ref: React.Ref<any>) => {
+const _LineProgress = <T extends TagComponentType = "div">({ children, color, value, thumbSize, hideTrack, speed, ...rest }: LineProgressProps<T>, ref: React.Ref<any>) => {
 
     color = color ?? "primary"
     thumbSize = thumbSize ?? 4

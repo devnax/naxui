@@ -1,8 +1,8 @@
 "use client"
 import React from "react"
-import { Tag, TagProps, TagComponenntType, useColorTemplateColors, keyframes, useTheme } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, keyframes, useTheme } from 'naxui-manager';
 
-export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagProps<T>, "color"> & {
+export type CircleProgressProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     size?: number;
     thumbSize?: number;
     color?: useColorTemplateColors;
@@ -15,7 +15,7 @@ export type CircleProgressProps<T extends TagComponenntType = "div"> = Omit<TagP
     thumbColor?: string;
 }
 
-const _CircleProgress = <T extends TagComponenntType = "div">({ children, color, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed, trackColor, thumbColor, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
+const _CircleProgress = <T extends TagComponentType = "div">({ children, color, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed, trackColor, thumbColor, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
 
     color ??= "brand"
     size ??= 30

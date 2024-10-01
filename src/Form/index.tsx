@@ -1,13 +1,13 @@
 'use client'
 import React, { useRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type FormProps<T extends TagComponenntType = "form"> = TagProps<T> & {
+export type FormProps<T extends TagComponentType = "form"> = TagProps<T> & {
 
 }
 
 
-const _Form = <T extends TagComponenntType = "form">({ children, ...rest }: FormProps<T>, ref: React.Ref<any>) => {
+const _Form = <T extends TagComponentType = "form">({ children, ...rest }: FormProps<T>, ref: React.Ref<any>) => {
     let formRef: any = ref || useRef()
 
     const cloneAllChildren: any = (childs: any) => {

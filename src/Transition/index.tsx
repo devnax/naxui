@@ -1,49 +1,29 @@
 'use client'
-import React, { useEffect } from 'react';
-import { UseTransitionsVariantsTypes, UseTransitionsVariantCallback, useTransitions, UseTransitionsProps, Tag, TagProps, useInterface } from 'naxui-manager';
+import React, { useState, ReactElement, cloneElement, Children } from 'react';
+import { useInterface, useTransition, UseTransitionProps, UseTransitionState } from 'naxui-manager';
 
-export type TransitionProps = TagProps<"div"> & UseTransitionsProps & {
-    in?: boolean;
-    type?: UseTransitionsVariantsTypes | UseTransitionsVariantCallback;
+export type TransitionProps = UseTransitionProps & {
+    children: ReactElement;
+    open: boolean;
 }
 
-const _Transition = ({ children, in: _in, ...rest }: TransitionProps, ref: React.Ref<any>) => {
-    const {
-        type,
-        ease,
-        easing,
-        duration,
-        delay,
-        onStart,
-        onFinish,
-        ...rootProps
-    } = useInterface("Transition", {}, rest)
+const Transition = ({ children, open, ...rest }: TransitionProps) => {
+    const props: any = useInterface("Transition", {
+        variant: "fade"
+    }, rest)
+    const [state, setState] = useState<UseTransitionState>('open')
 
-    const [_ref, cls] = useTransitions(type || "fade", _in, {
-        ease,
-        easing,
-        duration: duration || 400,
-        delay,
-        onStart,
-        onFinish
+    const cls = useTransition(open, {
+        ...props,
+        onState: (s) => {
+            console.log(s);
+
+            setState(s)
+        }
     })
-
-    useEffect(() => {
-        if (ref) ref = _ref
-    }, [])
-
-    return (
-        <Tag
-            display="inline-block"
-            {...rootProps}
-            className={cls}
-            baseClass='transition'
-            ref={_ref}
-        >
-            {children}
-        </Tag>
-    )
+    if (!children || Array.isArray(children)) throw new Error("Invalid children in Transition")
+    const first: any = Children.toArray(children).shift();
+    return state == 'closed' ? <></> : cloneElement(first, { className: cls })
 }
 
-const Transition = React.forwardRef(_Transition) as typeof _Transition
 export default Transition

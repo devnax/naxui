@@ -1,9 +1,9 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import Text from '../Text';
 
-export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
+export type InputProps<T extends TagComponentType = "input"> = TagProps<T> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     focused?: boolean;
@@ -16,7 +16,7 @@ export type InputProps<T extends TagComponenntType = "input"> = TagProps<T> & {
     multiline?: boolean;
 }
 
-const _Input = <T extends TagComponenntType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
+const _Input = <T extends TagComponentType = "input">(props: InputProps<T>, ref?: React.Ref<any>) => {
     let {
         children,
         startIcon,

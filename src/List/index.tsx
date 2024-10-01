@@ -1,15 +1,15 @@
 'use client'
 import React, { forwardRef } from 'react'
-import { Tag, TagProps, TagComponenntType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors } from 'naxui-manager'
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors } from 'naxui-manager'
 
-export type ListProps<T extends TagComponenntType = "ul"> = Omit<TagProps<T>, 'color'> & {
+export type ListProps<T extends TagComponentType = "ul"> = Omit<TagProps<T>, 'color'> & {
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
     hoverColor?: useColorTemplateColors;
     hoverVariant?: useColorTemplateType;
 }
 
-const _List = <T extends TagComponenntType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
+const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
     let { sx, color, variant, hoverColor, hoverVariant, ...props } = useInterface("List", {
         color: "brand",
         variant: "fill"

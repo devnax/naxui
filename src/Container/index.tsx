@@ -1,12 +1,12 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType, useTheme } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useTheme } from 'naxui-manager';
 
-export type ContainerProps<T extends TagComponenntType = "div"> = TagProps<T> & {
+export type ContainerProps<T extends TagComponentType = "div"> = TagProps<T> & {
     maxWidth?: 'lg' | 'md' | "sm" | 'xs'
 }
 
-const _Container = <T extends TagComponenntType = "div">({ children, maxWidth, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
+const _Container = <T extends TagComponentType = "div">({ children, maxWidth, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {
     const { breakpoints } = useTheme()
     maxWidth = maxWidth || "lg"
     return (

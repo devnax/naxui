@@ -1,14 +1,14 @@
 'use client'
 import React, { useState } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type SwitchProps<T extends TagComponenntType = "input"> = Omit<TagProps<T>, 'color'> & {
+export type SwitchProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, 'color'> & {
     checked?: boolean;
     size?: number;
     color?: "brand" | "accent" | "success" | "error" | "warning";
 }
 
-const _Switch = <T extends TagComponenntType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
+const _Switch = <T extends TagComponentType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
     const [c, set] = useState(false)
     checked = checked || c
     size = size || 44

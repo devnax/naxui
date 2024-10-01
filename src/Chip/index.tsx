@@ -1,11 +1,11 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
 import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
 
 
-export type ChipProps<T extends TagComponenntType = 'div'> = Omit<TagProps<T>, "color" | "children"> & {
+export type ChipProps<T extends TagComponentType = 'div'> = Omit<TagProps<T>, "color" | "children"> & {
     label: string;
     startIcon?: ReactElement;
     endIcon?: ReactElement;
@@ -15,7 +15,7 @@ export type ChipProps<T extends TagComponenntType = 'div'> = Omit<TagProps<T>, "
 }
 
 
-const _Chip = <T extends TagComponenntType = 'div'>({ label, variant, startIcon, endIcon, color, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
+const _Chip = <T extends TagComponentType = 'div'>({ label, variant, startIcon, endIcon, color, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
     rest.sx = (rest as any).sx || {};
     variant = variant || "filled"
     color = color || "brand"

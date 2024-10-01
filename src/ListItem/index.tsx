@@ -1,9 +1,9 @@
 'use client'
 import React, { forwardRef, ReactElement } from 'react'
-import { Tag, TagProps, TagComponenntType, useInterface } from 'naxui-manager'
+import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager'
 import Text from '../Text';
 
-export type ListItemProps<T extends TagComponenntType = "li"> = TagProps<T> & {
+export type ListItemProps<T extends TagComponentType = "li"> = TagProps<T> & {
     selected?: boolean;
     subtitle?: string | ReactElement;
     startIcon?: ReactElement;
@@ -11,7 +11,7 @@ export type ListItemProps<T extends TagComponenntType = "li"> = TagProps<T> & {
 }
 
 
-const _ListItem = <T extends TagComponenntType = "li">({ children, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
+const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
     const { selected, ...props } = useInterface("ListItem", {}, rest)
     return (
         <Tag

@@ -1,13 +1,13 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponenntType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
-export type TableProps<T extends TagComponenntType = "table"> = TagProps<T> & {
+export type TableProps<T extends TagComponentType = "table"> = TagProps<T> & {
     evenColor?: boolean;
     dense?: boolean;
 }
 
-const _Table = <T extends TagComponenntType = "table">({ children, evenColor, dense, ...rest }: TableProps<T>, ref: React.Ref<any>) => {
+const _Table = <T extends TagComponentType = "table">({ children, evenColor, dense, ...rest }: TableProps<T>, ref: React.Ref<any>) => {
 
     let sx = {}
     if (evenColor) {

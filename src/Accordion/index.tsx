@@ -100,7 +100,7 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
 
     return (
         <Tag
-            fontFamily="theme"
+            fontFamily="default"
             bgcolor="background.primary"
             {...rootProps}
             baseClass='accordion'

@@ -33,7 +33,7 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
             height={size}
             width={size}
             cursor="pointer"
-            fontFamily="theme"
+            fontFamily="default"
             display="inline-flex"
             flexDirection="row"
             alignItems="center"

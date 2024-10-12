@@ -48,7 +48,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
     let _icon = icon || icons[type || "info"]
     return (
         <Tag
-            fontFamily="theme"
+            fontFamily="default"
             flexBox
             flexColumn
             radius={1}

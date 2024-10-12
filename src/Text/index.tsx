@@ -13,7 +13,7 @@ const _Text = <T extends TagComponentType = "p">({ children, variant, ...props }
             fontSize={variant}
             lineHeight={variant}
             fontWeight={variant}
-            fontFamily="theme"
+            fontFamily="default"
             color="text.primary"
             {...props}
             baseClass='text'

@@ -7,6 +7,7 @@ import Section from "../Layout/Section"
 import InfoIcon from 'naxui-icons/round/Info';
 import HomeIcon from 'naxui-icons/round/Home';
 import IconClose from 'naxui-icons/round/Close';
+import UserIcon from 'naxui-icons/round/People';
 import CircleProgress from "../../src/CircleProgress"
 
 
@@ -39,8 +40,8 @@ const Buttons = () => {
                     <IconButton color="warning">
                         <IconClose />
                     </IconButton>
-                    <IconButton color="danger">
-                        <IconClose />
+                    <IconButton color="danger" size={50}>
+                        <UserIcon />
                     </IconButton>
                 </Stack>
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
@@ -94,7 +95,7 @@ const Buttons = () => {
             </Section>
             <Section title="Sizes">
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
-                    <Button color="brand" size="small">Button</Button>
+                    <Button startIcon={<InfoIcon fontSize={20} />} color="brand" size="small">Button</Button>
                     <Button color="brand" size="medium">Button</Button>
                     <Button color="brand" size="large">Button</Button>
                 </Stack>

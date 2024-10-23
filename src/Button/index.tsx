@@ -2,7 +2,7 @@
 import React, { ReactElement, forwardRef } from 'react';
 import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
 import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
-import CircleProgress from '../CircleProgress'
+import CircleProgress, { CircleProgressProps } from '../CircleProgress'
 
 export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
     startIcon?: ReactElement;
@@ -12,12 +12,14 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
     corner?: UseCornerVariantTypes;
     size?: "small" | "medium" | "large";
     loading?: boolean;
+    slotProps?: {
+        loading?: Omit<CircleProgressProps, "color" | "hideTrack" | "size">
+    }
 }
 
 
 const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
-    rest.sx = (rest as any).sx || {};
-    let { variant, startIcon, endIcon, color, corner, size, loading, ..._props } = useInterface('Button', {
+    let { variant, startIcon, endIcon, color, corner, size, loading, slotProps, ..._props } = useInterface('Button', {
         variant: "fill",
         color: "brand",
         corner: "rounded",
@@ -29,18 +31,22 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
 
     const sizes: any = {
         small: {
-            px: 1.2,
-            py: .5,
-            fontSize: "small"
+            height: 32,
+            px: 2,
+            gap: .5,
+            fontSize: 12
         },
         medium: {
+            height: 40,
             px: 2,
-            py: 1,
+            gap: 1,
+            fontSize: 14
         },
         large: {
-            px: 2,
-            py: 1,
-            fontSize: "text"
+            height: 52,
+            px: 3,
+            gap: 1,
+            fontSize: 16
         }
     }
 
@@ -56,15 +62,12 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
             baseClass='button'
             border={0}
             cursor="pointer"
-            fontFamily="default"
-            fontSize="button"
-            fontWeight="button"
+            font="button"
             display="inline-flex"
             textTransform="uppercase"
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
-            lineHeight={!(startIcon || endIcon) ? 1.75 : "button"}
             position="relative"
             overflow="hidden"
             {...cornerCss}
@@ -72,13 +75,14 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
             {..._props}
             {...template}
             hover={{
-                ...template.hover,
-                ...((_props as any).hover || {})
+                ...template?.hover,
+                ...((_props as any)?.hover || {})
             }}
             disabled={loading ?? _props.disabled ?? false}
             ref={ref}
         >
             {loading && <Tag
+                baseClass='button-loading-container'
                 sx={{
                     position: "absolute",
                     top: 0,
@@ -92,15 +96,24 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
                 }}
             >
                 <CircleProgress
+                    {...slotProps?.loading}
                     color={color === 'default' ? `brand` : "default"}
                     hideTrack
                     size={progressSizes[size]}
+                    className='button-loading-progress'
                 />
             </Tag>}
-
-            {startIcon && <Tag component='span' mr={1} ml={-.5} display="inline-block">{startIcon}</Tag>}
+            {startIcon && <Tag
+                baseClass='button-start-icon'
+                component='span'
+                display="inline-block"
+            >{startIcon}</Tag>}
             {children}
-            {endIcon && <Tag component='span' ml={1} mr={-.5} display="inline-block">{endIcon}</Tag>}
+            {endIcon && <Tag
+                baseClass='button-end-icon'
+                component='span'
+                display="inline-block"
+            >{endIcon}</Tag>}
         </Tag>
     )
 }

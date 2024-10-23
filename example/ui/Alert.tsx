@@ -1,6 +1,7 @@
 import React from 'react'
 import Alert from '../../src/Alert'
 import Stack from '../../src/Stack'
+import Text from '../../src/Text'
 import Button from '../../src/Button'
 
 const Alerts = () => {
@@ -15,38 +16,43 @@ const Alerts = () => {
             }}>Open</Button>
             <Alert
                 width={300}
-                inline={false}
-                onClose={(e) => {
-
-                }}
-                title="Error"
-            // type='error'
+                mode="box"
+                color="warning"
+                variant='alpha'
+                title="Warning"
             >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.
+                <Stack
+                    gap={2}
+                >
+                    <Text color="inherit">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.</Text>
+                </Stack>
             </Alert>
             <Alert
                 title="Information"
                 type='info'
+                variant='alpha'
+                color="danger"
+                onClose={() => { }}
             >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam modi dolores, nobis praesentium maxime pariatur, alias aliquam facilis asperiores ratione tenetur fugit laborum doloribus repellat sequi dolorum porro necessitatibus impedit.
             </Alert>
             <Alert
                 title="Warning"
                 type='warning'
+                color="warning"
             >
                 You have know some thing before continue
             </Alert>
             <Alert
-                // title="Success"
                 type='success'
-                variant='filled'
+                color="success"
             >
                 Your proccess has been success. now you can enjoy
             </Alert>
             <Alert
                 title="Information"
                 type='info'
-                variant='outlined'
+                color="info"
             >
                 Your proccess has been success. now you can enjoy
             </Alert>

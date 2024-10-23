@@ -1,43 +1,49 @@
 'use client'
-import React, { ReactElement, useMemo, Children, cloneElement } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import React, { ReactElement, Children, cloneElement } from 'react';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
 import { ButtonProps } from '../Button';
-import { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
 
 export type ButtonGroupProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, 'children' | "size"> & {
     children?: ReactElement<ButtonProps> | ReactElement<ButtonProps>[];
-    color?: UseUIVariantColorTypes;
-    variant?: UseUIVariantTypes;
-    softness?: number;
-    size?: ButtonProps['size']
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
+    size?: "small" | "medium" | "large";
 }
 
-const _ButtonGroup = <T extends TagComponentType = "div">({ children, color, variant, softness, size, ...rest }: ButtonGroupProps<T>, ref: React.Ref<any>) => {
+const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }: ButtonGroupProps<T>, ref: React.Ref<any>) => {
+    let { color, variant, size, ...props } = useInterface("ButtonGroup", {
+        size: "medium"
+    }, rest)
 
-    const buttons = useMemo(() => {
-        return Children.map(children, (child: any) => {
-            return cloneElement(child, {
-                flex: 1,
-                color,
-                variant,
-                softness,
-                size
-            })
-        })
+    const template = useColorTemplate(color, "outline")
 
-    }, [children])
+    const sizes: any = {
+        small: {
+            height: 32,
+        },
+        medium: {
+            height: 40,
+        },
+        large: {
+            height: 52,
+        }
+    }
 
     return (
         <Tag
             baseClass='button-group'
-            {...rest}
+            {...props}
             ref={ref}
             display="inline-flex"
+            overflow="hidden"
+            radius={1}
+            {...sizes[size]}
             sx={{
                 '& button:not(:last-of-type)': {
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
-                    borderRight: "1px solid",
+                    borderRight: 1,
+                    borderColor: template.borderColor
                 },
                 '& button:not(:first-of-type)': {
                     borderTopLeftRadius: 0,
@@ -46,7 +52,15 @@ const _ButtonGroup = <T extends TagComponentType = "div">({ children, color, var
                 }
             }}
         >
-            {buttons as any}
+            {Children.map(children, (child: any) => {
+                return cloneElement(child, {
+                    flex: 1,
+                    color,
+                    variant,
+                    size,
+                    corner: "squar"
+                })
+            })}
         </Tag>
     )
 }

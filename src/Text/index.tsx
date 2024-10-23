@@ -7,6 +7,9 @@ export type TextProps<T extends TagComponentType = "p"> = TagProps<T> & {
 }
 
 const _Text = <T extends TagComponentType = "p">({ children, variant, ...props }: TextProps<T>, ref?: React.Ref<any>) => {
+
+    variant ??= 'text'
+
     return (
         <Tag
             component={variant === 'text' || variant === 'small' ? "p" : variant}

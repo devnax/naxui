@@ -7,16 +7,18 @@ import Text from '../Text';
 import Button from '../Button';
 import ResetIcon from 'naxui-icons/round/Replay';
 import ViewBox from '../ViewBox';
+import { useColorTemplateColors } from 'naxui-manager';
 
 export type CalenderProps = {
     value?: Date | null;
     onChange?: (date: Date | null) => void;
     viewMode?: "year" | "month" | "day";
     onButtonClick?: (mode: CalenderProps["viewMode"], value: CalenderProps["value"]) => void;
+    color?: useColorTemplateColors;
 }
 
 
-const ShowYears = ({ year, today, boxWidth, onClick }: any) => {
+const ShowYears = ({ color, year, today, boxWidth, onClick }: any) => {
     let years: any[] = []
     const selectedRef: any = useRef()
     for (let y = 1900; y < today.getFullYear() + 40; y++) {
@@ -30,15 +32,13 @@ const ShowYears = ({ year, today, boxWidth, onClick }: any) => {
             className='calender-year-item'
         >
             <Button
+                color={color}
                 className='calender-year-button'
                 size='small'
                 corner="circle"
                 ref={selected ? selectedRef : null}
-                variant={selected ? "filled" : 'text'}
                 onClick={() => onClick(y)}
-                sx={{
-                    color: selected ? "brand.text" : "text.primary"
-                }}
+                variant={selected ? "fill" : "text"}
             >
                 {y}
             </Button>
@@ -65,7 +65,7 @@ const ShowYears = ({ year, today, boxWidth, onClick }: any) => {
 }
 
 
-const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderProps) => {
+const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: CalenderProps) => {
     let [viewMode, setViewMode] = useState<any>(VMode || "day");
     let [selectedDate, setSelectedDate] = useState(new Date());
     selectedDate = value instanceof Date ? value : selectedDate
@@ -74,7 +74,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
     const month = currentDate.getMonth()
     const daysInMonth = 32 - new Date(year, month, 32).getDate()
     const today = new Date();
-    const btnWidth = 36
+    const btnWidth = 32
     const boxWidth = btnWidth * 7
 
     const showCalendar = () => {
@@ -104,15 +104,15 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                     let css: any = {}
                     if (isToday) {
                         css = {
-                            variant: "outlined",
-                            color: "primary"
+                            variant: "outline",
+                            color: color
                         }
                     }
 
                     if (isSelected) {
                         css = {
-                            variant: "filled",
-                            color: "primary"
+                            variant: "fill",
+                            color: color
                         }
                     }
 
@@ -126,9 +126,8 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                     >
                         <IconButton
                             className='calender-day-button'
-                            size={btnWidth - 4}
-                            variant={isSelected ? "filled" : "text"}
-                            color={isToday ? "primary" : "paper"}
+                            variant={isSelected ? "fill" : "text"}
+                            color={isToday ? color : "default"}
                             {...css}
                             data-value={date}
                             onClick={(e: any) => {
@@ -167,10 +166,11 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                 className='calender-months-item'
             >
                 <Button
+                    color={color}
                     className='calender-month-button'
                     size='small'
                     corner="circle"
-                    variant={selected ? "filled" : 'text'}
+                    variant={selected ? "fill" : 'text'}
                     onClick={() => {
                         const v = new Date(currentDate.getFullYear(), m)
                         setCurrentDate(v)
@@ -204,6 +204,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
     switch (viewMode) {
         case "year":
             view = <ShowYears
+                color={color}
                 today={today}
                 year={year}
                 boxWidth={boxWidth}
@@ -218,7 +219,6 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
         case "month":
             view = showMonth()
             break;
-
         default:
             view = (<>
                 <Stack flexRow className='calender-week-container'>
@@ -255,7 +255,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
             width={boxWidth + 12}
             radius={1}
             bgcolor="background.primary"
-            header={
+            startContent={
                 <Stack className='calender-header' flexRow alignItems="center" justifyContent="space-between" p={1}>
                     <Text
                         fontWeight="bold"
@@ -266,9 +266,8 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                         {currentDate.toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}
                     </Text>
                     <IconButton
-                        sx={{
-                            color: "text.secondary"
-                        }}
+                        color="default"
+                        variant='text'
                         size={28}
                         onClick={() => {
                             setCurrentDate(new Date())
@@ -278,9 +277,8 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                         <ResetIcon fontSize={20} />
                     </IconButton>
                     <IconButton
-                        sx={{
-                            color: "text.secondary"
-                        }}
+                        color="default"
+                        variant='text'
                         size={28}
                         onClick={() => {
                             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))
@@ -289,9 +287,8 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick }: CalenderP
                         <IconKeyboardArrowLeft />
                     </IconButton>
                     <IconButton
-                        sx={{
-                            color: "text.secondary"
-                        }}
+                        color="default"
+                        variant='text'
                         size={28}
                         onClick={() => {
                             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))

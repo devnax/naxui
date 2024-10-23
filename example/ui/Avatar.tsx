@@ -1,9 +1,18 @@
 import React from 'react'
+import Stack from '../../src/Stack'
+import Avatar from '../../src/Avatar'
+import Section from '../Layout/Section'
 
-const Accordion = () => {
+const Avatars = () => {
     return (
-        <div>Accordion</div>
+        <Stack>
+            <Section title="Basic" flexRow gap={2}>
+                <Avatar />
+                <Avatar size={45} />
+                <Avatar size={50} />
+            </Section>
+        </Stack>
     )
 }
 
-export default Accordion
+export default Avatars

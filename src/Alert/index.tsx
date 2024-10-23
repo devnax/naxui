@@ -1,28 +1,24 @@
 'use client'
-import { Tag, TagProps, useColorTemplateColors, useColorTemplateType, useInterface } from "naxui-manager"
-import React, { ReactElement } from "react"
+import { Tag, TagProps, useColorTemplate, useColorTemplateColors, useColorTemplateType, useInterface } from "naxui-manager"
+import React, { isValidElement, ReactElement } from "react"
 import Text from "../Text"
 import InfoIcon from 'naxui-icons/round/Info';
 import WarningIcon from 'naxui-icons/round/Warning';
 import SuccessIcon from 'naxui-icons/round/CheckCircle';
 import ErrorIcon from 'naxui-icons/round/Cancel';
-import useUIVariant from "../useUIVariant";
 import IconClose from 'naxui-icons/round/Close';
 import IconButton from "../IconButton";
 import Modal from "../Modal";
 
 
-export type AlertProps = Omit<TagProps<"div">, 'children' | "content" | "title"> & {
-    children: any;
-    title?: string;
-    icon?: false | ReactElement;
+export type AlertProps = Omit<TagProps<"div">, "content" | "title"> & {
+    title?: string | ReactElement;
+    mode?: "item" | "box";
     variant?: useColorTemplateType;
-    type?: "info" | "warning" | "success" | "error";
     color?: useColorTemplateColors;
-    inline?: boolean;
-    contentainerProps?: Omit<TagProps<"div">, 'children' | "content">;
-    footer?: ReactElement;
-    onClose?: React.DOMAttributes<"button">['onClick']
+    type?: "info" | "warning" | "success" | "error";
+    icon?: false | ReactElement;
+    onClose?: React.DOMAttributes<"button">['onClick'];
 }
 
 export type AlertMesssageType = string | ReactElement | AlertProps
@@ -32,33 +28,50 @@ export type AlertPropsWithContent = Omit<AlertProps, 'children'> & {
 }
 
 export const Alert = ({ children, ...rest }: AlertProps) => {
-    let { title, variant, icon, type, color, inline, contentainerProps, footer, onClose, ..._props } = useInterface("Alert", {}, rest)
-    color = (color || type || "default") as any
+    let {
+        title,
+        variant,
+        icon,
+        type,
+        color,
+        mode,
+        slotProps,
+        footer,
+        onClose,
+        ..._props
+    } = useInterface("Alert", {
+        variant: "fill"
+    }, rest)
+    mode ??= "item"
+    let inline = mode === 'item'
+    type ??= "info"
+    color = color || type
 
-    let { hover, ...uiCss }: any = useUIVariant(variant || "soft", color || type) || {}
-    inline = inline ?? true
+    const template = useColorTemplate(color, variant)
+    delete template.hover
 
     const icons: any = {
-        "info": <InfoIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : uiCss.color} />,
-        "warning": <WarningIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : uiCss.color} />,
-        "success": <SuccessIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : uiCss.color} />,
-        "danger": <ErrorIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : uiCss.color} />
+        "info": <InfoIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : template.color} />,
+        "warning": <WarningIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : template.color} />,
+        "success": <SuccessIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : template.color} />,
+        "danger": <ErrorIcon fontSize={inline ? 22 : 40} color={color === 'default' ? "text.primary" : template.color} />
     }
 
-    let _icon = icon || icons[type || "info"]
+    let _icon = icon || icons[type]
+
     return (
         <Tag
             fontFamily="default"
             flexBox
             flexColumn
             radius={1}
-            p={1}
+            p={inline ? 1 : 3}
             px={1.5}
-            {...uiCss}
             {..._props}
-            baseClass="alert-view-root"
+            baseClass="alert"
             justifyContent="flex-start"
             position="relative"
+            {...template}
         >
             {
                 onClose && <IconButton
@@ -69,6 +82,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                     top={5}
                     right={5}
                     onClick={onClose}
+                    className="alert-close-button"
                 >
                     <IconClose fontSize={18} />
                 </IconButton>
@@ -77,33 +91,53 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                 flexBox
                 gap={1}
                 direction={inline ? "row" : "column"}
-                {...contentainerProps}
-                baseClass="alert-view-contentainer"
+                alignItems={inline ? "flex-start" : "center"}
+                baseClass="alert-container"
             >
                 {
                     _icon && <Tag
                         py={inline ? 1 : 0}
-                        baseClass="alert-view-icon"
+                        baseClass="alert-icon"
                         flexBox
                         alignItems="center"
                         justifyContent="center"
                         sx={{
                             "& svg": {
-                                color: color === 'default' ? "text" : uiCss.color
+                                color: template.color
                             }
                         }}
                     >
                         {_icon}
                     </Tag>
                 }
-                <Tag baseClass="alert-view-text" textAlign={inline ? "left" : "center"} flexBox gap={.4} flexColumn flex={1} color={color === 'paper' ? "text.secondary" : uiCss.color} py={1} fontSize="button" lineHeight={1.5}>
-                    {title && <Text variant="text" fontSize="button" fontWeight="bold" color={color === 'paper' ? "text" : uiCss.color}>{title}</Text>}
-                    {children}
+                <Tag
+                    baseClass="alert-content"
+                    textAlign={inline ? "left" : "center"}
+                    flexBox
+                    flexColumn
+                    flex={1}
+                    color={template.color}
+                    py={1}
+                >
+                    {title && <>
+                        {
+                            isValidElement(title) ? <Tag className="alert-title">{title}</Tag> : <Text
+                                className="alert-title"
+                                variant="text"
+                                fontSize={14}
+                                fontWeight="bold"
+                                color={template.color}
+                            >{title}</Text>
+                        }
+                    </>}
+                    <Tag
+                        fontSize={14}
+                        fontFamily="default"
+                    >
+                        {children}
+                    </Tag>
                 </Tag>
             </Tag>
-            {footer && <Tag pt={1}>
-                {footer}
-            </Tag>}
         </Tag>
     )
 }
@@ -112,7 +146,7 @@ Alert.open = (props: AlertPropsWithContent) => {
     const id = "_" + Math.random().toString(16)
     const { content, ...rest } = props
     return Modal.open(id, <Alert
-        inline={false}
+        mode="box"
         bgcolor="background.primary"
         {...rest}
     >

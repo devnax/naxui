@@ -4,7 +4,7 @@ import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, 
 import useCornerVariant from '../useCornerVariant'
 
 export type IconButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color"> & {
-    size?: number;
+    size?: number | "small" | "medium" | "large";
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
     corner?: "square" | "rounded" | "circle";
@@ -15,19 +15,23 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
     rest.sx = (rest as any).sx || {};
 
     let { variant, corner, color, size, ..._props } = useInterface("IconButton", {
-        variant: "fill",
-        corner: "circle",
-        color: "brand",
-        size: 40
+        corner: "circle"
     }, rest)
-    let template = useColorTemplate(color, variant)
-
+    let template = useColorTemplate(color || "brand", variant || "fill")
     const cornerCss = useCornerVariant(corner)
+    if (size === 'small') {
+        size = 32
+    } else if (size === 'medium') {
+        size = 40
+    } else if (size === 'large') {
+        size = 52
+    }
+
+    size ??= 32
 
     return (
         <Tag
             component='button'
-            baseClass='icon-button'
             border={0}
             radius={size}
             height={size}
@@ -43,6 +47,8 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
             {...cornerCss}
             {..._props}
             {...template}
+            baseClass='icon-button'
+            fontSize={(size / 5) * 2}
             sx={{
                 ..._props.sx,
                 "& svg": {
@@ -50,8 +56,8 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
                 }
             }}
             hover={{
-                ...((template as any).hover || {}),
-                ...((_props as any).hover || {})
+                ...((template as any)?.hover || {}),
+                ...((_props as any)?.hover || {})
             }}
         >
             {children}

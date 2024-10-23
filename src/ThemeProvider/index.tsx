@@ -1,8 +1,32 @@
-import React from 'react'
+import React, { useEffect, useId, useMemo } from 'react'
+import { ThemeProvider as RootThemeProvider, ThemeProviderProps as RootThemeProviderProps } from 'naxui-manager'
 
-const ThemeProvider = () => {
+const providers: string[] = []
+
+export type ThemeProviderProps = RootThemeProviderProps & {
+
+}
+
+const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
+    const id = useId()
+
+    useMemo(() => {
+        providers.push(id)
+    }, [])
+
+    useEffect(() => {
+        return () => {
+            providers.splice(providers.indexOf(id), 1)
+        }
+    }, [])
+
+    const isRoot = providers[0] === id
+
     return (
-        <div>ThemeProvider</div>
+        <RootThemeProvider {...props}>
+            {isRoot && <></>}
+            {children}
+        </RootThemeProvider>
     )
 }
 

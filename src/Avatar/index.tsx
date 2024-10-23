@@ -1,15 +1,15 @@
 'use client'
 import React, { useState } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 import PersonIcon from 'naxui-icons/round/Person'
 
 export type AvatarProps<T extends TagComponentType = "img"> = TagProps<T> & {
-    src?: string;
     size?: number;
 }
 
-const _Avatar = <T extends TagComponentType = "img">({ children, size, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
+const _Avatar = <T extends TagComponentType = "img">({ children, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
+    let { size, ...props } = useInterface("Avatar", {}, rest)
     size = size || 36
 
     if (faild === false || !src) {
@@ -18,23 +18,23 @@ const _Avatar = <T extends TagComponentType = "img">({ children, size, src, alt,
             <Tag
                 component="div"
                 src={src}
-                {...rest}
+                {...props}
                 baseClass='avatar'
                 sx={{
                     display: "inline-flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    bgcolor: "paper",
+                    bgcolor: "background.secondary",
                     radius: size,
-                    fontSize: size - 12,
+                    fontSize: (size / 3) * 2,
                     width: size,
                     height: size,
                     userSelect: "none",
                     '& svg': {
-                        fontSize: size - 8,
+                        fontSize: (size / 3) * 2,
                         opacity: .6
                     },
-                    ...((rest as any).sx || {})
+                    ...((props as any).sx || {})
                 }}
                 ref={ref}
             >{t}</Tag>
@@ -47,13 +47,13 @@ const _Avatar = <T extends TagComponentType = "img">({ children, size, src, alt,
             width={size}
             height={size}
             objectFit="cover"
+            {...props}
             alt={alt}
             src={src}
-            {...rest}
             baseClass='avatar'
             onError={(e) => {
                 setFaild(false)
-                rest.onError && rest.onError(e as any)
+                props.onError && props.onError(e as any)
             }}
             ref={ref}
         />

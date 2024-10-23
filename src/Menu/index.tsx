@@ -1,6 +1,6 @@
 'use client'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { useTransitions, UseTransitionsProps, UseTransitionsVariantsTypes, useWindowResize } from 'naxui-manager';
+import { useTransition, UseTransitionProps, useWindowResize } from 'naxui-manager';
 import { getOrigin } from './getOrigin';
 import { placedMenu, PlacementTypes } from './placedMenu'
 import { Tag, TagProps, TagComponentType } from 'naxui-manager';
@@ -11,18 +11,18 @@ import { createRoot } from 'react-dom/client';
 export type MenuProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "target"> & {
     target?: HTMLElement;
     placement?: PlacementTypes;
-    transition?: UseTransitionsVariantsTypes;
-    transitionProps?: UseTransitionsProps;
     zIndex?: number;
     onOpen?: () => void;
     onClose?: () => void;
     onClickOutside?: () => void;
     menuRef?: any;
-    portalProps?: Omit<PortalProps, "children">
+    slotProps?: {
+        transition?: UseTransitionProps;
+        portal?: Omit<PortalProps, "children">;
+    }
 }
 
-
-const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
+const MenuView = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
     let {
         children,
         target,
@@ -32,7 +32,7 @@ const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) =
         onOpen,
         onClose,
         onClickOutside,
-        transitionProps,
+        slotProps,
         menuRef,
         ...rest
     } = props
@@ -42,26 +42,23 @@ const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) =
         ease,
         onStart,
         onFinish
-    } = transitionProps || {}
-
+    } = slotProps?.transition || {} as any
 
     placement = placement || "left"
     const [placed, setPlaced] = useState<any>(placement)
 
     let ref: any = useRef()
-    let [animRef, cls] = useTransitions(transition || "grow", !!target, {
+    let { classname } = useTransition(!!target, {
+        variant: "grow",
         ease: ease || "ease",
         duration: duration || 200,
         delay,
         onStart,
-        onFinish: () => {
-            if (!target) {
-                onClose && onClose()
-            } else {
-                onOpen && onOpen()
-            }
-            onFinish && onFinish()
-        }
+        onFinish,
+        onClosed: () => {
+            onClose && onClose()
+        },
+        onOpen
     })
 
     useEffect(() => {
@@ -96,14 +93,13 @@ const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) =
         >
             <Tag
                 overflow="hidden"
-                baseClass='menu'
+                baseClass='menu-content'
                 bgcolor="background.primary"
                 shadow={5}
                 radius={1}
-                ref={animRef}
                 transformOrigin={getOrigin(placed) || "top"}
                 {...rest}
-                classNames={[cls, rest?.className]}
+                classNames={[classname]}
             >
                 {children}
             </Tag>
@@ -111,10 +107,8 @@ const MenuMainView = <T extends TagComponentType = "div">(props: MenuProps<T>) =
     )
 }
 
-
-
 const Menu = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
-    const { target, children, onClose, portalProps, ...rest } = props
+    const { target, children, onClose, slotProps, ...rest } = props
     const [destroy, setDestroy] = useState(!target)
     const [key, setKey] = useState(0)
 
@@ -129,8 +123,8 @@ const Menu = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
     if (destroy) return <></>
 
     return (
-        <Portal {...portalProps}>
-            <MenuMainView
+        <Portal {...slotProps?.portal}>
+            <MenuView
                 key={key}
                 {...rest}
                 target={target}
@@ -140,7 +134,7 @@ const Menu = <T extends TagComponentType = "div">(props: MenuProps<T>) => {
                 }}
             >
                 {children}
-            </MenuMainView>
+            </MenuView>
         </Portal>
     )
 
@@ -222,10 +216,10 @@ Menu.openContextMenu = (event: React.MouseEvent<any, MouseEvent>, content: React
         ...props,
         closeClickOutside: true,
         placement: "bottom-left",
-        transitionProps: {
-            duration: 150,
-            ...props?.transitionProps
-        }
+        // transitionProps: {
+        //     duration: 150,
+        //     ...props?.transitionProps
+        // }
     })
 }
 export default Menu

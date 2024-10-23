@@ -1,19 +1,20 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
-import { UseUIVariantColorTypes } from '../useUIVariant'
-
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface } from 'naxui-manager';
 import CircleProgress, { CircleProgressProps } from '../CircleProgress';
 
 export type LoadingBoxProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     loading?: boolean;
-    color?: UseUIVariantColorTypes;
-    progressProps?: Omit<CircleProgressProps, "value">
+    color?: useColorTemplateColors;
+    slotProps?: {
+        CircleProgress?: Omit<CircleProgressProps, "value">
+    }
 
 }
 
-const _LoadingBox = <T extends TagComponentType = "div">({ children, loading, color, progressProps, ...rest }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
-    color = color ?? "paper"
+const _LoadingBox = <T extends TagComponentType = "div">({ children, ...rest }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
+    let { loading, color, slotProps } = useInterface("LoadingBox", {}, rest)
+    color = color ?? "brand"
 
     return (
         <Tag
@@ -28,6 +29,7 @@ const _LoadingBox = <T extends TagComponentType = "div">({ children, loading, co
             ref={ref}
         >
             {loading && <Tag
+                baseClass="loading-box-container"
                 sx={{
                     position: "absolute",
                     top: 0,
@@ -38,14 +40,13 @@ const _LoadingBox = <T extends TagComponentType = "div">({ children, loading, co
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    bgcolor: `paper`
+                    bgcolor: "background.alpha"
                 }}
             >
                 <CircleProgress
-                    color="paper"
+                    color="brand"
                     hideTrack
-                    thumbColor={color === 'paper' ? `background.secondary` : `${color}.text`}
-                    {...progressProps}
+                    {...slotProps?.CircleProgress}
                 />
             </Tag>}
             {children}

@@ -1,22 +1,26 @@
 'use client'
 import React, { ReactElement } from 'react';
-import { Tag, TagProps, TagComponentType, useTransitions } from 'naxui-manager';
-import useUIVariant, { UseUIVariantColorTypes } from '../useUIVariant'
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplate } from 'naxui-manager';
+import Transition, { TransitionProps } from '../Transition';
 
 
 export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
     content?: number | ReactElement;
-    color?: UseUIVariantColorTypes;
+    color?: useColorTemplateColors;
     placement?: "left-top" | "left-bottom" | "right-top" | "right-bottom";
-    visible?: boolean
+    visible?: boolean;
+    slotProps?: {
+        transition?: Omit<TransitionProps, "open">
+    }
 }
 
-const _Badge = <T extends TagComponentType = "div">({ children, content, color, placement, visible, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
-    visible = visible ?? true
+const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
+    let { color, placement, visible, slotProps, ...props } = useInterface("Badge", {}, rest)
+    color ??= "danger"
+    visible ??= true
     placement = placement || "right-top"
-    const colorCss = useUIVariant("filled", color || "error")
-    const [_tranRef, _tranCls] = useTransitions("zoom", visible)
-
+    const template = useColorTemplate(color, "fill")
+    delete template.hover
     let _css: any = {}
     let pos = -3;
     if (typeof content === "number") {
@@ -26,6 +30,7 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, color, 
             pos = -8
         }
     }
+
     switch (placement) {
         case "left-top":
             _css = { top: content ? pos : 0, left: content ? pos : 0 }
@@ -53,30 +58,34 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, color, 
 
     return (
         <Tag
-            {...rest}
+            {...props}
             position="relative"
             display="inline-block"
-            baseClass='badge-root'
+            baseClass='badge'
             ref={ref}
         >
-            <Tag
-                ref={_tranRef}
-                className={_tranCls}
-                component='span'
-                baseClass='badge-content'
-                position="absolute"
-                zIndex={1}
-                {...colorCss}
-                radius={2}
-                flexBox
-                justifyContent="center"
-                alignItems="center"
-                fontWeight={500}
-                fontSize={11}
-                {..._css}
+            <Transition
+                variant="zoom"
+                {...slotProps?.transition}
+                open={visible}
             >
-                {typeof content === 'number' ? (content >= 100 ? "99+" : content) : content}
-            </Tag>
+                <Tag
+                    component='span'
+                    baseClass='badge-content'
+                    position="absolute"
+                    zIndex={1}
+                    radius={2}
+                    flexBox
+                    justifyContent="center"
+                    alignItems="center"
+                    fontWeight={500}
+                    fontSize={11}
+                    {...template}
+                    {..._css}
+                >
+                    {typeof content === 'number' ? (content >= 100 ? "99+" : content) : content}
+                </Tag>
+            </Transition>
             {children}
         </Tag>
     )

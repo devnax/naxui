@@ -4,8 +4,8 @@ import Avatar from "../ui/Avatar"
 import Badge from "../ui/Badge"
 import Button from "../ui/Button"
 import ButtonGroup from "../ui/ButtonGroup"
-import Calender from "../ui/Calender"
-import CalenderInput from "../ui/CalenderInput"
+import Calendar from "../ui/Calendar"
+import CalendarInput from "../ui/CalendarInput"
 import Checkbox from "../ui/Checkbox"
 import Chip from "../ui/Chip"
 import Progress from "../ui/Progress"
@@ -18,7 +18,6 @@ import Divider from "../ui/Divider"
 import Drawer from "../ui/Drawer"
 import Form from "../ui/Form"
 import Grid from "../ui/Grid"
-import IconButton from "../ui/IconButton"
 import Image from "../ui/Image"
 import Input from "../ui/Input"
 import Layer from "../ui/Layer"
@@ -34,12 +33,7 @@ import Select from "../ui/Select"
 import Switch from "../ui/Switch"
 import Tab from "../ui/Tab"
 import Table from "../ui/Table"
-import TableBody from "../ui/TableBody"
-import TableCell from "../ui/TableCell"
-import TableFooter from "../ui/TableFooter"
-import TableHead from "../ui/TableHead"
 import TablePagination from "../ui/TablePagination"
-import TableRow from "../ui/TableRow"
 import Tabs from "../ui/Tabs"
 import Text from "../ui/Text"
 import Toast from "../ui/Toast"
@@ -47,55 +41,51 @@ import Tooltip from "../ui/Tooltip"
 import Transition from "../ui/Transition"
 import useBlurCss from "../ui/useBlurCss"
 import ViewBox from "../ui/ViewBox"
+import ThemeProvider from "../ui/ThemeProvider"
 
 export default [
-    { "label": "Accordion", "render": Accordion },
-    { "label": "Alert", "render": Alert },
-    { "label": "Avatar", "render": Avatar },
-    { "label": "Badge", "render": Badge },
-    { "label": "Button", "render": Button },
-    { "label": "ButtonGroup", "render": ButtonGroup },
-    { "label": "Calender", "render": Calender },
-    { "label": "CalenderInput", "render": CalenderInput },
-    { "label": "Checkbox", "render": Checkbox },
-    { "label": "Chip", "render": Chip },
-    { "label": "Progress", "render": Progress },
-    { "label": "ClickOutside", "render": ClickOutside },
-    { "label": "Collaps", "render": Collaps },
-    { "label": "Confirm", "render": Confirm },
-    { "label": "Container", "render": Container },
-    { "label": "Datatable", "render": Datatable },
-    { "label": "Divider", "render": Divider },
-    { "label": "Drawer", "render": Drawer },
-    { "label": "Form", "render": Form },
-    { "label": "Grid", "render": Grid },
-    { "label": "IconButton", "render": IconButton },
-    { "label": "Image", "render": Image },
-    { "label": "Input", "render": Input },
-    { "label": "Layer", "render": Layer },
-    { "label": "List", "render": List },
-    { "label": "LoadingBox", "render": LoadingBox },
-    { "label": "Menu", "render": Menu },
-    { "label": "Modal", "render": Modal },
-    { "label": "Paper", "render": Paper },
-    { "label": "Portal", "render": Portal },
-    { "label": "Radio", "render": Radio },
-    { "label": "Scrollbar", "render": Scrollbar },
-    { "label": "Select", "render": Select },
-    { "label": "Switch", "render": Switch },
-    { "label": "Tab", "render": Tab },
-    { "label": "Table", "render": Table },
-    { "label": "TableBody", "render": TableBody },
-    { "label": "TableCell", "render": TableCell },
-    { "label": "TableFooter", "render": TableFooter },
-    { "label": "TableHead", "render": TableHead },
-    { "label": "TablePagination", "render": TablePagination },
-    { "label": "TableRow", "render": TableRow },
-    { "label": "Tabs", "render": Tabs },
-    { "label": "Text", "render": Text },
-    { "label": "Toast", "render": Toast },
-    { "label": "Tooltip", "render": Tooltip },
-    { "label": "Transition", "render": Transition },
-    { "label": "useBlurCss", "render": useBlurCss },
-    { "label": "ViewBox", "render": ViewBox },
+    { "done": true, "label": "Accordion", "render": Accordion },
+    { "done": true, "label": "Alert", "render": Alert },
+    { "done": true, "label": "Avatar", "render": Avatar },
+    { "done": true, "label": "Badge", "render": Badge },
+    { "done": true, "label": "Button", "render": Button },
+    { "done": true, "label": "ButtonGroup", "render": ButtonGroup },
+    { "done": true, "label": "Calendar", "render": Calendar },
+    { "done": false, "label": "CalendarInput", "render": CalendarInput },
+    { "done": false, "label": "Checkbox", "render": Checkbox },
+    { "done": false, "label": "Chip", "render": Chip },
+    { "done": false, "label": "Progress", "render": Progress },
+    { "done": false, "label": "ClickOutside", "render": ClickOutside },
+    { "done": false, "label": "Collaps", "render": Collaps },
+    { "done": false, "label": "Confirm", "render": Confirm },
+    { "done": false, "label": "Container", "render": Container },
+    { "done": false, "label": "Datatable", "render": Datatable },
+    { "done": false, "label": "Divider", "render": Divider },
+    { "done": false, "label": "Drawer", "render": Drawer },
+    { "done": false, "label": "Form", "render": Form },
+    { "done": false, "label": "Grid", "render": Grid },
+    { "done": false, "label": "Image", "render": Image },
+    { "done": true, "label": "Input", "render": Input },
+    { "done": false, "label": "Layer", "render": Layer },
+    { "done": true, "label": "List", "render": List },
+    { "done": true, "label": "LoadingBox", "render": LoadingBox },
+    { "done": true, "label": "Menu", "render": Menu },
+    { "done": false, "label": "Modal", "render": Modal },
+    { "done": false, "label": "Paper", "render": Paper },
+    { "done": true, "label": "Portal", "render": Portal },
+    { "done": false, "label": "Radio", "render": Radio },
+    { "done": false, "label": "Scrollbar", "render": Scrollbar },
+    { "done": false, "label": "Select", "render": Select },
+    { "done": false, "label": "Switch", "render": Switch },
+    { "done": false, "label": "Tab", "render": Tab },
+    { "done": false, "label": "Table", "render": Table },
+    { "done": false, "label": "TablePagination", "render": TablePagination },
+    { "done": false, "label": "Tabs", "render": Tabs },
+    { "done": false, "label": "Text", "render": Text },
+    { "done": false, "label": "Toast", "render": Toast },
+    { "done": false, "label": "Tooltip", "render": Tooltip },
+    { "done": true, "label": "Transition", "render": Transition },
+    { "done": false, "label": "useBlurCss", "render": useBlurCss },
+    { "done": true, "label": "ViewBox", "render": ViewBox },
+    { "done": false, "label": "ThemeProvider", "render": ThemeProvider },
 ]

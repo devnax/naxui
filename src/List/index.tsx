@@ -24,7 +24,7 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
     let sxOutline: any = {}
     if (hoverVariant == 'outline' || variant === 'outline') {
         sxOutline = {
-            "& .$prefix-list-item": {
+            "& .list-item": {
                 border: 1,
                 borderColor: "transparent"
             }
@@ -41,37 +41,36 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
             baseClass='list'
             sx={{
                 ...sxOutline,
-
-                "& .listItemIcon": {
+                "& .list-item-icon": {
                     color: "text.secondary"
                 },
-                "& .listItemText": {
+                "& .list-item-text": {
                     color: "text.primary"
                 },
-                "& .listItemSubtitle": {
+                "& .list-item-subtitle": {
                     color: "text.secondary"
                 },
-                "& .$prefix-listItem:not(.listItemSelected):hover": {
+                "& .list-item:not(.list-item-selected):hover": {
                     ...hoverTemplate,
-                    "& .listItemIcon": {
+                    "& .list-item-icon": {
                         color: hoverTemplate.color
                     },
-                    "& .listItemText": {
+                    "& .list-item-text": {
                         color: hoverTemplate.color
                     },
-                    "& .listItemSubtitle": {
+                    "& .list-item-subtitle": {
                         color: hoverColor === 'default' ? "text.secondary" : hoverTemplate.color
                     },
                 },
-                "& .$prefix-listItem.listItemSelected": {
+                "& .list-item.list-item-selected": {
                     ...template,
-                    "& .listItemIcon": {
+                    "& .list-item-icon": {
                         color: template.color
                     },
-                    "& .listItemText": {
+                    "& .list-item-text": {
                         color: template.color
                     },
-                    "& .listItemSubtitle": {
+                    "& .list-item-subtitle": {
                         color: template.color
                     },
                 },

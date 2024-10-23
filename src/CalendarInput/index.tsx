@@ -2,7 +2,7 @@
 import Input, { InputProps } from '../Input'
 import Menu, { MenuProps } from '../Menu'
 import React, { useRef, useState } from 'react'
-import Calendar, { CalenderProps } from '../Calender'
+import Calendar, { CalenderProps } from '../Calendar'
 import Stack from '../Stack'
 import ClickOutside from '../ClickOutside'
 import CalendarIcon from 'naxui-icons/round/CalendarMonth';
@@ -41,10 +41,12 @@ const CalenderInput = ({ value, onChange, getInputValue, inputProps, menuProps }
                         </IconButton>
                     </Stack>}
                 </>}
-                containerProps={{
-                    maxWidth: (36 * 7) + 18,
-                    ...(inputProps?.containerProps),
-                    ref: inputRef
+                containerRef={inputRef}
+                slotProps={{
+                    container: {
+                        maxWidth: (36 * 7) + 18,
+                        ref: inputRef
+                    }
                 }}
                 value={getInputValue ? getInputValue(value) : (value ? value.toLocaleDateString("en-US") : "")}
             />

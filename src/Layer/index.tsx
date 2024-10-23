@@ -30,7 +30,7 @@ export type LayerProps = Omit<TagProps<"div">, "children" | "content"> & {
 
 const Layer = ({ open, children: Content, id, ...rest }: LayerProps) => {
     const contentRef = useRef<HTMLDivElement>()
-    let { zIndex, blur, bgImage, transition, onOpened, onClosed, onClickOutside, closeOutsideClick, slotProps, ...rootProps } = useInterface("Layer", {}, rest)
+    let [{ zIndex, blur, bgImage, transition, onOpened, onClosed, onClickOutside, closeOutsideClick, slotProps, ...rootProps }] = useInterface<any>("Layer", rest, {})
     const blurCss = blur ? useBlurCss(blur) : {}
     let bgcss: any = {}
 

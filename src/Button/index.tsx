@@ -19,12 +19,12 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
 
 
 const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
-    let { variant, startIcon, endIcon, color, corner, size, loading, slotProps, ..._props } = useInterface('Button', {
+    let [{ variant, startIcon, endIcon, color, corner, size, loading, slotProps, ..._props }] = useInterface<any>('Button', rest, {
         variant: "fill",
         color: "brand",
         corner: "rounded",
         size: "medium"
-    }, rest)
+    })
 
     const template = useColorTemplate(color, variant)
     const cornerCss = useCornerVariant(corner)

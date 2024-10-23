@@ -8,9 +8,9 @@ export type TransitionProps = UseTransitionProps & {
 }
 
 const Transition = ({ children, open, ...rest }: TransitionProps) => {
-    const props: any = useInterface("Transition", {
+    let [props] = useInterface<any>("Transition", rest, {
         variant: "fade"
-    }, rest)
+    })
 
     const { classname } = useTransition(open, props)
     if (!children || Array.isArray(children)) throw new Error("Invalid children in Transition")

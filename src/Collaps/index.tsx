@@ -6,7 +6,7 @@ import Transition, { TransitionProps } from '../Transition';
 export type CollapsProps<T extends TagComponentType = "div"> = TagProps<T> & Omit<TransitionProps, "variant"> & {}
 
 const _Collaps = <T extends TagComponentType = "div">({ children, open, ...props }: CollapsProps<T>, ref: any) => {
-    let {
+    let [{
         ease,
         easing,
         duration,
@@ -18,7 +18,7 @@ const _Collaps = <T extends TagComponentType = "div">({ children, open, ...props
         onClose,
         onClosed,
         ...rest
-    } = useInterface("Collaps", {}, props)
+    }] = useInterface<any>("Collaps", props, {})
 
     open ??= false
     easing ??= "easeOut"

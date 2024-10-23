@@ -15,7 +15,7 @@ export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "
 }
 
 const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
-    let { color, placement, visible, slotProps, ...props } = useInterface("Badge", {}, rest)
+    let [{ color, placement, visible, slotProps, ...props }] = useInterface<any>("Badge", rest, {})
     color ??= "danger"
     visible ??= true
     placement = placement || "right-top"

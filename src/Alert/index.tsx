@@ -28,7 +28,7 @@ export type AlertPropsWithContent = Omit<AlertProps, 'children'> & {
 }
 
 export const Alert = ({ children, ...rest }: AlertProps) => {
-    let {
+    let [{
         title,
         variant,
         icon,
@@ -39,9 +39,10 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
         footer,
         onClose,
         ..._props
-    } = useInterface("Alert", {
+    }] = useInterface<any>("Alert", rest, {
         variant: "fill"
-    }, rest)
+    })
+
     mode ??= "item"
     let inline = mode === 'item'
     type ??= "info"

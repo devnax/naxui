@@ -15,7 +15,7 @@ export type ViewBoxProps<T extends TagComponentType = "div"> = TagProps<T> & {
 
 
 const _ViewBox = ({ children, ...rest }: ViewBoxProps, ref?: any) => {
-    const { startContent, endContent, slotProps, horizental, ...props } = useInterface("ViewBox", {}, rest)
+    let [{ startContent, endContent, slotProps, horizental, ...props }] = useInterface<any>("ViewBox", rest, {})
 
     return (
         <Tag

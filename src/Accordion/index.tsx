@@ -32,7 +32,7 @@ export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T
 
 const _Accordion = <T extends TagComponentType = "div">({ children, title, subtitle, ...rest }: AccordionProps<T>, ref: React.Ref<any>) => {
     const [_expand, setExpand] = useState(false)
-    let {
+    let [{
         expand,
         onClick,
         color,
@@ -47,11 +47,11 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         expandAction,
         slotProps,
         ...rootProps
-    } = useInterface("Accordion", {
+    }] = useInterface<any>("Accordion", rest, {
         onClick: () => setExpand(!_expand) as any,
         color: "brand",
         variant: "alpha"
-    }, rest)
+    })
 
     expand = expand === undefined ? _expand : expand
     expandIcon = expandIcon ? <Tag

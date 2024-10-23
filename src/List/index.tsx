@@ -10,10 +10,10 @@ export type ListProps<T extends TagComponentType = "ul"> = Omit<TagProps<T>, 'co
 }
 
 const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
-    let { sx, color, variant, hoverColor, hoverVariant, ...props } = useInterface("List", {
+    let [{ sx, color, variant, hoverColor, hoverVariant, ...props }] = useInterface<any>("List", rest, {
         color: "brand",
         variant: "fill"
-    }, rest)
+    })
     hoverColor = hoverColor || "default"
     hoverVariant = hoverVariant || "alpha"
     const template = { ...useColorTemplate(color, variant) }

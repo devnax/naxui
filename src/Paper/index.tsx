@@ -5,7 +5,7 @@ import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 export type PaperProps<T extends TagComponentType = "div"> = TagProps<T>
 
 const _Paper = <T extends TagComponentType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
-    const props = useInterface("Paper", {}, rest)
+    let [props] = useInterface<any>("Paper", rest, {})
     return (
         <Tag
             flexBox

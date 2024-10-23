@@ -12,7 +12,7 @@ export type ListItemProps<T extends TagComponentType = "li"> = TagProps<T> & {
 
 
 const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
-    const { selected, ...props } = useInterface("ListItem", {}, rest)
+    let [{ selected, ...props }] = useInterface<any>("ListItem", rest, {})
     return (
         <Tag
             component='li'

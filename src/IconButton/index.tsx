@@ -14,9 +14,9 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
 
     rest.sx = (rest as any).sx || {};
 
-    let { variant, corner, color, size, ..._props } = useInterface("IconButton", {
+    let [{ variant, corner, color, size, ..._props }] = useInterface<any>("IconButton", rest, {
         corner: "circle"
-    }, rest)
+    })
     let template = useColorTemplate(color || "brand", variant || "fill")
     const cornerCss = useCornerVariant(corner)
     if (size === 'small') {

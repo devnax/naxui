@@ -11,9 +11,9 @@ export type ButtonGroupProps<T extends TagComponentType = "div"> = Omit<TagProps
 }
 
 const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }: ButtonGroupProps<T>, ref: React.Ref<any>) => {
-    let { color, variant, size, ...props } = useInterface("ButtonGroup", {
+    let [{ color, variant, size, ...props }] = useInterface<any>("ButtonGroup", rest, {
         size: "medium"
-    }, rest)
+    })
 
     const template = useColorTemplate(color, "outline")
 

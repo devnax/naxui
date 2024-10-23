@@ -9,7 +9,7 @@ export type AvatarProps<T extends TagComponentType = "img"> = TagProps<T> & {
 
 const _Avatar = <T extends TagComponentType = "img">({ children, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
-    let { size, ...props } = useInterface("Avatar", {}, rest)
+    let [{ size, ...props }] = useInterface<any>("Avatar", rest, {})
     size = size || 36
 
     if (faild === false || !src) {

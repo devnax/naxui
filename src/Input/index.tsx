@@ -23,7 +23,7 @@ export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>,
 }
 
 const _Input = <T extends TagComponentType = "input">({ value, ...props }: InputProps<T>, ref?: React.Ref<any>) => {
-    let {
+    let [{
         startIcon,
         endIcon,
         iconPlacement,
@@ -42,7 +42,7 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
         maxRows,
         slotProps,
         ...rest
-    } = useInterface("Input", {}, props)
+    }] = useInterface<any>("Input", props, {})
     ref ??= useRef(null);
     variant ??= "fill"
     size ??= 'medium'

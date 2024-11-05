@@ -9,11 +9,11 @@ import ResetIcon from 'naxui-icons/round/Replay';
 import ViewBox from '../ViewBox';
 import { useColorTemplateColors } from 'naxui-manager';
 
-export type CalenderProps = {
+export type CalendarProps = {
     value?: Date | null;
     onChange?: (date: Date | null) => void;
     viewMode?: "year" | "month" | "day";
-    onButtonClick?: (mode: CalenderProps["viewMode"], value: CalenderProps["value"]) => void;
+    onButtonClick?: (mode: CalendarProps["viewMode"], value: CalendarProps["value"]) => void;
     color?: useColorTemplateColors;
 }
 
@@ -32,7 +32,7 @@ const ShowYears = ({ color, year, today, boxWidth, onClick }: any) => {
             className='calender-year-item'
         >
             <Button
-                color={color}
+                color={selected ? color : "default"}
                 className='calender-year-button'
                 size='small'
                 corner="circle"
@@ -65,7 +65,7 @@ const ShowYears = ({ color, year, today, boxWidth, onClick }: any) => {
 }
 
 
-const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: CalenderProps) => {
+const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: CalendarProps) => {
     let [viewMode, setViewMode] = useState<any>(VMode || "day");
     let [selectedDate, setSelectedDate] = useState(new Date());
     selectedDate = value instanceof Date ? value : selectedDate
@@ -76,6 +76,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
     const today = new Date();
     const btnWidth = 32
     const boxWidth = btnWidth * 7
+    color ??= "brand"
 
     const showCalendar = () => {
 
@@ -166,7 +167,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
                 className='calender-months-item'
             >
                 <Button
-                    color={color}
+                    color={selected ? color : "default"}
                     className='calender-month-button'
                     size='small'
                     corner="circle"

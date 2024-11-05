@@ -76,7 +76,15 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
 
     if (expandIconPlacement === 'start') {
         itemSx = {
-            startIcon: <Tag className='start-icon-container' flexBox flexRow alignItems="center" gap={1}>
+            startIcon: <Tag
+                className='start-icon-container'
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 1
+                }}
+            >
                 {expandIcon}
                 {startIcon}
             </Tag>,
@@ -85,7 +93,15 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
 
     } else {
         itemSx = {
-            endIcon: <Tag className='end-icon-container' flexBox flexRow alignItems="center" gap={1}>
+            endIcon: <Tag
+                className='end-icon-container'
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 1
+                }}
+            >
                 {endIcon}
                 {expandIcon}
             </Tag>,

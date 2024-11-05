@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Stack from '../../src/Stack'
+import CalendarInput from '../../src/CalendarInput'
 
-const Accordion = () => {
+const CalendarInputs = () => {
+    const [value, setValue] = useState(null)
     return (
-        <div>Accordion</div>
+        <Stack>
+            <CalendarInput
+                value={value}
+                placeholder='Birth of date'
+                onChange={(d: any) => {
+                    setValue(d)
+                }}
+            />
+        </Stack>
     )
 }
 
-export default Accordion
+export default CalendarInputs

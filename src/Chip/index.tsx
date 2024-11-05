@@ -1,48 +1,73 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
-import useUIVariant, { UseUIVariantTypes, UseUIVariantColorTypes } from '../useUIVariant'
-import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
+import useCorner, { UseCornerTypes } from '../useCorner'
 
 
-export type ChipProps<T extends TagComponentType = 'div'> = Omit<TagProps<T>, "color" | "children"> & {
-    label: string;
+export type ChipProps<T extends TagComponentType = 'div'> = Omit<TagProps<T>, "color" | "children" | "size"> & {
+    label: string | ReactElement;
     startIcon?: ReactElement;
     endIcon?: ReactElement;
-    color?: UseUIVariantColorTypes;
-    variant?: UseUIVariantTypes;
-    corner?: UseCornerVariantTypes;
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
+    corner?: UseCornerTypes;
+    size?: "small" | "medium" | "large";
 }
 
 
-const _Chip = <T extends TagComponentType = 'div'>({ label, variant, startIcon, endIcon, color, corner, ...rest }: ChipProps<T>, ref: React.Ref<any>) => {
+const _Chip = <T extends TagComponentType = 'div'>(props: ChipProps<T>, ref: React.Ref<any>) => {
+    let [{ label, variant, startIcon, endIcon, color, corner, size, ...rest }] = useInterface<any>("Chip", props, {})
     rest.sx = (rest as any).sx || {};
-    variant = variant || "filled"
-    color = color || "brand"
-    corner = corner || "circle"
-    const cornerCss = useCornerVariant(corner)
-    const uiCss = useUIVariant(variant, color)
+    variant ??= "fill"
+    color ??= "brand"
+    corner ??= "circle"
+    size ??= "medium"
+    const cornerCss = useCorner(corner)
+    const template = useColorTemplate(color, variant)
+    delete template?.hover
+
+    const sizes: any = {
+        small: {
+            height: 24,
+            gap: .5,
+            fontSize: 12
+        },
+        medium: {
+            height: 34,
+            gap: 1,
+            fontSize: 14,
+        },
+        large: {
+            height: 38,
+            fontSize: 15,
+            gap: 1,
+        }
+    }
 
     return (
         <Tag
-            baseClass='chip'
-            border={0}
-            cursor="pointer"
             display="inline-flex"
             flexDirection="row"
             alignItems="center"
             transition="background .3s"
-            fontSize="small"
-            p={.5}
-            px={1}
+            fontFamily="default"
+            overflow="hidden"
+            px={startIcon || endIcon ? 1 : 1.5}
             {...cornerCss}
-            {...uiCss}
+            {...template}
+            {...(sizes[size as any] || {})}
             {...rest}
+            baseClass='chip'
             ref={ref}
         >
-            {startIcon && <Tag component='span' display="inherit" mr={.5} sx={{ "& svg": { fontSize: "inherit" } }}>{startIcon}</Tag>}
-            <Tag flex={1} component='span' display="inherit">{label}</Tag>
-            {endIcon && <Tag component='span' display="inherit" ml={.5} sx={{ "& svg": { fontSize: "inherit" } }}>{endIcon}</Tag>}
+            {startIcon}
+            <Tag
+                sx={{
+                    alignItems: "center",
+                    flexBox: true
+                }}
+            >{label}</Tag>
+            {endIcon}
         </Tag>
     )
 }

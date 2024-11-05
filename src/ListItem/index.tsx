@@ -18,7 +18,6 @@ const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, end
             component='li'
             p={1}
             lineHeight={1.4}
-            radius={.5}
             cursor="pointer"
             userSelect="none"
             flexBox

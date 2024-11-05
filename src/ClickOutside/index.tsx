@@ -1,40 +1,35 @@
 'use client'
-import React, { cloneElement, Children, useEffect, ReactElement, useState } from 'react';
+import { Tag, TagComponentType, TagProps } from 'naxui-manager';
+import React, { forwardRef, useEffect, useRef } from 'react';
 
-export type ClickOutsideProps = {
-    children: ReactElement;
+export type ClickOutsideProps<T extends TagComponentType = "div"> = TagProps<T> & {
     onClickOutside: () => void
 }
 
-const ClickOutside = ({ children, onClickOutside }: ClickOutsideProps) => {
-    const [enter, setEnter] = useState(false)
-    const handler = () => {
-        if (!enter) {
+const _ClickOutside = ({ children, onClickOutside, ...props }: ClickOutsideProps, ref: React.Ref<any>) => {
+    const _ref: any = ref || useRef()
+    const handler = (e: any) => {
+        if (!_ref.current.contains(e.target)) {
             onClickOutside()
         }
     }
-
     useEffect(() => {
-        document.removeEventListener("click", handler)
-        setTimeout(() => {
-            document.addEventListener("click", handler)
-        }, 0);
+        document.addEventListener("click", handler)
         return () => {
             document.removeEventListener("click", handler)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [enter])
+    }, [])
 
-    if (!children || Array.isArray(children)) throw new Error("Invalid children")
 
-    const first: any = Children.toArray(children).shift();
-    return <>
-        {cloneElement(first, {
-            onMouseEnter: () => setEnter(true),
-            onMouseLeave: () => setEnter(false)
-        })}
-    </>
+    return <Tag
+        {...props}
+        ref={_ref}
+    >
+        {children}
+    </Tag>
 
 }
 
+const ClickOutside = forwardRef(_ClickOutside) as typeof _ClickOutside
 export default ClickOutside

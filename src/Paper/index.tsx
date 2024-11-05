@@ -8,13 +8,14 @@ const _Paper = <T extends TagComponentType = "div">({ children, ...rest }: Paper
     let [props] = useInterface<any>("Paper", rest, {})
     return (
         <Tag
-            flexBox
-            flexColumn
-            radius={1}
-            p={1.5}
-            bgcolor="background.secondary"
-            color="text.primary"
             {...props}
+            sx={{
+                radius: 1,
+                p: 1.5,
+                bgcolor: "background.secondary",
+                color: "text.primary",
+                ...props?.sx
+            }}
             baseClass='paper'
             ref={ref}
         >{children}</Tag>

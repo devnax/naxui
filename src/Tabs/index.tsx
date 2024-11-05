@@ -1,13 +1,21 @@
 'use client'
 import React, { useEffect, ReactElement, useMemo, cloneElement, useState, Children, forwardRef, useRef } from 'react'
 import { TabProps } from '../Tab'
-import { Tag, TagProps, useTransition } from 'naxui-manager'
+import { Tag, TagProps, useColorTemplateColors, useTransition } from 'naxui-manager'
 
 export type ValueType = string | number
 export type TabsProps = Omit<TagProps, 'onChange'> & {
-    value: ValueType;
-    onChange?: (value: ValueType) => void;
     children: ReactElement<TabProps> | ReactElement<TabProps>[];
+    value?: ValueType;
+    onChange?: (value: ValueType) => void;
+    variant?: "bottom-line" | "top-line" | "fill" | "outline" | "text" | "alpha";
+    color?: useColorTemplateColors;
+    slotProps?: {
+
+    }
+
+
+
     verticle?: boolean;
     indicatorSize?: number;
 }
@@ -33,11 +41,11 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
     ref = ref || useRef()
     const containerRef: any = useRef()
     const [trans, setTrans] = useState<any>()
-    const [transRef, cls] = useTransition({
-        ...trans,
-        ease: "ease",
-        duration: trans ? 200 : 0
-    })
+    // const [transRef, cls] = useTransition({
+    //     ...trans,
+    //     ease: "ease",
+    //     duration: trans ? 200 : 0
+    // })
 
     const { childs, selectedIndex } = useMemo(() => {
         let info: any = {
@@ -55,7 +63,7 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
                     onChange && onChange(child.props.value)
                 },
                 classNames: [child.props.className, { "tab-selected": selected }],
-                color: selected ? "primary" : "subtext"
+                color: selected ? "brand.text" : "text.secondary"
             })
         })
 
@@ -117,8 +125,6 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
             </Tag>
             <Tag
                 baseClass='tabs-indicator'
-                ref={transRef}
-                className={cls}
                 position="absolute"
                 radius={1}
                 bgcolor="primary"

@@ -10,7 +10,6 @@ const Calendars = () => {
         <Stack>
             <Section title="Basic">
                 <Calender
-                    color="danger"
                     value={value}
                     onChange={(c: any) => {
                         setValue(c)

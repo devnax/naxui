@@ -1,7 +1,7 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
 import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
-import useCornerVariant, { UseCornerVariantTypes } from '../useCornerVariant'
+import useCorner, { UseCornerTypes } from '../useCorner'
 import CircleProgress, { CircleProgressProps } from '../CircleProgress'
 
 export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
@@ -9,7 +9,7 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
     endIcon?: ReactElement;
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
-    corner?: UseCornerVariantTypes;
+    corner?: UseCornerTypes;
     size?: "small" | "medium" | "large";
     loading?: boolean;
     slotProps?: {
@@ -27,7 +27,7 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
     })
 
     const template = useColorTemplate(color, variant)
-    const cornerCss = useCornerVariant(corner)
+    const cornerCss = useCorner(corner)
 
     const sizes: any = {
         small: {
@@ -70,6 +70,7 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
             justifyContent="center"
             position="relative"
             overflow="hidden"
+            userSelect="none"
             {...cornerCss}
             {...(sizes[size as any] || {})}
             {..._props}

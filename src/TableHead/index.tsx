@@ -8,6 +8,7 @@ const _TableHead = <T extends TagComponentType = "thead">({ children, ...rest }:
     return (
         <Tag
             {...rest}
+            baseClass='table-head'
             component="thead"
             ref={ref}
         >{children}</Tag>

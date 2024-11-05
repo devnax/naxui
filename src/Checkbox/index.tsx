@@ -1,55 +1,67 @@
 'use client'
 import React, { useState, ReactElement } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import { Tag, useInterface, useColorTemplateColors, TagComponentType, TagProps } from 'naxui-manager';
 import CheckIcon from 'naxui-icons/round/CheckBox'
 import UnCheckIcon from 'naxui-icons/round/CheckBoxOutlineBlank'
 import IndeterminateCheckBoxIcon from 'naxui-icons/round/IndeterminateCheckBox';
 
-export type CheckboxProps<T extends TagComponentType = "input"> = TagProps<T> & {
+export type CheckboxProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color" | "onClick" | "children" | "size"> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
     indeterminate?: boolean;
     checked?: boolean;
-    size?: number;
+    size?: number | "small" | "medium" | "large";
+    color?: useColorTemplateColors;
+    onChange?: () => void;
 }
 
-const _Checkbox = <T extends TagComponentType = "input">({ children, size, checkIcon, uncheckIcon, checked, indeterminate, color, disabled, ...rest }: CheckboxProps<T>, ref?: React.Ref<any>) => {
+const _Checkbox = <T extends TagComponentType = "div">(props: CheckboxProps<T>, ref?: React.Ref<any>) => {
+    let [{ color, size, checkIcon, uncheckIcon, checked, indeterminate, disabled, onChange, ...rest }] = useInterface<any>("Checkbox", props, {})
     const [c, set] = useState(false)
-    checked = checked || c
-    size = size || 22
-    rest.onChange = rest.onChange || (() => set(!c));
+    checked ??= c
+    size ??= "medium"
+    color ??= "brand"
+
+    onChange = onChange || (() => set(!c));
     if (indeterminate) {
         checked = true
         checkIcon = <IndeterminateCheckBoxIcon />
     }
+
+    let sizes: any = {
+        small: 22,
+        medium: 28,
+        large: 32
+    }
+
+    if (typeof size === 'string' && sizes[size]) {
+        size = sizes[size]
+    }
+
     return (
         <Tag
+            {...rest}
             baseClass='checkbox'
-            component='span'
-            cursor="pointer"
-            display="inline-block"
-            color={checked ? (`${color || "primary"}`) : "text.secondary"}
-            disabled={disabled}
-            position="relative"
-            verticalAlign="middle"
-            width={size}
-            height={size}
+            ref={ref}
+            onClick={() => {
+                onChange && onChange()
+            }}
+            sx={{
+                height: size,
+                width: size,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: checked ? color : "text.secondary",
+                cursor: "pointer",
+                disabled: disabled,
+                "& svg": {
+                    fontSize: size
+                },
+                ...rest?.sx
+            }}
         >
-            {checked ? (checkIcon || <CheckIcon fontSize={size} />) : (uncheckIcon || <UnCheckIcon fontSize={size} />)}
-            <Tag
-                checked={checked}
-                {...rest}
-                component='input'
-                type="checkbox"
-                cursor="pointer"
-                position="absolute"
-                opacity={0}
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-                ref={ref}
-            />
+            {checked ? (checkIcon || <CheckIcon />) : (uncheckIcon || <UnCheckIcon />)}
         </Tag>
     )
 }

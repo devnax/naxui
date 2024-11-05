@@ -2,20 +2,26 @@
 import Input, { InputProps } from '../Input'
 import Menu, { MenuProps } from '../Menu'
 import React, { useRef, useState } from 'react'
-import Calendar, { CalenderProps } from '../Calendar'
+import Calendar, { CalendarProps } from '../Calendar'
 import Stack from '../Stack'
 import ClickOutside from '../ClickOutside'
 import CalendarIcon from 'naxui-icons/round/CalendarMonth';
 import IconButton from '../IconButton'
 import ClearIcon from 'naxui-icons/round/Clear';
+import { useInterface } from 'naxui-manager'
 
-export type CalenderInpurProps = CalenderProps & {
-    inputProps?: InputProps;
-    menuProps?: MenuProps;
-    getInputValue?: (value?: Date | null) => string
+export type CalenderInpurProps = Omit<InputProps, "value" | "onChange"> & {
+    value?: CalendarProps["value"];
+    onChange?: CalendarProps["onChange"];
+    getInputValue?: (value?: Date | null) => string;
+    slotProps?: {
+        calender?: CalendarProps;
+        menu?: MenuProps;
+    }
 }
 
-const CalenderInput = ({ value, onChange, getInputValue, inputProps, menuProps }: CalenderInpurProps) => {
+const CalenderInput = (props: CalenderInpurProps) => {
+    let [{ value, onChange, getInputValue, slotProps, placeholder, ...inputProps }] = useInterface<any>("CanlendarInput", props, {})
     const [target, setTarget] = useState<any>()
     const inputRef: any = useRef()
 
@@ -23,51 +29,42 @@ const CalenderInput = ({ value, onChange, getInputValue, inputProps, menuProps }
         <>
             <Input
                 readOnly
-                onClick={() => setTarget(inputRef?.current)}
+                onClick={() => setTarget(target ? null : inputRef?.current)}
                 startIcon={<CalendarIcon />}
                 {...inputProps}
                 endIcon={<>
                     {value && <Stack>
                         <IconButton
-                            size={26}
+                            color="default"
+                            size={28}
+                            variant="text"
                             onClick={() => {
                                 onChange && onChange(null)
-                            }}
-                            sx={{
-                                color: "text.secondary"
                             }}
                         >
                             <ClearIcon fontSize={20} />
                         </IconButton>
                     </Stack>}
                 </>}
+                cursor="pointer"
                 containerRef={inputRef}
-                slotProps={{
-                    container: {
-                        maxWidth: (36 * 7) + 18,
-                        ref: inputRef
-                    }
-                }}
                 value={getInputValue ? getInputValue(value) : (value ? value.toLocaleDateString("en-US") : "")}
             />
             <Menu
                 target={target}
-                placement="bottom"
+                placement="bottom-left"
                 bgcolor="transparent"
-                {...menuProps}
+                {...slotProps?.menu}
             >
                 <ClickOutside onClickOutside={() => setTarget(null)}>
-                    <Stack>
-                        <Calendar
-                            value={value}
-                            onChange={onChange}
-                            onButtonClick={(mode) => {
-                                if (mode === 'day') {
-                                    setTarget(null)
-                                }
-                            }}
-                        />
-                    </Stack>
+                    <Calendar
+                        {...slotProps?.calender}
+                        value={value}
+                        onChange={(e) => {
+                            setTarget(null)
+                            onChange && onChange(e)
+                        }}
+                    />
                 </ClickOutside>
             </Menu>
         </>

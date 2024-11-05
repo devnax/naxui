@@ -1,131 +1,108 @@
 'use client'
-import React from 'react';
-import { Tag, alpha, TagProps } from 'naxui-manager';
-import Layer, { LayerContentType, LayerProps } from '../Layer';
-import Transition from '../Transition';
-import IconButton, { IconButtonProps } from '../IconButton';
-import IconClose from 'naxui-icons/round/Close';
+import React, { ReactNode } from 'react'
+import Layer, { LayerProps } from "../Layer"
+import { Tag, TagProps } from 'naxui-manager'
 
-export type ModalContentType = LayerContentType
-export type ModalPropsType = {
-    closeButton?: boolean;
-    closeButtonProps?: IconButtonProps;
-    closeOnClickOutside?: boolean;
-    rootProps?: Omit<TagProps<"div">, 'children' | "content">
-    transition?: LayerProps['transition'];
-    transitionProps?: LayerProps['transitionProps'];
 
-    // Layer Props
-    bgImage?: string;
-    blur?: number;
-    zIndex?: number;
-    onOpen?: () => void;
-    onClose?: () => void;
-    onClickOutside?: () => void;
-    layerProps?: LayerProps
+export type ModalProps = Omit<LayerProps, "slotProps"> & {
+    size?: "xs" | "sm" | "md" | "lg" | "xl" | "fullWidth" | number;
+    slotProps?: LayerProps['slotProps'] & {
+        modal?: Omit<TagProps<'div'>, "children">
+    }
 }
 
 
-let _id_prefix = "modal_"
+const Modal = ({ children, size, slotProps, ...props }: ModalProps) => {
+    size ??= "xs"
+    let sizes: any = {
+        xs: 420,
+        sm: 760,
+        md: 990,
+        lg: 1120,
+        xl: 1300,
+        fullWidth: "100%"
+    }
 
-const Modal = {
-    open: (id: string, content: ModalContentType, props?: ModalPropsType) => {
-        let Content = content
-        id = _id_prefix + id
-        let {
-            closeButton,
-            closeButtonProps,
-            transitionProps,
-            transition,
-            closeOnClickOutside,
-            rootProps,
+    let { modal, ..._slotProps }: any = slotProps || {}
 
-            // layer
-            bgImage,
-            blur,
-            zIndex,
-            onOpen,
-            onClose,
-            onClickOutside,
-            layerProps
-        } = props || {}
+    return (
+        <Layer
+            transition="zoom"
+            {...props}
+            slotProps={{
+                ..._slotProps,
+                root: {
+                    display: "flex",
+                    alignItems: 'center',
+                    justifyContent: "center",
+                    ..._slotProps?.root,
+                }
+            }}
+        >
+            <Tag
+                {...modal}
+                sx={{
+                    maxWidth: sizes[size] || size,
+                    width: "100%",
+                    radius: 2,
+                    bgcolor: "background.primary",
+                    shadow: 15,
+                    ...modal?.sx
+                }}
+                baseClass='modal'
+            >
+                {children}
+            </Tag>
+        </Layer>
+    )
+}
 
-        closeOnClickOutside = closeOnClickOutside ?? true
 
-        const layerCallback = ({ open }: any) => {
-            return (
-                <Transition
-                    in={open}
-                    type={transition || "zoom"}
-                    {...transitionProps}
-                >
-                    <Tag
-                        p={2}
-                        radius={{
-                            xs: 0,
-                            sm: 2
-                        }}
-                        shadow={{
-                            xs: 0,
-                            sm: 5
-                        }}
-                        width={{
-                            xs: "100%",
-                            sm: 400
-                        }}
-                        height={{
-                            xs: "100%",
-                            sm: "auto"
-                        }}
-                        bgcolor="background.primary"
-                        {...rootProps}
-                        position="relative"
-                        baseClass='modal'
-                    >
-                        {
-                            closeButton && <IconButton
-                                position="absolute"
-                                top={10}
-                                right={10}
-                                size={34}
-                                color="paper"
-                                opacity={.5}
-                                hover={{ opacity: 1 }}
-                                onClick={() => Layer.close(id)}
-                                {...closeButtonProps}
-                            >
-                                <IconClose />
-                            </IconButton>
-                        }
-                        {typeof Content === "function" ? <Content open={open} /> : Content}
-                    </Tag>
-                </Transition>
-            )
-        }
+Modal.open = (id: string, content: ReactNode, props?: Omit<ModalProps, "open" | "children">) => {
+    id = "modal-" + id
+    let { size, slotProps } = props || {}
+    size ??= "xs"
+    let sizes: any = {
+        xs: 420,
+        sm: 760,
+        md: 990,
+        lg: 1120,
+        xl: 1300,
+        fullWidth: "100%"
+    }
+    let { modal, ..._slotProps }: any = slotProps || {}
 
-        return Layer.open(id, layerCallback, {
-            bgImage,
-            blur,
-            zIndex,
-            onOpen,
-            onClose,
-            ...layerProps,
-            onClickOutside: () => {
-                closeOnClickOutside && Layer.close(id)
-                onClickOutside && onClickOutside()
-            },
-            contentProps: {
-                bgcolor: blur ? "transparent" : alpha("#000000", .3),
+    Layer.open(id, <Tag
+        {...modal}
+        sx={{
+            maxWidth: sizes[size] || size,
+            width: "100%",
+            radius: 2,
+            bgcolor: "background.primary",
+            shadow: 15,
+            ...modal?.sx
+        }}
+        baseClass='modal'
+    >
+        {content}
+    </Tag>, {
+        transition: "zoom",
+        ...props,
+        slotProps: {
+            ..._slotProps,
+            root: {
                 display: "flex",
+                alignItems: 'center',
                 justifyContent: "center",
-                alignItems: "center",
-                ...layerProps?.contentProps
+                ..._slotProps?.root,
             }
-        })
-    },
-    close: (id: string) => Layer.close(_id_prefix + id),
-    isOpen: (id: string) => Layer.isOpen(_id_prefix + id)
+        }
+    })
+}
+
+Modal.close = (id: string) => {
+    id = "modal-" + id
+    Layer.close(id)
 }
 
 export default Modal
-

@@ -18,7 +18,7 @@ export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>,
     minRows?: number;
     maxRows?: number;
     slotProps?: {
-        container: Omit<TagProps<"div">, "children">
+        container?: Omit<TagProps<"div">, "children">
     }
 }
 

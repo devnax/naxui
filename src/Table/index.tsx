@@ -1,44 +1,110 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useColorTemplate, useColorTemplateType } from 'naxui-manager';
+import Scrollbar from '../Scrollbar';
 
-export type TableProps<T extends TagComponentType = "table"> = TagProps<T> & {
+export type TableProps<T extends TagComponentType = "table"> = Omit<TagProps<T>, "color" | "size"> & {
     evenColor?: boolean;
-    dense?: boolean;
+    size?: "small" | "medium" | "large" | number;
+    color?: useColorTemplateColors;
+    variant?: Omit<useColorTemplateType, "outline">;
+    borderType?: "box" | "line" | "none";
 }
 
-const _Table = <T extends TagComponentType = "table">({ children, evenColor, dense, ...rest }: TableProps<T>, ref: React.Ref<any>) => {
+const _Table = <T extends TagComponentType = "table">({ children, ...props }: TableProps<T>, ref: React.Ref<any>) => {
+    let [{ evenColor, size, color, variant, borderType, ...rest }] = useInterface<any>("Table", props, {})
+    variant ??= "fill"
+    borderType ??= "line"
+    color ??= 'default'
+    size ??= "medium"
+    const main = useColorTemplate(color, variant)
+    const alpha = useColorTemplate(color, "alpha")
 
-    let sx = {}
+    let sx: any = {}
     if (evenColor) {
         sx = {
             "& tbody tr:nth-child(even)": {
-                bgcolor: "paper"
+                bgcolor: alpha.bgcolor
             }
         }
     }
+    if (borderType === 'box') {
+        sx = {
+            ...sx,
+            "& tr:last-child td": {
+                borderBottom: 0
+            },
+            "& tr:first-child th": {
+                borderTop: 0
+            },
+            "& tr td:first-child, & tr th:first-child": {
+                borderLeft: 0
+            },
+            "& tr td:last-child, & tr th:last-child": {
+                borderRight: 0
+            },
+        }
+    }
+    let _size = size
+    let sizes: any = {
+        small: .5,
+        medium: 1,
+        large: 2
+    }
+
+    if (typeof size === 'string' && sizes[size]) {
+        _size = sizes[size]
+    }
+    let border: any = {
+        line: {
+            borderBottom: "1px solid",
+            borderColor: "divider",
+        },
+        box: {
+            border: "1px solid",
+            borderColor: "divider",
+        },
+        none: {}
+    }
 
     return (
-        <Tag
-            {...rest}
-            baseClass='table'
-            sx={{
-                "& td,& th": {
-                    p: dense ? 1 : 1.5
-                },
-                "& tr:not(:last-child) td, & tr:not(:last-child) th": {
-                    borderBottom: "1px solid",
-                    borderColor: "background.secondary",
-                },
-                "& tbody tr:hover": {
-                    bgcolor: "paper"
-                },
-                ...sx,
-                ...((rest as any).sx || {})
+        <Scrollbar
+            style={{
+                overflowY: "hidden"
             }}
-            component="table"
-            ref={ref}
-        >{children}</Tag>
+        >
+            <Tag
+                {...rest}
+                baseClass='table'
+                sx={{
+                    fontSize: size === "small" ? "button" : "text",
+                    width: "100%",
+                    "& thead, & tfoot": {
+                        bgcolor: main.bgcolor,
+                        "& th": {
+                            color: main.color
+                        }
+                    },
+                    "& td, & th": {
+                        p: _size,
+                        ...border[borderType],
+                    },
+                    "& tr:last-child td": {
+                        borderBottom: 0
+                    },
+                    "& tr:first-child th": {
+                        borderTop: 0
+                    },
+                    "& tbody tr:hover": {
+                        bgcolor: alpha.bgcolor
+                    },
+                    ...sx,
+                    ...((rest as any).sx || {})
+                }}
+                component="table"
+                ref={ref}
+            >{children}</Tag>
+        </Scrollbar>
     )
 }
 

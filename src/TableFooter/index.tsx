@@ -8,6 +8,7 @@ const _TableFooter = <T extends TagComponentType = "tfoot">({ children, ...rest 
     return (
         <Tag
             {...rest}
+            baseClass='table-footer'
             component="tfoot"
             ref={ref}
         >{children}</Tag>

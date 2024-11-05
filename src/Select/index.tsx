@@ -1,24 +1,30 @@
 'use client'
 import React, { ReactElement, useMemo, cloneElement, useState, Children, forwardRef, useRef } from 'react'
 import Input, { InputProps } from '../Input'
-import List from '../List'
+import List, { ListProps } from '../List'
 import Menu, { MenuProps } from '../Menu'
 import Stack from '../Stack'
 import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
+import { useColorTemplateColors, useInterface } from 'naxui-manager'
 
 export type SelectProps = {
+    color?: useColorTemplateColors;
     value?: string | number;
-    onChange?: (item: OptionProps) => void;
+    onChange?: (value: string | number) => void;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[];
     slotProps?: {
         menu?: Omit<MenuProps, 'children' | 'target'>;
-        input?: InputProps
+        input?: Omit<InputProps, "onChange" | "value">;
+        list?: Omit<ListProps, "children">
     }
 }
 
-const _Select = ({ onChange, value, slotProps, children }: SelectProps, ref: React.Ref<any>) => {
+const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: React.Ref<any>) => {
+    let [{ slotProps, color }] = useInterface<any>("Select", props, {})
+    color ??= "brand"
+
     const [target, setTarget] = useState<any>()
     const conRef = useRef()
     const { childs, selectedProps } = useMemo(() => {
@@ -26,7 +32,6 @@ const _Select = ({ onChange, value, slotProps, children }: SelectProps, ref: Rea
         const c = Children.map(children, (child: any) => {
             let selected = child.props.value === value
             if (selected) sProps = child.props
-
             return cloneElement(child, {
                 value: undefined,
                 selected,
@@ -55,11 +60,13 @@ const _Select = ({ onChange, value, slotProps, children }: SelectProps, ref: Rea
                 startIcon={selectedProps.startIcon}
                 focused={!!target}
                 {...slotProps?.input}
-                containerProps={{
-                    cursor: "pointer",
-                    userSelect: "none",
-                    ...(slotProps?.input?.containerProps || {}),
-                    onClick: toggleMenu,
+                slotProps={{
+                    container: {
+                        cursor: "pointer",
+                        userSelect: "none",
+                        ...(slotProps?.input?.slotProps?.container || {}),
+                        onClick: toggleMenu,
+                    }
                 }}
                 containerRef={conRef}
                 ref={ref}
@@ -67,17 +74,18 @@ const _Select = ({ onChange, value, slotProps, children }: SelectProps, ref: Rea
             <Menu
                 target={target}
                 placement="bottom"
-                width={conRef && (conRef?.current as any)?.clientWidth}
-                mt={.5}
                 {...slotProps?.menu}
+                slotProps={{
+                    content: {
+                        mt: .5,
+                        width: conRef && (conRef?.current as any)?.clientWidth,
+                        ...slotProps?.menu?.content
+                    }
+                }}
                 onClickOutside={toggleMenu}
             >
                 <List
-                    sx={{
-                        '& > *': {
-                            mb: 0
-                        }
-                    }}
+                    {...slotProps?.list}
                 >
                     {childs}
                 </List>

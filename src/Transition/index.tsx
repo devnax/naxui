@@ -2,9 +2,10 @@
 import { ReactElement, cloneElement, Children } from 'react';
 import { useInterface, useTransition, UseTransitionProps } from 'naxui-manager';
 
-export type TransitionProps = UseTransitionProps & {
+export type TransitionProps = Omit<UseTransitionProps, "variant"> & {
     children: ReactElement;
     open: boolean;
+    variant?: UseTransitionProps['variant']
 }
 
 const Transition = ({ children, open, ...rest }: TransitionProps) => {

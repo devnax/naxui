@@ -13,12 +13,14 @@ const _Text = <T extends TagComponentType = "p">({ children, variant, ...props }
     return (
         <Tag
             component={variant === 'text' || variant === 'small' ? "p" : variant}
-            fontSize={variant}
-            lineHeight={variant}
-            fontWeight={variant}
-            fontFamily="default"
-            color="text.primary"
             {...props}
+            sx={{
+                fontSize: variant,
+                lineHeight: variant,
+                fontWeight: variant,
+                color: "text.primary",
+                ...(props as any)?.sx
+            }}
             baseClass='text'
             ref={ref}
         >{children}</Tag>

@@ -5,22 +5,27 @@ import IconButton from '../IconButton'
 import React, { useMemo, useState } from 'react'
 import PrevIcon from 'naxui-icons/round/KeyboardArrowLeft'
 import NextIcon from 'naxui-icons/round/KeyboardArrowRight'
-import { TagProps, Tag } from 'naxui-manager';
+import { TagProps, Tag, useInterface, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
 
 export type TablePaginationProps = Omit<TagProps, "children"> & {
     page: number;
     total: number;
     perpages?: number[];
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
     onChange?: (state: { page: number, perpage: number, from: number, to: number }) => void;
 }
 
-const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: TablePaginationProps, ref: React.Ref<any>) => {
-    perpages = perpages || [30, 50, 100]
+const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...props }: TablePaginationProps, ref: React.Ref<any>) => {
+    let [{ }] = useInterface("TablePagination", props, {})
+    color ??= "default"
+    variant ??= "fill"
+    perpages ??= [30, 50, 100]
     const [perpage, setPerpage] = useState(perpages[0] || 10)
     const isPerpage = perpages[0] && perpages.length >= 1
 
     const chunks = useMemo(() => {
-        const chunks: any = {};
+        const chunks: any = [];
         let _page = 1;
         for (let from = 0; from < total; from += perpage) {
             const to = Math.min(from + perpage, total)
@@ -47,25 +52,25 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
             flexRow
             gap={1}
             alignItems="center"
-            {...rootProps}
-            baseClass='table-pagination-root'
+            {...props}
+            baseClass='table-pagination'
             ref={ref}
         >
             {
                 isPerpage && <Tag baseClass='table-pagination-perpage' flexBox flexRow gap={1} alignItems="center">
                     <Text fontSize="button">PER PAGE</Text>
                     <Select
-                        className='table-pagination-perpage-select'
-                        fontSize="button"
-                        containerProps={{
-                            width: 70,
-                            minWidth: "auto"
-                        }}
-                        py={.8}
-                        px={.4}
-                        textAlign="center"
-                        menuProps={{
-                            minWidth: "auto",
+                        slotProps={{
+                            input: {
+                                slotProps: {
+                                    container: {
+                                        minWidth: "auto"
+                                    }
+                                },
+                                width: perpage.toString().length * 10,
+                                size: "small",
+                            },
+                            menu: { minWidth: "auto" }
                         }}
                         value={perpage}
                         onChange={(value: any) => {
@@ -77,10 +82,22 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
                     </Select>
                 </Tag>
             }
-            <Text fontSize="button">{current?.from}-{current.to} of {total}</Text>
+            <Tag
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 1,
+                    alignItems: 'center'
+                }}
+            >
+                <Text fontSize="button">{current?.from}-{current.to}</Text>
+                <Text color="text.secondary">of</Text>
+                <Text fontSize="button">{total}</Text>
+            </Tag>
             <Tag baseClass='table-pagination-prev-next' flexBox flexRow gap={.4} >
                 <IconButton
-                    color="paper"
+                    color={color}
+                    variant={variant}
                     size={30}
                     disabled={!prev}
                     onClick={() => {
@@ -90,7 +107,8 @@ const _TablePagination = ({ page, total, perpages, onChange, ...rootProps }: Tab
                     <PrevIcon />
                 </IconButton>
                 <IconButton
-                    color="paper"
+                    color={color}
+                    variant={variant}
                     size={30}
                     disabled={!next}
                     onClick={() => {

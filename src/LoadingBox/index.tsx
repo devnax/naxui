@@ -12,8 +12,8 @@ export type LoadingBoxProps<T extends TagComponentType = "div"> = Omit<TagProps<
 
 }
 
-const _LoadingBox = <T extends TagComponentType = "div">({ children, ...rest }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
-    let [{ loading, color, slotProps }] = useInterface<any>("LoadingBox", rest, {})
+const _LoadingBox = <T extends TagComponentType = "div">({ children, ...props }: LoadingBoxProps<T>, ref: React.Ref<any>) => {
+    let [{ loading, color, slotProps, ...rest }] = useInterface<any>("LoadingBox", props, {})
     color = color ?? "brand"
 
     return (

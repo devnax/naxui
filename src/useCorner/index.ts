@@ -1,7 +1,7 @@
 'use client'
-export type UseCornerVariantTypes = "square" | "rounded" | "circle"
+export type UseCornerTypes = "square" | "rounded" | "circle"
 
-const useCornerVariant = (type?: UseCornerVariantTypes): object => {
+const useCorner = (type?: UseCornerTypes): object => {
     switch (type) {
         case 'square':
             return {
@@ -9,7 +9,7 @@ const useCornerVariant = (type?: UseCornerVariantTypes): object => {
             }
         case 'rounded':
             return {
-                radius: "6px"
+                radius: 1
             }
         case 'circle':
             return {
@@ -19,4 +19,4 @@ const useCornerVariant = (type?: UseCornerVariantTypes): object => {
     return {}
 }
 
-export default useCornerVariant
+export default useCorner

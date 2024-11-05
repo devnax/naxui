@@ -6,14 +6,17 @@ export type TableColumnProps<T extends TagComponentType = "td"> = TagProps<T> & 
     th?: boolean
 }
 
-const _TableColumn = <T extends TagComponentType = "td">({ children, th, ...rest }: TableColumnProps<T>, ref: React.Ref<any>) => {
+const _TableCell = <T extends TagComponentType = "td">({ children, th, ...rest }: TableColumnProps<T>, ref: React.Ref<any>) => {
     return (
         <Tag
-            baseClass='td'
-            verticalAlign="inherit"
-            textAlign="left"
-            fontSize="button"
             {...rest}
+            sx={{
+                verticalAlign: "inherit",
+                textAlign: "left",
+                fontSize: "inherit",
+                ...((rest as any)?.sx || {})
+            }}
+            baseClass='table-cell'
             component={th ? "th" : "td"} ref={ref}
         >
             {children}
@@ -21,5 +24,5 @@ const _TableColumn = <T extends TagComponentType = "td">({ children, th, ...rest
     )
 }
 
-const TableColumn = React.forwardRef(_TableColumn) as typeof _TableColumn
-export default TableColumn
+const TableCell = React.forwardRef(_TableCell) as typeof _TableCell
+export default TableCell

@@ -44,7 +44,7 @@ const Layout = () => {
                     </Stack>}
                 >
                     <Text p={1} variant='text' fontWeight={600} mb={2} color="text.primary">Components</Text>
-                    <List p={1}>
+                    <List p={1} variant="alpha">
                         {
                             menu.map((m, idx) => <ListItem
                                 key={m.label}

@@ -66,20 +66,24 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
         >
             <Transition
                 variant="zoom"
+                easing="easeInOut"
+                duration={150}
                 {...slotProps?.transition}
                 open={visible}
             >
                 <Tag
                     component='span'
                     baseClass='badge-content'
-                    position="absolute"
-                    zIndex={1}
-                    radius={2}
-                    flexBox
-                    justifyContent="center"
-                    alignItems="center"
-                    fontWeight={500}
-                    fontSize={11}
+                    sx={{
+                        position: "absolute",
+                        zIndex: 1,
+                        radius: 2,
+                        display: 'flex',
+                        justifyContent: "center",
+                        alignItems: 'center',
+                        fontWeight: 500,
+                        fontSize: 11
+                    }}
                     {...template}
                     {..._css}
                 >

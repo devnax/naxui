@@ -8,10 +8,13 @@ const Alerts = () => {
     return (
         <Stack gap={1}>
             <Button onClick={() => {
-                Alert.open({
+                Alert.confirm({
                     title: "Are You Sure?",
-                    type: "success",
-                    content: <>This action cannot be undone. so be carefull go confirm this action.</>
+                    content: <>
+                        This action cannot be undone. so be carefull go confirm this action.
+                        This action cannot be undone. so be carefull go confirm this action.
+                    </>,
+                    okButtonText: "Agree"
                 })
             }}>Open</Button>
             <Alert
@@ -24,12 +27,11 @@ const Alerts = () => {
                 <Stack
                     gap={2}
                 >
-                    <Text color="inherit">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.</Text>
+                    <Text color="inherit" fontSize="inherit">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.</Text>
                 </Stack>
             </Alert>
             <Alert
                 title="Information"
-                type='info'
                 variant='alpha'
                 color="danger"
                 onClose={() => { }}
@@ -38,21 +40,18 @@ const Alerts = () => {
             </Alert>
             <Alert
                 title="Warning"
-                type='warning'
                 color="warning"
             >
                 You have know some thing before continue
             </Alert>
             <Alert
-                type='success'
                 color="success"
             >
                 Your proccess has been success. now you can enjoy
             </Alert>
             <Alert
                 title="Information"
-                type='info'
-                color="info"
+                color="brand"
             >
                 Your proccess has been success. now you can enjoy
             </Alert>

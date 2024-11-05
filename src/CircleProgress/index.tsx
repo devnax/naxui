@@ -1,26 +1,45 @@
 "use client"
-import React from "react"
-import { Tag, TagProps, TagComponentType, useColorTemplateColors, keyframes, useTheme } from 'naxui-manager';
+import React, { ReactElement } from "react"
+import { Tag, useColorTemplateColors, keyframes, useTheme, useInterface } from 'naxui-manager';
 
-export type CircleProgressProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
-    size?: number;
-    thumbSize?: number;
+export type CircleProgressProps = {
+    children?: ReactElement;
     color?: useColorTemplateColors;
+    trackColor?: useColorTemplateColors;
+    thumbColor?: useColorTemplateColors;
+    size?: number | "small" | "medium" | "large";
+    thumbSize?: number;
+    trackSize?: number;
     value?: number;
     hideTrack?: boolean;
-    trackSize?: number;
     showPercentage?: boolean;
     speed?: number;
-    trackColor?: string;
-    thumbColor?: string;
 }
 
-const _CircleProgress = <T extends TagComponentType = "div">({ children, color, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed, trackColor, thumbColor, ...rest }: CircleProgressProps<T>, ref: React.Ref<any>) => {
-
+const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React.Ref<any>) => {
+    let [{ color, trackColor, thumbColor, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed }] = useInterface<any>("CircleProgress", props, {})
     color ??= "brand"
-    size ??= 30
+    size ??= "medium"
     thumbSize ??= 4
     speed ??= 1.3
+
+    if (trackColor === 'default') {
+        trackColor = "divider"
+    }
+
+    if (thumbColor === 'default') {
+        thumbColor = "background.secondary"
+    }
+
+    let sizes: any = {
+        small: 24,
+        medium: 32,
+        large: 44
+    }
+    if (typeof size === 'string' && sizes[size]) {
+        size = sizes[size]
+    }
+
     let isVal = typeof value === 'number'
     const theme = useTheme()
     const animrotate = !isVal && keyframes({ "100%": { transform: "rotate(360deg)" } }, theme)
@@ -45,7 +64,6 @@ const _CircleProgress = <T extends TagComponentType = "div">({ children, color, 
 
     return (
         <Tag
-            {...rest}
             baseClass='circle-progress'
             sx={{
                 display: "inline-flex",
@@ -61,7 +79,6 @@ const _CircleProgress = <T extends TagComponentType = "div">({ children, color, 
                     transform: isVal ? "rotate(-90deg)" : "none",
                     transformOrigin: isVal ? "center" : "initial",
                     animation: isVal ? "none" : `${animrotate} ${speed}s linear infinite`,
-
                     "& circle.circle-progress-thumb": {
                         strokeDasharray: circumference,
                         strokeDashoffset: percent,
@@ -73,11 +90,10 @@ const _CircleProgress = <T extends TagComponentType = "div">({ children, color, 
                     },
                     "& circle.circle-progress-track": {
                         fill: "none",
-                        stroke: trackColor || (color === 'default' ? `background.secondary` : `${color}.alpha`),
+                        stroke: trackColor || (color === 'default' ? `divider` : `${color}.alpha`),
                         strokeWidth: trackSize ?? thumbSize,
                     }
                 },
-                ...(rest?.sx as any || {}),
                 width: size,
                 height: size,
                 position: "relative"
@@ -89,6 +105,7 @@ const _CircleProgress = <T extends TagComponentType = "div">({ children, color, 
                 <circle className="circle-progress-thumb" cx="25" cy="25" r={20} />
             </svg>
             {!!children && <Tag
+                baseClass="circle-progress-content"
                 sx={{
                     zIndex: 2,
                     width: size - thumbSize,

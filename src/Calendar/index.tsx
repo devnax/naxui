@@ -178,7 +178,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
                         setViewMode("day")
                         onButtonClick && onButtonClick("month", v)
                     }}
-                    sx={{
+                    sxr={{
                         color: selected ? "brand.text" : "text.primary"
                     }}
                 >

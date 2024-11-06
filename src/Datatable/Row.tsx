@@ -74,7 +74,7 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
                     <Menu target={target} onClickOutside={() => setTarget(null)}>
                         <List
                             bgcolor="background.primary"
-                            sx={{
+                            sxr={{
                                 '& > li': {
                                     borderBottom: 1,
                                     '&:last-child': {

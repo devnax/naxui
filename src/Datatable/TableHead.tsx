@@ -18,11 +18,11 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
 
     return (
         <TableHead position="relative">
-            <TableRow bgcolor="paper" borderBottom={1} >
+            <TableRow bgcolor="default" borderBottom={1} >
                 <TableCell th width={40}>
                     {
                         (checked) && <Stack
-                            bgcolor="paper"
+                            bgcolor="default"
                             position='absolute'
                             top={0}
                             left={0}
@@ -46,7 +46,7 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
                                             key={label}
                                             size={28}
                                             variant="text"
-                                            sx={{
+                                            sxr={{
                                                 '& svg': {
                                                     fontSize: 20
                                                 }

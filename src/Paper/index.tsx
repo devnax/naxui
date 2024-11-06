@@ -5,18 +5,18 @@ import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 export type PaperProps<T extends TagComponentType = "div"> = TagProps<T>
 
 const _Paper = <T extends TagComponentType = "div">({ children, ...rest }: PaperProps<T>, ref?: React.Ref<any>) => {
-    let [props] = useInterface<any>("Paper", rest, {})
+    let [props] = useInterface<any>("default", rest, {})
     return (
         <Tag
             {...props}
-            sx={{
+            sxr={{
                 radius: 1,
                 p: 1.5,
                 bgcolor: "background.secondary",
                 color: "text.primary",
                 ...props?.sx
             }}
-            baseClass='paper'
+            baseClass='default'
             ref={ref}
         >{children}</Tag>
     )

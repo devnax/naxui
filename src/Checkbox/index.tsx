@@ -46,7 +46,7 @@ const _Checkbox = <T extends TagComponentType = "div">(props: CheckboxProps<T>, 
             onClick={() => {
                 onChange && onChange()
             }}
-            sx={{
+            sxr={{
                 height: size,
                 width: size,
                 display: "flex",

@@ -20,7 +20,7 @@ const _Avatar = <T extends TagComponentType = "img">({ children, src, alt, ...re
                 src={src}
                 {...props}
                 baseClass='avatar'
-                sx={{
+                sxr={{
                     display: "inline-flex",
                     justifyContent: "center",
                     alignItems: "center",

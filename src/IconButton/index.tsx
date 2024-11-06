@@ -49,7 +49,7 @@ const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest 
             {...template}
             baseClass='icon-button'
             fontSize={(size / 5) * 2}
-            sx={{
+            sxr={{
                 ..._props.sx,
                 "& svg": {
                     fontSize: (size / 3) * 2

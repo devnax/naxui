@@ -29,7 +29,7 @@ const _Switch = <T extends TagComponentType = "input">({ children, size, checked
             disabled={disabled}
             position="relative"
             verticalAlign="middle"
-            bgcolor={checked ? _color : "paper"}
+            bgcolor={checked ? _color : "default"}
             width={size}
             height={height}
             radius={2}

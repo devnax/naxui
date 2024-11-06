@@ -56,7 +56,7 @@ const Menu = ({ children, target, ...props }: MenuProps) => {
             <ClickOutside
                 baseClass="menu"
                 id={id}
-                sx={{
+                sxr={{
                     position: "fixed",
                     zIndex: 1500 + (zIndex || 0)
                 }}
@@ -78,7 +78,7 @@ const Menu = ({ children, target, ...props }: MenuProps) => {
                     <Tag
                         baseClass='menu-content'
                         {...slotProps?.content}
-                        sx={{
+                        sxr={{
                             overflow: "hidden",
                             bgcolor: "background.primary",
                             shadow: 5,

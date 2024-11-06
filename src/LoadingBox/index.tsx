@@ -20,7 +20,7 @@ const _LoadingBox = <T extends TagComponentType = "div">({ children, ...props }:
         <Tag
             baseClass='loading-box'
             {...rest}
-            sx={{
+            sxr={{
                 position: "relative",
                 display: "inline-block",
                 ...((rest as any).sx || {})
@@ -30,7 +30,7 @@ const _LoadingBox = <T extends TagComponentType = "div">({ children, ...props }:
         >
             {loading && <Tag
                 baseClass="loading-box-container"
-                sx={{
+                sxr={{
                     position: "absolute",
                     top: 0,
                     left: 0,

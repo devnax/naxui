@@ -83,7 +83,7 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                 </Tag>
             }
             <Tag
-                sx={{
+                sxr={{
                     display: "flex",
                     flexDirection: "row",
                     gap: 1,

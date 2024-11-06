@@ -41,7 +41,7 @@ const Modal = ({ children, size, slotProps, ...props }: ModalProps) => {
         >
             <Tag
                 {...modal}
-                sx={{
+                sxr={{
                     maxWidth: sizes[size] || size,
                     width: "100%",
                     radius: 2,
@@ -74,7 +74,7 @@ Modal.open = (id: string, content: ReactNode, props?: Omit<ModalProps, "open" | 
 
     Layer.open(id, <Tag
         {...modal}
-        sx={{
+        sxr={{
             maxWidth: sizes[size] || size,
             width: "100%",
             radius: 2,

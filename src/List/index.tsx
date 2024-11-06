@@ -39,7 +39,7 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
             listStyle="none"
             {...props}
             baseClass='list'
-            sx={{
+            sxr={{
                 ...sxOutline,
                 "& .list-item-icon": {
                     color: "text.secondary"

@@ -62,7 +62,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
         <Tag
             {..._props}
             baseClass="alert"
-            sx={{
+            sxr={{
                 justifyContent: "flex-start",
                 position: "relative",
                 radius: 1,
@@ -103,7 +103,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                 {
                     _icon && <Tag
                         baseClass="alert-icon"
-                        sx={{
+                        sxr={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -118,7 +118,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                 }
                 <Tag
                     baseClass="alert-content"
-                    sx={{
+                    sxr={{
                         display: "flex",
                         flexDirection: "column",
                         flex: 1,
@@ -142,7 +142,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                         }
                     </>}
                     <Tag
-                        sx={{
+                        sxr={{
                             fontSize: 14,
                             fontFamily: "default",
                         }}
@@ -264,7 +264,7 @@ Alert.confirm = (props: AlertOpenProps) => {
     >
         {content}
         <Tag
-            sx={{
+            sxr={{
                 display: "flex",
                 gap: 1,
                 pt: 4,

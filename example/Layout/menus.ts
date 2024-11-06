@@ -31,7 +31,6 @@ import Select from "../ui/Select"
 import Switch from "../ui/Switch"
 import Tab from "../ui/Tab"
 import Table from "../ui/Table"
-import Tabs from "../ui/Tabs"
 import Text from "../ui/Text"
 import Toast from "../ui/Toast"
 import Tooltip from "../ui/Tooltip"
@@ -73,7 +72,6 @@ export default [
     { "done": false, "label": "Switch", "render": Switch },
     { "done": false, "label": "Tab", "render": Tab },
     { "done": true, "label": "Table", "render": Table },
-    { "done": false, "label": "Tabs", "render": Tabs },
     { "done": false, "label": "Text", "render": Text },
     { "done": false, "label": "Toast", "render": Toast },
     { "done": false, "label": "Tooltip", "render": Tooltip },

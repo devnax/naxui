@@ -45,7 +45,7 @@ const ConfirmMain = (msg_or_props: ConfirmMesssageType, onConfirm?: (confirmed: 
             justifyContent="flex-end"
             gap={1}
             mt={2}
-            sx={{ ..._bcon[buttonPlacement || "right"] }}
+            sxr={{ ..._bcon[buttonPlacement || "right"] }}
         >
             {cancelText && <Button
                 color="default"

@@ -91,19 +91,19 @@ const Item = (item: ToastProps) => {
             t && clearTimeout(t)
         }
     }, [])
-    Color = Color || "paper"
+    Color = Color || "default"
 
     let { color, bgcolor }: any = useUIVariant("filled", Color)
-    if (Color === 'paper') {
+    if (Color === 'default') {
         color = "text.primary"
         bgcolor = "background.primary"
     }
 
     const icons = {
-        "info": <InfoIcon color={Color === 'paper' ? "primary" : color} />,
-        "warning": <WarningIcon color={Color === 'paper' ? "warning" : color} />,
-        "success": <SuccessIcon color={Color === 'paper' ? "success" : color} />,
-        "error": <ErrorIcon color={Color === 'paper' ? "error" : color} />
+        "info": <InfoIcon color={Color === 'default' ? "primary" : color} />,
+        "warning": <WarningIcon color={Color === 'default' ? "warning" : color} />,
+        "success": <SuccessIcon color={Color === 'default' ? "success" : color} />,
+        "error": <ErrorIcon color={Color === 'default' ? "error" : color} />
     }
 
     if (typeof icon === 'string' && icons[icon]) {

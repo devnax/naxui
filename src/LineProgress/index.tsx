@@ -28,7 +28,7 @@ const _LineProgress = ({ children, ...props }: LineProgressProps, ref: React.Ref
     return (
         <Tag
             baseClass='line-progress'
-            sx={{
+            sxr={{
                 display: "flex",
                 alignItems: "center",
                 width: '100%',
@@ -43,7 +43,7 @@ const _LineProgress = ({ children, ...props }: LineProgressProps, ref: React.Ref
             <Tag
                 component="span"
                 baseClass="line-progress-thumb"
-                sx={{
+                sxr={{
                     bgcolor: color === 'default' ? `divider` : `${color}`,
                     width: isVal ? `${value}%` : "50%",
                     height: thumbSize,

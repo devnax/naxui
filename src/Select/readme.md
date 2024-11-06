@@ -17,8 +17,8 @@ const App = () => {
 ### Select Props
 You can use the `Input` props and and theme `css, aliases props` and also below props.
 
-| Name  |  desciption |
-|---|---|
-|  value |  `number | string` |
-|onChange| `(item: OptionProps) => void`|
-|menuProps| `Menu props`|
+| Name      | desciption                    |
+| --------- | ----------------------------- |
+| value     | `number                       | string` |
+| onChange  | `(item: OptionProps) => void` |
+| menuProps | `Menu props`                  |

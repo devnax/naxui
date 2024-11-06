@@ -14,7 +14,7 @@ const _Text = <T extends TagComponentType = "p">({ children, variant, ...props }
         <Tag
             component={variant === 'text' || variant === 'small' ? "p" : variant}
             {...props}
-            sx={{
+            sxr={{
                 fontSize: variant,
                 lineHeight: variant,
                 fontWeight: variant,

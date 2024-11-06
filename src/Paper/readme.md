@@ -1,7 +1,7 @@
 ### How to use
 
 ```tsx
-import Paper, {PaperProps} from 'naxui/Paper'
+import Paper, {PaperProps} from 'naxui/default'
 
 const App = () => {
     return (

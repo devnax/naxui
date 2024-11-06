@@ -125,7 +125,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
             ref={ref}
             height="100%"
             {...viewboxProps}
-            sx={{
+            sxr={{
                 '& thead': fixedHeader ? {
                     position: "sticky",
                     top: 0,
@@ -218,7 +218,7 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
             <Table width="100%" dense className='datatable-table' {...tableProps}>
                 <TableHead {...props} update={update} state={state} />
                 <TableBody
-                    sx={{
+                    sxr={{
                         '& tr:last-child td': {
                             borderBottom: 0
                         }

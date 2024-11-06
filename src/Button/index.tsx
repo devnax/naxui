@@ -84,7 +84,7 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
         >
             {loading && <Tag
                 baseClass='button-loading-container'
-                sx={{
+                sxr={{
                     position: "absolute",
                     top: 0,
                     left: 0,

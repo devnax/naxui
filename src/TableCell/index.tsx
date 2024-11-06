@@ -10,7 +10,7 @@ const _TableCell = <T extends TagComponentType = "td">({ children, th, ...rest }
     return (
         <Tag
             {...rest}
-            sx={{
+            sxr={{
                 verticalAlign: "inherit",
                 textAlign: "left",
                 fontSize: "inherit",

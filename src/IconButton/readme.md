@@ -17,8 +17,8 @@ const App = () => {
 ### Props
 You can use the html `button` props and and theme `css, aliases props` and also below props.
 
-| Name  |  desciption |
-|---|---|
-|  color |  `primary, secondary, success, error, warning` Iconbutton color |
-|  variant |  `outline, text, contained` Iconbutton style variant|
-|  size |  `number` button size|
+| Name    | desciption                                                     |
+| ------- | -------------------------------------------------------------- |
+| color   | `primary, secondary, success, error, warning` Iconbutton color |
+| variant | `outline, text, contained` Iconbutton style variant            |
+| size    | `number` button size                                           |

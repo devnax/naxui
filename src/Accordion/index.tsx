@@ -72,13 +72,13 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         <ExpandIcon />
     </Tag>
 
-    let itemSx: any = {}
+    let itemsx: any = {}
 
     if (expandIconPlacement === 'start') {
-        itemSx = {
+        itemsx = {
             startIcon: <Tag
                 className='start-icon-container'
-                sx={{
+                sxr={{
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -92,10 +92,10 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         }
 
     } else {
-        itemSx = {
+        itemsx = {
             endIcon: <Tag
                 className='end-icon-container'
-                sx={{
+                sxr={{
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -110,8 +110,8 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
     }
 
     if (expandAction === 'icon') {
-        itemSx.onClick = () => { }
-        itemSx.cursor = "initial!important"
+        itemsx.onClick = () => { }
+        itemsx.cursor = "initial!important"
     }
 
     return (
@@ -137,7 +137,7 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
                     radius={0}
                     component='div'
                     {...slotProps?.headerContent}
-                    {...itemSx}
+                    {...itemsx}
                     subtitle={subtitle}
                     selected={expand}
                     onClick={() => onClick && onClick()}

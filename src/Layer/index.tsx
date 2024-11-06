@@ -80,7 +80,7 @@ const Layer = ({ children, open, id, ...props }: LayerProps) => {
                     baseClass="layer"
                     {...slotProps?.root}
                     id={id}
-                    sx={{
+                    sxr={{
                         ...slotProps?.root?.sx,
                         position: "fixed",
                         zIndex: 1500 + (zIndex || 0),

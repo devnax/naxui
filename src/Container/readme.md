@@ -16,7 +16,7 @@ const App = () => {
 ### Props
 You can use the html `div` props and and theme `css, aliases props` and also below props.
 
-| Name  |  desciption |
-|---|---|
-|  maxWidth |  `number, xs, sm, md, lg, xl` |
+| Name     | desciption                   |
+| -------- | ---------------------------- |
+| maxWidth | `number, xs, sm, md, lg, xl` |
 

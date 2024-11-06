@@ -38,7 +38,7 @@ const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }:
             overflow="hidden"
             radius={1}
             {...sizes[size]}
-            sx={{
+            sxr={{
                 '& button:not(:last-of-type)': {
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,

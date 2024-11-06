@@ -76,7 +76,7 @@ const _Table = <T extends TagComponentType = "table">({ children, ...props }: Ta
             <Tag
                 {...rest}
                 baseClass='table'
-                sx={{
+                sxr={{
                     fontSize: size === "small" ? "button" : "text",
                     width: "100%",
                     "& thead, & tfoot": {

@@ -55,7 +55,7 @@ const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React
 
     if (showPercentage && !children) {
         children = <Tag
-            sx={{
+            sxr={{
                 color: color === 'default' ? "text.primary" : `${color}.primary`,
                 fontSize: size / 4
             }}
@@ -65,7 +65,7 @@ const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React
     return (
         <Tag
             baseClass='circle-progress'
-            sx={{
+            sxr={{
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -106,7 +106,7 @@ const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React
             </svg>
             {!!children && <Tag
                 baseClass="circle-progress-content"
-                sx={{
+                sxr={{
                     zIndex: 2,
                     width: size - thumbSize,
                     height: size - thumbSize,

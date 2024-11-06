@@ -18,7 +18,7 @@ const _Divider = <T extends TagComponentType = "div">({ children, direction, col
         <Tag
             {...rest}
             baseClass='divider'
-            sx={{
+            sxr={{
                 width: isHori ? "100%" : size,
                 height: isHori ? size : "100%",
                 bgcolor: color === 'default' ? `background.secondary` : `${color}.secondary`,

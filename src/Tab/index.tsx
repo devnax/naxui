@@ -12,7 +12,7 @@ const _Tab = <T extends TagComponentType = "div">({ children, ...props }: TabPro
         </Button>
         // <Tag
         //     {...props}
-        //     sx={{
+        //     sxr={{
         //         cursor: "pointer",
         //         color: "text.secondary",
         //         fontWeight: 500,

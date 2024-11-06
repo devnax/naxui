@@ -62,7 +62,7 @@ const _Chip = <T extends TagComponentType = 'div'>(props: ChipProps<T>, ref: Rea
         >
             {startIcon}
             <Tag
-                sx={{
+                sxr={{
                     alignItems: "center",
                     flexBox: true
                 }}

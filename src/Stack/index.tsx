@@ -4,15 +4,15 @@ import { Tag, TagProps, TagComponentType } from 'naxui-manager';
 
 export type StackProps<T extends TagComponentType = "div"> = TagProps<T>
 
-const _Stack = <T extends TagComponentType = "div">({ children, ...props }: StackProps<T>, ref?: React.Ref<any>) => {
+const _Stack = <T extends TagComponentType = "div">({ children, sx, ...props }: StackProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
-            {...props}
-            sx={{
+            sxr={{
                 display: "flex",
                 flexDirection: "column",
-                ...(props as any).sx
+                ...(sx as any || {})
             }}
+            {...props}
             baseClass='stack'
             ref={ref}
         >{children}</Tag>

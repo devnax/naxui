@@ -74,7 +74,7 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
                 <Tag
                     component='span'
                     baseClass='badge-content'
-                    sx={{
+                    sxr={{
                         position: "absolute",
                         zIndex: 1,
                         radius: 2,

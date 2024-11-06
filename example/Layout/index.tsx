@@ -28,7 +28,7 @@ const Layout = () => {
 
     return (
         <ThemeProvider resetCss theme={theme}>
-            <Stack height="100vh" flexRow bgcolor="paper">
+            <Stack height="100vh" flexRow bgcolor="background.primary">
                 <ViewBox
                     width={250}
                     height="100%"

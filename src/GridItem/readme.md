@@ -17,11 +17,11 @@ const App = () => {
 You can use the html `div` props and and theme `css, aliases props`.
 
 
-| Name  |  desciption |
-|---|---|
-|  xs |  `number`|
-|  sm |  `number`  |
-|  md |  `number` |
-|  lg |  `number`  |
-|  xl |  `number`  |
+| Name | desciption |
+| ---- | ---------- |
+| xs   | `number`   |
+| sm   | `number`   |
+| md   | `number`   |
+| lg   | `number`   |
+| xl   | `number`   |
 

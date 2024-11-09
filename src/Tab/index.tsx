@@ -7,7 +7,7 @@ export type TabProps<T extends TagComponentType = "div"> = TagProps<T>
 
 const _Tab = <T extends TagComponentType = "div">({ children, ...props }: TabProps<T>, ref: React.Ref<any>) => {
     return (
-        <Button>
+        <Button {...props}>
             {children}
         </Button>
         // <Tag

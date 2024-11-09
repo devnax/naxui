@@ -12,6 +12,7 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
     corner?: UseCornerTypes;
     size?: "small" | "medium" | "large";
     loading?: boolean;
+    mode?: "inline" | "box";
     slotProps?: {
         loading?: Omit<CircleProgressProps, "color" | "hideTrack" | "size">
     }
@@ -19,14 +20,16 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
 
 
 const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
-    let [{ variant, startIcon, endIcon, color, corner, size, loading, slotProps, ..._props }] = useInterface<any>('Button', rest, {
+    let [{ variant, startIcon, endIcon, color, corner, size, loading, mode, slotProps, ..._props }] = useInterface<any>('Button', rest, {
         variant: "fill",
         color: "brand",
         corner: "rounded",
         size: "medium"
     })
 
-    const template = useColorTemplate(color, variant)
+    mode ??= "inline"
+
+    const { hover: templateHover, ...templatecss } = useColorTemplate(color, variant)
     const cornerCss = useCorner(corner)
 
     const sizes: any = {
@@ -56,27 +59,38 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
         large: 30
     }
 
+
+    let _size = (sizes[size as any] || {})
+    let isInline = mode === 'inline'
+    if (!isInline) {
+        delete _size.height
+        _size.gap = .5
+        _size.py = 1
+    }
+
     return (
         <Tag
             component='button'
             baseClass='button'
-            border={0}
-            cursor="pointer"
-            font="button"
-            display="inline-flex"
-            textTransform="uppercase"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="center"
-            position="relative"
-            overflow="hidden"
-            userSelect="none"
-            {...cornerCss}
-            {...(sizes[size as any] || {})}
             {..._props}
-            {...template}
+            sxr={{
+                border: 0,
+                cursor: "pointer",
+                font: "button",
+                display: "flex",
+                textTransform: "uppercase",
+                flexDirection: isInline ? "row" : "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                overflow: "hidden",
+                userSelect: "none",
+                ..._size,
+                ...cornerCss,
+                ...templatecss,
+            }}
             hover={{
-                ...template?.hover,
+                ...templateHover,
                 ...((_props as any)?.hover || {})
             }}
             disabled={loading ?? _props.disabled ?? false}

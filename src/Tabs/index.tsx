@@ -1,7 +1,8 @@
 'use client'
 import React, { useEffect, ReactElement, useMemo, cloneElement, useState, Children, forwardRef, useRef } from 'react'
 import { TabProps } from '../Tab'
-import { Tag, TagProps, useColorTemplateColors, useTransition } from 'naxui-manager'
+import { Tag, TagProps, useColorTemplateColors } from 'naxui-manager'
+import useTransition from './useTransition'
 
 export type ValueType = string | number
 export type TabsProps = Omit<TagProps, 'onChange'> & {
@@ -10,16 +11,11 @@ export type TabsProps = Omit<TagProps, 'onChange'> & {
     onChange?: (value: ValueType) => void;
     variant?: "bottom-line" | "top-line" | "fill" | "outline" | "text" | "alpha";
     color?: useColorTemplateColors;
-    slotProps?: {
-
-    }
-
-
-
     verticle?: boolean;
+    slotProps?: {}
+
     indicatorSize?: number;
 }
-
 
 const getRect = (ele: HTMLElement, parent: HTMLElement) => {
     const _rect: any = {};
@@ -34,18 +30,17 @@ const getRect = (ele: HTMLElement, parent: HTMLElement) => {
     return _rect
 }
 
-
 const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }: TabsProps, ref: any) => {
-    indicatorSize = indicatorSize || 2
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    indicatorSize ??= 2
     ref = ref || useRef()
     const containerRef: any = useRef()
     const [trans, setTrans] = useState<any>()
-    // const [transRef, cls] = useTransition({
-    //     ...trans,
-    //     ease: "ease",
-    //     duration: trans ? 200 : 0
-    // })
+    const [val, setVal] = useState<ValueType | void>(value)
+    const { classname } = useTransition(!!trans, {
+        variant: trans || { from: {}, to: {} },
+        ease: "ease",
+        duration: trans ? 200 : 0
+    })
 
     const { childs, selectedIndex } = useMemo(() => {
         let info: any = {
@@ -57,16 +52,17 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
             if (selected) {
                 info.selectedIndex = idx
             }
+            delete child.props.value
             return cloneElement(child, {
-                value: undefined,
+                corner: "square",
                 onClick: () => {
                     onChange && onChange(child.props.value)
                 },
                 classNames: [child.props.className, { "tab-selected": selected }],
-                color: selected ? "brand.text" : "text.secondary"
+                color: selected ? "warning" : "default",
+                variant: "text"
             })
         })
-
         return info
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [children, onChange, value])
@@ -78,27 +74,34 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
         if (conChilds && conChilds[selectedIndex]) {
             const selectedTab = con.querySelector(".tab-selected") || conChilds[0]
             const prevRect = getRect(selectedTab, con)
-
             const rect = getRect(conChilds[selectedIndex], con)
+
             let anim: any = {
                 from: {
                     left: prevRect?.left || 0,
-                    width: prevRect?.width || 0
+                    width: prevRect?.width || 0,
+                    height: prevRect?.height || 0
                 },
                 to: {
                     left: rect?.left || 0,
-                    width: rect?.width || 0
+                    width: rect?.width || 0,
+                    height: rect?.height || 0,
                 },
             }
             if (verticle) {
                 anim = {
                     from: {
                         top: prevRect?.top || 0,
-                        height: prevRect?.height || 0
+                        height: prevRect?.height || 0,
+                        width: prevRect?.width || 0,
+
+
                     },
                     to: {
                         top: rect?.top || 0,
-                        height: rect?.height || 0
+                        height: rect?.height || 0,
+                        width: rect?.width || 0,
+
                     }
                 }
             }
@@ -109,30 +112,36 @@ const _Tabs = ({ onChange, value, children, verticle, indicatorSize, ...props }:
 
     return (
         <Tag
-            flexBox
-            flexDirection={verticle ? "column" : "row"}
             {...props}
-            position="relative"
             baseClass='tabs-root'
             ref={ref}
+            sxr={{
+                position: "relative",
+                overflow: "hidden",
+                zIndex: 1
+            }}
         >
             <Tag
                 baseClass='tabs-items'
+                sxr={{
+                    display: "flex",
+                    flexDirection: verticle ? "column" : "row",
+                    zIndex: 9999
+                }}
                 ref={containerRef}
-                flexDirection={verticle ? "column" : "row"}
             >
                 {childs}
             </Tag>
             <Tag
                 baseClass='tabs-indicator'
                 position="absolute"
-                radius={1}
-                bgcolor="primary"
+                bgcolor="brand"
                 width={verticle ? indicatorSize : 0}
                 height={verticle ? 0 : indicatorSize}
                 bottom={verticle ? "initial" : 0}
                 right={verticle ? 0 : 'initial'}
-                zIndex={1}
+                zIndex={-1}
+                className={classname}
             >
             </Tag>
         </Tag>

@@ -12,6 +12,7 @@ const _Radio = (props: RadioProps, ref?: React.Ref<any>) => {
         checkIcon={<CheckIcon />}
         uncheckIcon={<UnCheckIcon />}
         {...rest}
+        type="radio"
         ref={ref}
         classNames={['radio', ...(rest?.classNames || [])]}
     />

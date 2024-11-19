@@ -116,19 +116,20 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
             baseClass={`input${_focus ? " input-focused" : ""}`}
         >
             <Tag
-                flexBox
-                flexDirection="row"
-                alignItems={iconPlacement === 'center' ? iconPlacement : `flex-${iconPlacement}`}
-                flexWrap="nowrap"
-                minWidth={150}
-                transitionProperty="border, box-shadow, background"
-                bgcolor={error ? "danger.alpha" : variant === "fill" ? "background.secondary" : "background.primary"}
-                border={1}
-                borderColor={borderColor}
-                borderRadius={1}
-                px={1}
-                py={.5}
                 {...slotProps?.container}
+                sxr={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: iconPlacement === 'center' ? iconPlacement : `flex-${iconPlacement}`,
+                    flexWrap: "nowrap",
+                    minWidth: 150,
+                    transitionProperty: "border, box-shadow, background",
+                    bgcolor: error ? "danger.alpha" : variant === "fill" ? "background.secondary" : "background.primary",
+                    border: 1,
+                    borderColor: borderColor,
+                    borderRadius: 1,
+                    px: 1
+                }}
                 baseClass='input-container'
                 disabled={disabled || false}
                 ref={conRef}
@@ -137,31 +138,37 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
                 minHeight={_size.height}
             >
                 {startIcon && <Tag
-                    height="100%"
-                    alignItems='center'
-                    justifyContent="center"
-                    flexBox
-                    color={error ? "danger.primary" : "text.secondary"}
+                    sxr={{
+                        height: "100%",
+                        alignItems: 'center',
+                        justifyContent: "center",
+                        display: "flex",
+                        color: error ? "danger.primary" : "text.secondary",
+                    }}
                     baseClass="input-start-icon"
                 >{startIcon}</Tag>}
                 <Tag
-                    flexBox
-                    alignItems="center"
-                    flex={1}
-                    minHeight={_size.height}
+                    sxr={{
+                        display: "flex",
+                        alignItems: "center",
+                        flex: 1,
+                        minHeight: _size.height,
+                    }}
                 >
                     <Tag
                         component={multiline ? 'textarea' : 'input'}
-                        border={0}
-                        outline={0}
-                        bgcolor="transparent"
-                        color={error ? "danger.primary" : "text.primary"}
-                        fontSize={_size.fontSize}
-                        height={multiline ? "auto" : _size.height}
-                        width="100%"
-                        maxHeight={200}
                         {...multiprops}
                         {...rest}
+                        sxr={{
+                            border: 0,
+                            outline: 0,
+                            bgcolor: "transparent",
+                            color: error ? "danger.primary" : "text.primary",
+                            fontSize: _size.fontSize,
+                            height: multiline ? "auto" : _size.height,
+                            width: "100%",
+                            maxHeight: 200,
+                        }}
                         value={value}
                         baseClass='input-box'
                         ref={ref}
@@ -176,11 +183,13 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
                     />
                 </Tag>
                 {endIcon && <Tag
-                    height="100%"
-                    alignItems='center'
-                    justifyContent="center"
-                    flexBox
-                    color={error ? "danger.primary" : "text.secondary"}
+                    sxr={{
+                        height: "100%",
+                        alignItems: 'center',
+                        justifyContent: "center",
+                        display: 'flex',
+                        color: error ? "danger.primary" : "text.secondary",
+                    }}
                     baseClass="input-end-icon"
                 >{endIcon}</Tag>}
             </Tag>

@@ -46,17 +46,19 @@ const _Chip = <T extends TagComponentType = 'div'>(props: ChipProps<T>, ref: Rea
 
     return (
         <Tag
-            display="inline-flex"
-            flexDirection="row"
-            alignItems="center"
-            transition="background .3s"
-            fontFamily="default"
-            overflow="hidden"
-            px={startIcon || endIcon ? 1 : 1.5}
             {...cornerCss}
             {...template}
             {...(sizes[size as any] || {})}
             {...rest}
+            sxr={{
+                display: "inline-flex",
+                flexDirection: "row",
+                alignItems: "center",
+                transition: "background .3s",
+                fontFamily: "default",
+                overflow: "hidden",
+                px: startIcon || endIcon ? 1 : 1.5,
+            }}
             baseClass='chip'
             ref={ref}
         >

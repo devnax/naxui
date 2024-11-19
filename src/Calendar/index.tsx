@@ -25,10 +25,12 @@ const ShowYears = ({ color, year, today, boxWidth, onClick }: any) => {
         const selected = year == y
         years.push(<Stack
             key={y}
-            width={(boxWidth - 12) / 3}
-            alignItems="center"
-            justifyContent="center"
-            p={.1}
+            sx={{
+                width: (boxWidth - 12) / 3,
+                alignItems: "center",
+                justifyContent: "center",
+                p: .1
+            }}
             className='calender-year-item'
         >
             <Button
@@ -53,10 +55,12 @@ const ShowYears = ({ color, year, today, boxWidth, onClick }: any) => {
 
     return (
         <Stack
-            flexWrap="wrap"
-            flexRow
-            overflow="hidden"
-            overflowY="auto"
+            sx={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                overflow: "hidden",
+                overflowY: "auto"
+            }}
             className='calender-years'
         >
             {years}
@@ -118,10 +122,12 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
                     }
 
                     row.push(<Stack
-                        width={btnWidth}
-                        height={btnWidth}
-                        alignItems="center"
-                        justifyContent="center"
+                        sx={{
+                            width: btnWidth,
+                            height: btnWidth,
+                            alignItems: "center",
+                            justifyContent: "center"
+                        }}
                         key={date + j + i}
                         className='calender-day-item'
                     >
@@ -178,7 +184,7 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
                         setViewMode("day")
                         onButtonClick && onButtonClick("month", v)
                     }}
-                    sxr={{
+                    sx={{
                         color: selected ? "brand.text" : "text.primary"
                     }}
                 >
@@ -187,14 +193,15 @@ const Calendar = ({ value, onChange, viewMode: VMode, onButtonClick, color }: Ca
             </Stack>)
         }
 
-
         return (
             <Stack
-                flexWrap="wrap"
-                flexRow
-                overflow="hidden"
-                overflowY="auto"
                 className='calender-months'
+                sx={{
+                    flexWrap: "wrap",
+                    overflow: "hidden",
+                    overflowY: "auto",
+                    flexDirection: "row"
+                }}
             >
                 {months}
             </Stack>

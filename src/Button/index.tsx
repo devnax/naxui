@@ -74,6 +74,8 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
             baseClass='button'
             {..._props}
             sxr={{
+                flexShrink: 0,
+                whiteSpace: "nowrap",
                 border: 0,
                 cursor: "pointer",
                 font: "button",

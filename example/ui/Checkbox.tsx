@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Stack from '../../src/Stack'
 import Checkbox from '../../src/Checkbox'
 import Radio from '../../src/Radio'
+import Switch from '../../src/Switch'
 import Section from '../Layout/Section'
 import HeartIcon from 'naxui-icons/round/HeartBroken'
 
@@ -82,6 +83,39 @@ const Checkboxes = () => {
                         setValue("A")
                     }}
                 />
+            </Section>
+            <Section title="Radio" gap={2} flexRow>
+                <Switch
+                    size={80}
+                    checked={value === "A"}
+                    onChange={() => {
+                        setValue(value === "A" ? "B" : "A")
+                    }}
+                />
+                <Switch
+                    color="accent"
+                    checked={value === "A"}
+                    onChange={() => {
+                        setValue(value === "A" ? "B" : "A")
+                    }}
+                    trackSize={16}
+                    size={60}
+                />
+                <Switch
+                    color="info"
+                    checked={value === "A"}
+                    onChange={() => {
+                        setValue(value === "A" ? "B" : "A")
+                    }}
+                />
+                <Switch
+                    color="warning"
+                    checked={value === "A"}
+                    onChange={() => {
+                        setValue(value === "A" ? "B" : "A")
+                    }}
+                />
+
             </Section>
 
         </Stack>

@@ -5,13 +5,10 @@ import TableRow from '../TableRow'
 import TableCell from '../TableCell'
 import { DatatablePropsWithState } from '.'
 import Checkbox from '../Checkbox'
-import IconButton from '../IconButton'
-import Text from '../Text'
-import Stack from '../Stack'
 import IntermidiatIcon from 'naxui-icons/round/IndeterminateCheckBox'
 
 
-const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }: DatatablePropsWithState) => {
+const TableHeadRender = ({ columns, rows, disableRow, disableSelect, state, update }: DatatablePropsWithState) => {
     if (!columns.length) return <></>
     let selected = state.selectedIds
     let checked = state.selectAll || !!selected.length
@@ -19,48 +16,7 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
     return (
         <TableHead position="relative">
             <TableRow bgcolor="default" borderBottom={1} >
-                <TableCell th width={40}>
-                    {
-                        (checked) && <Stack
-                            bgcolor="default"
-                            position='absolute'
-                            top={0}
-                            left={0}
-                            bottom={0}
-                            right={0}
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            p={1}
-                        >
-                            <Stack pl={4}>
-                                <Text fontWeight={600}>Selected: {selected.length}</Text>
-                            </Stack>
-                            <Stack
-                                flexRow
-                                gap={1}
-                            >
-                                {rowAction && rowAction({ row: null, state }).map(({ label, icon, ...bprops }) => {
-                                    return (
-                                        <IconButton
-                                            key={label}
-                                            size={28}
-                                            variant="text"
-                                            sxr={{
-                                                '& svg': {
-                                                    fontSize: 20
-                                                }
-                                            }}
-
-                                            {...bprops}
-                                        >
-                                            {icon}
-                                        </IconButton>
-                                    )
-                                })}
-                            </Stack>
-                        </Stack>
-                    }
+                {!disableSelect && <TableCell th width={40}>
                     <Checkbox
                         checkIcon={selected.length && !state.selectAll ? <IntermidiatIcon /> : undefined}
                         checked={checked}
@@ -79,7 +35,7 @@ const TableHeadRender = ({ columns, rows, rowAction, disableRow, state, update }
                             })
                         }}
                     />
-                </TableCell>
+                </TableCell>}
                 {
                     columns.map(({ label, field: _f, ...rest }, idx) => <TableCell key={idx} th textAlign="left" {...rest}>{label}</TableCell>)
                 }

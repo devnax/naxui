@@ -11,15 +11,16 @@ const _Container = <T extends TagComponentType = "div">({ children, maxWidth, ..
     maxWidth = maxWidth || "lg"
     return (
         <Tag
-            width="100%"
-            maxWidth={{
-                xs: "100%",
-                [maxWidth as any]: (breakpoints as any)[maxWidth]
-            } as any
-            }
-            mx="auto"
-            px={2}
             {...rest}
+            sxr={{
+                width: "100%",
+                maxWidth: {
+                    xs: "100%",
+                    [maxWidth as any]: (breakpoints as any)[maxWidth]
+                },
+                mx: "auto",
+                px: 2,
+            }}
             baseClass="container"
             ref={ref}
         >{children}</Tag>

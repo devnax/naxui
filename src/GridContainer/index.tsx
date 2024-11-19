@@ -6,11 +6,13 @@ export type GridContainerProps<T extends TagComponentType = "div"> = TagProps<T>
 const _GridContainer = <T extends TagComponentType = "div">({ children, ...rest }: GridContainerProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
-            display="flex"
-            flexDirection='row'
-            flexWrap='wrap'
-            width='100%'
             {...rest}
+            sxr={{
+                display: "flex",
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                width: '100%',
+            }}
             baseClass='grid-container'
             ref={ref}
         >

@@ -6,7 +6,7 @@
   "author": "Naxrul Ahmed",
   "license": "ISC",
   "scripts": {
-    "tsc": "tsc --module CommonJS --outDir dist",
+    "tsc": "tsc --module esnext --outDir dist",
     "move": "cp package.json dist/package.json && cp readme.md dist/readme.md",
     "build": "rm -rf dist && mkdir dist && npm run move && npm run tsc && cd dist",
     "start": "parcel example/index.html --no-cache",

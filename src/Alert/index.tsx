@@ -155,7 +155,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
     )
 }
 
-export type AlertOpenProps = Omit<AlertProps, 'children' | 'onClose' | 'variant' | "size"> & {
+export type AlertConfirmProps = Omit<AlertProps, 'children' | 'onClose' | 'variant' | "size"> & {
     content?: ReactNode;
     size?: "small" | "medium" | "large" | number;
     closeButton?: boolean;
@@ -176,7 +176,7 @@ export type AlertOpenProps = Omit<AlertProps, 'children' | 'onClose' | 'variant'
     }
 }
 
-Alert.confirm = (props: AlertOpenProps) => {
+Alert.confirm = (props: AlertConfirmProps) => {
     const id = "_" + Math.random().toString(16)
     let {
         content,

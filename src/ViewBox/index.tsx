@@ -19,17 +19,19 @@ const _ViewBox = ({ children, ...rest }: ViewBoxProps, ref?: any) => {
 
     return (
         <Tag
-            flexBox
-            justifyContent="space-between"
             {...props}
+            sxr={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: horizental ? "row" : "column"
+            }}
             baseClass='viewbox'
-            flexDirection={horizental ? "row" : "column"}
             ref={ref}
         >
-            {startContent && <Tag baseClass='viewboxStartContent' flexBox flexDirection={horizental ? "row" : "column"}>{startContent}</Tag>}
+            {startContent && <Tag baseClass='viewbox-start-content' flexBox flexDirection={horizental ? "row" : "column"}>{startContent}</Tag>}
             <Scrollbar
                 {...slotProps?.scrollbar}
-                className='viewboxContent'
+                className='viewbox-content'
                 style={{
                     flex: 1,
                     display: "flex",
@@ -39,7 +41,7 @@ const _ViewBox = ({ children, ...rest }: ViewBoxProps, ref?: any) => {
             >
                 {children}
             </Scrollbar>
-            {endContent && <Tag baseClass='viewboxEndContent' flexBox flexDirection={horizental ? "row" : "column"}>{endContent}</Tag>}
+            {endContent && <Tag baseClass='viewbox-end-content' flexBox flexDirection={horizental ? "row" : "column"}>{endContent}</Tag>}
         </Tag>
     )
 }

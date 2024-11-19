@@ -34,12 +34,12 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
     return (
         <Tag
             component='ul'
-            m={0}
-            p={0}
-            listStyle="none"
             {...props}
             baseClass='list'
             sxr={{
+                listStyle: "none",
+                p: 0,
+                m: 0,
                 ...sxOutline,
                 "& .list-item-icon": {
                     color: "text.secondary"

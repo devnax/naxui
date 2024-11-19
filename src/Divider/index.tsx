@@ -22,9 +22,6 @@ const _Divider = <T extends TagComponentType = "div">({ children, direction, col
                 width: isHori ? "100%" : size,
                 height: isHori ? size : "100%",
                 bgcolor: color === 'default' ? `background.secondary` : `${color}.secondary`,
-                // my: isHori ? 1 : 0,
-                // mx: isHori ? 0 : 1,
-                ...((rest as any).sx || {})
             }}
             ref={ref}
         >{children}</Tag>

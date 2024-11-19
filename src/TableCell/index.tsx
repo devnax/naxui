@@ -14,6 +14,7 @@ const _TableCell = <T extends TagComponentType = "td">({ children, th, ...rest }
                 verticalAlign: "inherit",
                 textAlign: "left",
                 fontSize: "inherit",
+                color: "text.primary",
                 ...((rest as any)?.sx || {})
             }}
             baseClass='table-cell'

@@ -1,7 +1,7 @@
 import Text from '../Text'
-import Select from '../Select'
+import Select, { SelectProps } from '../Select'
 import Option from '../Option'
-import IconButton from '../IconButton'
+import IconButton, { IconButtonProps } from '../IconButton'
 import React, { useMemo, useState } from 'react'
 import PrevIcon from 'naxui-icons/round/KeyboardArrowLeft'
 import NextIcon from 'naxui-icons/round/KeyboardArrowRight'
@@ -14,10 +14,15 @@ export type TablePaginationProps = Omit<TagProps, "children"> & {
     color?: useColorTemplateColors;
     variant?: useColorTemplateType;
     onChange?: (state: { page: number, perpage: number, from: number, to: number }) => void;
+
+    slotProps?: {
+        button?: Omit<IconButtonProps, "children" | "color" | "variant">;
+        select?: Omit<SelectProps, "value" | "onChange">;
+    }
 }
 
-const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...props }: TablePaginationProps, ref: React.Ref<any>) => {
-    let [{ }] = useInterface("TablePagination", props, {})
+const _TablePagination = ({ page, total, onChange, ...rest }: TablePaginationProps, ref: React.Ref<any>) => {
+    let [{ perpages, color, variant, slotProps, ...props }] = useInterface<any>("TablePagination", rest, {})
     color ??= "default"
     variant ??= "fill"
     perpages ??= [30, 50, 100]
@@ -48,11 +53,13 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
 
     return (
         <Tag
-            flexBox
-            flexRow
-            gap={1}
-            alignItems="center"
             {...props}
+            sxr={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center"
+            }}
             baseClass='table-pagination'
             ref={ref}
         >
@@ -60,8 +67,11 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                 isPerpage && <Tag baseClass='table-pagination-perpage' flexBox flexRow gap={1} alignItems="center">
                     <Text fontSize="button">PER PAGE</Text>
                     <Select
+                        {...slotProps?.select}
                         slotProps={{
+                            ...slotProps?.select?.slotProps,
                             input: {
+                                ...slotProps?.select?.slotProps?.input,
                                 slotProps: {
                                     container: {
                                         minWidth: "auto"
@@ -70,7 +80,6 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                                 width: perpage.toString().length * 10,
                                 size: "small",
                             },
-                            menu: { minWidth: "auto" }
                         }}
                         value={perpage}
                         onChange={(value: any) => {
@@ -78,7 +87,7 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                             onChange && onChange(current)
                         }}
                     >
-                        {perpages.map(p => <Option key={p} value={p}>{p}</Option>)}
+                        {perpages.map((p: number) => <Option key={p} value={p}>{p}</Option>)}
                     </Select>
                 </Tag>
             }
@@ -94,10 +103,12 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                 <Text color="text.secondary">of</Text>
                 <Text fontSize="button">{total}</Text>
             </Tag>
-            <Tag baseClass='table-pagination-prev-next' flexBox flexRow gap={.4} >
+            <Tag baseClass='table-pagination-navigation' flexBox flexRow gap={.4} >
                 <IconButton
+                    {...slotProps?.button}
                     color={color}
                     variant={variant}
+
                     size={30}
                     disabled={!prev}
                     onClick={() => {
@@ -107,6 +118,7 @@ const _TablePagination = ({ page, total, perpages, onChange, color, variant, ...
                     <PrevIcon />
                 </IconButton>
                 <IconButton
+                    {...slotProps?.button}
                     color={color}
                     variant={variant}
                     size={30}

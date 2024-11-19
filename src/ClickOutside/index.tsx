@@ -18,7 +18,6 @@ const _ClickOutside = ({ children, onClickOutside, ...props }: ClickOutsideProps
         return () => {
             document.removeEventListener("click", handler)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

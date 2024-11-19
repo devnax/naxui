@@ -77,6 +77,7 @@ const _Table = <T extends TagComponentType = "table">({ children, ...props }: Ta
                 {...rest}
                 baseClass='table'
                 sxr={{
+                    color: "text.primary",
                     fontSize: size === "small" ? "button" : "text",
                     width: "100%",
                     "& thead, & tfoot": {

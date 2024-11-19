@@ -56,7 +56,7 @@ const Menu = ({ children, target, ...props }: MenuProps) => {
             <ClickOutside
                 baseClass="menu"
                 id={id}
-                sxr={{
+                sx={{
                     position: "fixed",
                     zIndex: 1500 + (zIndex || 0)
                 }}

@@ -1,32 +1,44 @@
 'use client'
-import React, { useState } from 'react'
-import Menu from '../Menu'
-import Box, { BoxProps } from '../Box'
+import React, { Children, cloneElement, ReactElement, useState } from 'react'
+import Menu, { MenuProps } from '../Menu'
+import { useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager'
 
-export type TooltipProps = BoxProps & {
+export type TooltipProps = {
+    children: ReactElement;
     title: string;
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
+    placement?: MenuProps['placement']
 }
 
-const _Tooltip = ({ children, title }: BoxProps) => {
+const Tooltip = ({ children, title, variant, color, placement }: TooltipProps) => {
     const [target, setTarget] = useState<any>()
+    variant ??= "fill"
+    color ??= "default"
+    placement ??= "bottom"
+
+    const { hover, ...template } = useColorTemplate(color, variant)
+
+    const content = Children.map(children, (child: any) => {
+        return cloneElement(child, {
+            onMouseEnter: (e) => setTarget(e.target),
+            onMouseLeave: () => setTarget(null)
+        })
+    })
 
     return (
         <>
-            <Box
-                onMouseEnter={(e) => {
-                    setTarget(e.target)
-                }}
-                onMouseLeave={(e) => {
-                    setTarget(null)
-                }}
-            >
-                {children}
-            </Box>
+            {content}
             <Menu
                 target={target}
-                placement='right'
-                p={1}
-                radius={1}
+                placement={placement}
+                slotProps={{
+                    content: {
+                        p: .5,
+                        shadow: 1,
+                        ...template
+                    }
+                }}
             >
                 {title}
             </Menu>
@@ -34,4 +46,4 @@ const _Tooltip = ({ children, title }: BoxProps) => {
     )
 }
 
-export default _Tooltip
+export default Tooltip

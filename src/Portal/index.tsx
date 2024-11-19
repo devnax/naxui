@@ -17,7 +17,7 @@ const _Portal = <T extends TagComponentType = "div">({ children, component, appe
         let _con: HTMLElement = _container || document.createElement(component as any || "div");
         appendTo.appendChild(_con);
         for (let prop in props) {
-            _con.setAttribute(prop, props[prop])
+            _con.setAttribute(prop, (props as any)[prop])
         }
         if (!_container) {
             setContainer(_con)

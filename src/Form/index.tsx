@@ -31,7 +31,6 @@ const _Form = <T extends TagComponentType = "form">({ children, ...rest }: FormP
     return (
         <Tag
             component="form"
-
             {...rest}
             onSubmit={(e) => {
                 e.preventDefault()

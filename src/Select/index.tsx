@@ -7,13 +7,13 @@ import Stack from '../Stack'
 import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
-import { useColorTemplateColors, useInterface } from 'naxui-manager'
+import { useInterface } from 'naxui-manager'
 
 export type SelectProps = {
-    color?: useColorTemplateColors;
     value?: string | number;
     onChange?: (value: string | number) => void;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[];
+    placeholder?: string;
     slotProps?: {
         menu?: Omit<MenuProps, 'children' | 'target'>;
         input?: Omit<InputProps, "onChange" | "value">;
@@ -22,8 +22,7 @@ export type SelectProps = {
 }
 
 const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: React.Ref<any>) => {
-    let [{ slotProps, color }] = useInterface<any>("Select", props, {})
-    color ??= "brand"
+    let [{ slotProps, placeholder }] = useInterface<any>("Select", props, {})
 
     const [target, setTarget] = useState<any>()
     const conRef = useRef()
@@ -59,6 +58,7 @@ const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: Reac
                 userSelect="none"
                 startIcon={selectedProps.startIcon}
                 focused={!!target}
+                placeholder={placeholder}
                 {...slotProps?.input}
                 slotProps={{
                     container: {

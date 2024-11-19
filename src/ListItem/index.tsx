@@ -16,14 +16,18 @@ const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, end
     return (
         <Tag
             component='li'
-            p={1}
-            lineHeight={1.4}
-            cursor="pointer"
-            userSelect="none"
-            flexBox
-            flexRow
-            alignItems="center"
             {...props}
+            sxr={{
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "row",
+                userSelect: "none",
+                cursor: "pointer",
+                lineHeight: 1.4,
+                p: 1,
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+            }}
             baseClass='list-item'
             classNames={[{ "list-item-selected": selected as boolean }, ...(props.classNames || [])]}
             ref={ref}

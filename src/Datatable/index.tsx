@@ -2,24 +2,19 @@
 import React, { ReactElement, useState } from 'react'
 import { TableColumnProps } from '../TableCell'
 import { IconButtonProps } from '../IconButton'
+import { InputProps } from '../Input'
+import ViewBox from '../ViewBox'
+import { Tag, useInterface } from 'naxui-manager';
+import SelectedBox from './SelectedBox'
+import TableArea from './Table'
+import FilterBox from './FilterBox'
+import TablePagination, { TablePaginationProps } from '../TablePagination'
 import Stack from '../Stack'
-import TablePagination from '../TablePagination'
-import TableHead from './TableHead'
-import Table, { TableProps } from '../Table'
-import TableBody from '../TableBody'
-import Row from './Row'
-import Tab from '../Tab'
-import Tabs from '../Tabs'
-import Input, { InputProps } from '../Input'
-import IconSearch from 'naxui-icons/round/Search'
-import Select from '../Select'
-import Option from '../Option'
-import ViewBox, { ViewBoxProps } from '../ViewBox'
-import { Tag, TagProps } from 'naxui-manager';
+import { TableProps } from '../Table'
 
 
 export type ColumnType = (Omit<TableColumnProps, "children"> & { label: string, field?: string })
-export type DataTableDefaultRow = { [key: string | number]: any }
+export type DataTableDefaultRow = { id: number, [key: string | number]: any }
 export type RowActionType = Omit<IconButtonProps, "children"> & {
     label: string;
     icon: ReactElement;
@@ -33,7 +28,7 @@ export type DatatableFilter = {
     value: string | number
 }
 
-export type DatatableProps = Omit<ViewBoxProps, 'children' | "header"> & {
+export type DatatableProps = {
     rows: DataTableDefaultRow[];
     columns: ColumnType[];
     tabs?: TabsProps[];
@@ -41,23 +36,22 @@ export type DatatableProps = Omit<ViewBoxProps, 'children' | "header"> & {
     rowAction?: (props: { row: DataTableDefaultRow | null, state: State }) => RowActionType[];
     renderRow?: (row: DataTableDefaultRow, state: State) => DataTableDefaultRow;
     disableRow?: (row: DataTableDefaultRow, state: State) => boolean | void;
-    total_count?: number;
+    totalCount?: number;
     page?: number;
     perpages?: number[];
     getState?: (state: State) => void;
     onSearch?: (text: string, state: State) => void;
     onTabChange?: (tab: string, state: State) => void;
-    headerContent?: ReactElement;
-    fixedHeader?: boolean;
-    hideSearch?: boolean;
-    hidePagination?: boolean;
     filters?: { [key: string]: DatatableFilter[] }
-
-    // Props
-    searchProps?: Omit<InputProps, "value" | "onChange">;
-    tableProps?: TableProps;
-    headerProps?: Omit<TagProps, "children">;
-
+    fixedHeader?: boolean;
+    disablePagination?: boolean;
+    disableSearch?: boolean;
+    disableSelect?: boolean;
+    slotProps?: {
+        search?: Omit<InputProps, "value" | "onChange">;
+        table?: Omit<TableProps, 'children'>;
+        pagination?: TablePaginationProps;
+    }
 }
 
 export type State = {
@@ -77,29 +71,21 @@ export type DatatablePropsWithState = DatatableProps & {
 }
 
 const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
+    let [_props] = useInterface<any>("Datatable", props, {})
     let {
         rows,
-        renderRow,
         tabs,
         defaultActiveTab,
-        filters,
-        total_count,
+        totalCount,
         page,
         perpages,
         getState,
-        onSearch,
-        onTabChange,
-        headerContent,
-        hidePagination,
-        hideSearch,
+
         fixedHeader,
+        disablePagination,
+        slotProps,
+    } = _props
 
-        headerProps,
-        searchProps,
-        tableProps,
-
-        ...viewboxProps
-    } = props
     const [state, setState] = useState<State>({
         selectedIds: [],
         selectAll: false,
@@ -122,123 +108,49 @@ const _DataTable = (props: DatatableProps, ref: React.Ref<HTMLDivElement>) => {
     return (
         <ViewBox
             baseClass='datatable'
-            ref={ref}
+            ref={ref as any}
             height="100%"
-            {...viewboxProps}
-            sxr={{
+            sx={{
                 '& thead': fixedHeader ? {
                     position: "sticky",
                     top: 0,
                     bgcolor: "background.primary",
                     zIndex: 1
                 } : {},
-                ...((viewboxProps as any)?.sx || {})
             }}
-            header={(
+            startContent={(
                 <Tag
-                    flexBox
-                    p={1}
-                    flexRow
-                    justifyContent="space-between"
-                    alignItems="center"
-                    {...headerProps}
                     baseClass='datatable-header'
+                    sxr={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between"
+                    }}
                 >
-                    <Stack className='datatable-header-left-area' gap={2.4} flexRow>
-                        {
-                            tabs && <Tabs
-                                onChange={(value: any) => {
-                                    update({ activeTab: value })
-                                    onTabChange && onTabChange(value, state)
-                                }}
-                                value={state.activeTab}
-                            >
-                                {
-                                    tabs.map(t => <Tab key={t.label} value={t.value || t.label.toLowerCase()}>{t.label}</Tab>)
-                                }
-                            </Tabs>
-                        }
-                    </Stack>
-                    <Stack className='datatable-header-filter-area' flex={1} flexRow>
-                        {headerContent}
-                        {
-                            filters && <Stack flexRow gap={2} px={2}>
-                                {
-                                    Object.keys(filters).map(name => {
-                                        const items: DatatableFilter[] = (filters as any)[name]
-                                        return (
-                                            <Select
-                                                key={name}
-                                                placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
-                                                p={1}
-                                                containerProps={{
-                                                    minWidth: 100
-                                                }}
-                                                value={(state as any)[name] || ""}
-                                                onChange={(value) => {
-                                                    update({ [name]: value } as any)
-                                                }}
-                                            >
-                                                {
-                                                    items.map((item) => <Option key={name + item.value} value={item.value}>
-                                                        {item.label}
-                                                    </Option>)
-                                                }
-                                            </Select>
-                                        )
-                                    })
-                                }
-                            </Stack>
-                        }
-                    </Stack>
-                    <Stack flexRow gap={2} className='datatable-header-right-area'>
-                        {!hidePagination && <TablePagination
-                            total={total_count || rows.length}
-                            page={state.paginationState.page}
-                            perpages={perpages}
-                            onChange={(state: any) => {
-                                update({ paginationState: state })
-                            }}
-                        />}
-                        {!hideSearch && <Input
-                            endIcon={<IconSearch />}
-                            p={1}
-                            placeholder='Search...'
-                            {...searchProps}
-                            value={state.search}
-                            onChange={(e: any) => {
-                                update({ search: e.target.value })
-                                onSearch && onSearch(e.target.value, state)
-                            }}
-                        />}
-                    </Stack>
+                    <SelectedBox {..._props} update={update} state={state} />
+                    <FilterBox {..._props} update={update} state={state} />
                 </Tag>
             )}
         >
-            <Table width="100%" dense className='datatable-table' {...tableProps}>
-                <TableHead {...props} update={update} state={state} />
-                <TableBody
-                    sxr={{
-                        '& tr:last-child td': {
-                            borderBottom: 0
-                        }
+            <TableArea
+                {..._props}
+                update={update}
+                state={state}
+            />
+            <Stack
+                p={1}
+                alignItems="flex-end"
+            >
+                {!disablePagination && <TablePagination
+                    {...slotProps?.pagination}
+                    total={totalCount || rows.length}
+                    page={state.paginationState.page}
+                    perpages={perpages}
+                    onChange={(state: any) => {
+                        update({ paginationState: state })
                     }}
-                >
-                    {
-                        rows?.map((row, idx) => {
-                            let _row = renderRow ? renderRow({ ...row }, state) : row
-                            return <Row
-                                key={row.id + idx}
-                                rawRow={row}
-                                row={_row}
-                                {...props}
-                                update={update}
-                                state={state}
-                            />
-                        })
-                    }
-                </TableBody>
-            </Table>
+                />}
+            </Stack>
         </ViewBox>
     )
 }

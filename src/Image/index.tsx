@@ -13,11 +13,13 @@ const _Image = <T extends TagComponentType = "img">({ children, src, alt, errorV
         let t = errorView || alt?.charAt(0).toUpperCase() || children
         return (
             <Tag
-                display="inline-flex"
-                justifyContent="center"
-                alignItems="center"
                 src={src}
                 {...rest as any}
+                sxr={{
+                    display: "inline-flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
                 component="div"
                 baseClass='image'
                 ref={ref}

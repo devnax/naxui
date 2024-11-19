@@ -7,22 +7,31 @@ import ClickOutside from '../ClickOutside';
 
 export type DrawerChildrenType = ReactNode | ReactElement | string
 
-export type DrawerProps = {
+export type DrawerProps = Omit<TagProps, "children" | "size"> & {
     children?: DrawerChildrenType;
     placement?: "left" | "right" | "bottom" | "top";
     open?: boolean;
-    size?: number;
+    size?: number | "small" | "medium" | "large";
     onClickOutside?: () => void;
-    layerProps?: Omit<LayerProps, 'id' | 'children' | 'open'>;
-    rootProps?: TagProps<"div">
+    slotProps?: {
+        root?: TagProps<"div">;
+        layer?: Omit<LayerProps, 'id' | 'children' | 'open' | 'transition'>;
+    }
 }
 
-const MainView = ({ children, placement, open, size, onClickOutside, rootProps, ...rest }: DrawerProps) => {
-    placement ||= 'left'
+const MainView = ({ children, placement, open, size, slotProps, onClickOutside, ...rest }: DrawerProps) => {
+    placement ??= 'left'
     let isSide = placement === 'left' || placement === 'right'
     let animType: any = "fadeRight"
-    size ||= 300
-    onClickOutside ||= () => { }
+    size ??= "medium"
+
+    let sizes: any = {
+        small: 200,
+        medium: 300,
+        large: 400
+    }
+
+    let _size = sizes[size] || size
 
     switch (placement) {
         case "right":
@@ -38,66 +47,79 @@ const MainView = ({ children, placement, open, size, onClickOutside, rootProps, 
 
     return (
         <Tag
-            baseClass='drawer-root'
-            width="100%"
-            height="100%"
-            flexBox
-            direction={isSide ? "row" : "column"}
-            justifyContent={placement === 'left' || placement === 'top' ? "flex-start" : "flex-end"}
-            {...rootProps}
+            {...slotProps?.root}
+            sxr={{
+                baseClass: 'drawer',
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                direction: isSide ? "row" : "column",
+                justifyContent: placement === 'left' || placement === 'top' ? "flex-start" : "flex-end"
+            }}
         >
             <Transition
-                in={open}
-                type={animType}
-                easing="easeInOut"
+                open={open || false}
+                variant={animType}
+                duration={600}
             >
-                <Tag>
-                    <ClickOutside onClickOutside={onClickOutside}>
-                        <Tag
-                            width={isSide ? size : "100%"}
-                            height={isSide ? "100%" : size}
-                            {...rest}
-                            baseClass='drawer-content'
-                            bgcolor="background.primary"
-                            shadow={4}
-                        >
-                            {children}
-                        </Tag>
-                    </ClickOutside>
-                </Tag>
+                <ClickOutside onClickOutside={onClickOutside || (() => { })}>
+                    <Tag
+                        {...rest}
+                        sxr={{
+                            width: isSide ? _size : "100%",
+                            height: isSide ? "100%" : _size,
+                            bgcolor: "background.primary",
+                            shadow: 10
+                        }}
+                        baseClass='drawer-content'
+                    >
+                        {children}
+                    </Tag>
+                </ClickOutside>
             </Transition>
         </Tag>
     )
 }
 
-let drawerId = Math.random().toString()
+let drawerId = "_" + Math.random().toString(32).substring(2)
 
-const Drawer = ({ children, open, layerProps, ...rest }: DrawerProps) => {
+const Drawer = ({ children, open, ...rest }: DrawerProps) => {
     return (
         <Layer
-            {...layerProps}
+            {...rest?.slotProps?.layer}
             open={open ?? true}
+            transition="fade"
         >
-            {
-                ({ open: Open }) => {
-                    return <MainView {...rest} open={Open}>{children}</MainView>
-                }
-            }
+            <MainView {...rest} open={true}>{children}</MainView>
         </Layer>
     )
 }
 
 Drawer.open = (content: DrawerChildrenType, props?: Omit<DrawerProps, "children" | "open">) => {
-    let { layerProps, ...rest } = props || {}
-    Layer.open(drawerId, ({ open }) => {
-        return (
-            <MainView
-                onClickOutside={() => Layer.close(drawerId)}
-                {...rest}
-                open={open}
-            >{content}</MainView>
-        )
-    }, layerProps)
+    let { placement, slotProps } = props || {}
+    placement ??= 'left'
+    let animType: any = "fadeRight"
+
+    switch (placement) {
+        case "right":
+            animType = 'fadeLeft'
+            break;
+        case "top":
+            animType = 'fadeDown'
+            break;
+        case "bottom":
+            animType = 'fadeUp'
+            break;
+    }
+
+    Layer.open(drawerId, <MainView
+        onClickOutside={() => Layer.close(drawerId)}
+        {...props}
+        open={true}
+    >{content}</MainView>, {
+        ...slotProps?.layer,
+        transition: animType
+    })
 }
 
 Drawer.close = () => {

@@ -13,7 +13,7 @@ import ThemeProvider from '../../src/ThemeProvider'
 import CheckIcon from 'naxui-icons/round/CheckCircle'
 
 const Layout = () => {
-    const [theme, setTheme] = React.useState("light")
+    const [theme, setTheme] = React.useState("dark")
     const [, dispatch] = React.useState(0)
     const currentMenuIndex = parseInt(localStorage.getItem("currentMenuIndex") || "0")
     const currentMenu = menu[currentMenuIndex]

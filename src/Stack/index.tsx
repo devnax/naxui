@@ -7,12 +7,12 @@ export type StackProps<T extends TagComponentType = "div"> = TagProps<T>
 const _Stack = <T extends TagComponentType = "div">({ children, sx, ...props }: StackProps<T>, ref?: React.Ref<any>) => {
     return (
         <Tag
+            {...props}
             sxr={{
                 display: "flex",
                 flexDirection: "column",
                 ...(sx as any || {})
             }}
-            {...props}
             baseClass='stack'
             ref={ref}
         >{children}</Tag>

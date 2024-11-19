@@ -8,6 +8,7 @@ import InfoIcon from 'naxui-icons/round/Info';
 import HomeIcon from 'naxui-icons/round/Home';
 import IconClose from 'naxui-icons/round/Close';
 import UserIcon from 'naxui-icons/round/People';
+import UnarchiveIcon from 'naxui-icons/round/Unarchive';
 import CircleProgress from "../../src/CircleProgress"
 
 
@@ -23,7 +24,7 @@ const Buttons = () => {
             <Section title="Icon Button" gap={2}>
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
                     <IconButton color="default">
-                        <IconClose />
+                        <UnarchiveIcon />
                     </IconButton>
                     <IconButton >
                         <IconClose />
@@ -40,8 +41,8 @@ const Buttons = () => {
                     <IconButton color="warning">
                         <IconClose />
                     </IconButton>
-                    <IconButton color="danger" size={50}>
-                        <UserIcon />
+                    <IconButton color="danger" size={44} corner="rounded">
+                        <UnarchiveIcon />
                     </IconButton>
                 </Stack>
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">

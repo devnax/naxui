@@ -1,67 +1,108 @@
 'use client'
-import React, { useState } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import React, { forwardRef, ReactElement, useState } from 'react';
+import { Tag, TagProps, useColorTemplateColors, useInterface } from 'naxui-manager';
 
-export type SwitchProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, 'color'> & {
+export type SwitchProps = TagProps<"input"> & {
     checked?: boolean;
-    size?: number;
-    color?: "brand" | "accent" | "success" | "error" | "warning";
+    size?: number | "small" | "medium" | "large";
+    color?: Omit<useColorTemplateColors, "default">;
+    onChange?: () => void;
+    disabled?: boolean;
+    thumbSize?: number;
+    trackSize?: number;
+    icon?: ReactElement;
+    slotProps?: {
+        thumb?: Omit<TagProps, 'children'>;
+        track?: Omit<TagProps, 'children'>;
+    }
 }
 
-const _Switch = <T extends TagComponentType = "input">({ children, size, checked, color, disabled, ...rest }: SwitchProps<T>, ref?: React.Ref<any>) => {
+const _Switch = (props: SwitchProps, ref?: React.Ref<any>) => {
+    let [{ size, checked, color, disabled, icon, onChange, trackSize, slotProps, ...rest }] = useInterface<any>("Switch", props, {})
     const [c, set] = useState(false)
-    checked = checked || c
-    size = size || 44
-    let _color = `${color || "primary"}`
-    rest.onChange = rest.onChange || (() => set(!c));
-    let height = (size / 2) + 4
-    let thumbSize = height - 4
+    checked ??= c
+    size ??= "medium"
+    color ??= "brand"
+
+    onChange = onChange || (() => set(!c));
+
+    let sizes: any = {
+        small: 32,
+        medium: 48,
+        large: 60
+    }
+    let _size = sizes[size as any] || size
+
+    let height = (_size / 2)
+    trackSize ??= height + 4
+    let isNormalSize = (height + 4) === trackSize
+    let transform = checked ? "92%" : "8%"
+    if (!isNormalSize) {
+        transform = checked ? "100%" : "-10%"
+    }
 
     return (
         <Tag
-            baseClass='switch'
-            component='span'
-            cursor="pointer"
-            display="inline-flex"
-            flexDirection="row"
-            alignItems="center"
-            color={checked ? color : "text.secondary"}
             disabled={disabled}
-            position="relative"
-            verticalAlign="middle"
-            bgcolor={checked ? _color : "default"}
-            width={size}
-            height={height}
-            radius={2}
-            transition="background .3s"
+            sxr={{
+                width: _size,
+                height: height,
+                position: "relative",
+                cursor: "pointer",
+                display: "inline-block"
+            }}
+            onClick={onChange}
         >
             <Tag
-                component='span'
-                transition="all .25s"
-                transform={`translateX(${checked ? (size / 2) - 2 : 2}px)`}
-                width={thumbSize}
-                height={thumbSize}
-                radius={size}
-                bgcolor={"#FFF"}
-                shadow={2}
-            ></Tag>
+                {...slotProps?.track}
+                baseClass='switch-track-bar'
+                sxr={{
+                    width: _size,
+                    height: trackSize,
+                    borderRadius: height,
+                    position: 'absolute',
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    bgcolor: checked ? color : "divider",
+
+                }}
+            >
+            </Tag>
             <Tag
+                {...slotProps?.thumb}
+                baseClass='switch-thumb'
+                sxr={{
+                    transition: "all .25s",
+                    width: height,
+                    height: height,
+                    radius: height,
+                    bgcolor: "#FFFFFF",
+                    position: "absolute",
+                    top: "50%",
+                    border: isNormalSize ? 0 : 1,
+                    left: 0,
+                    transform: `translate(${transform}, -50%)`,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                {
+                    icon
+                }
+            </Tag>
+            <input
+                ref={ref}
+                type="radio"
                 checked={checked}
                 {...rest}
-                component='input'
-                type="checkbox"
-                cursor="pointer"
-                position="absolute"
-                opacity={0}
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-                ref={ref}
+                style={{
+                    display: "none!important"
+                }}
             />
         </Tag>
     )
 }
 
-const Switch = React.forwardRef(_Switch) as typeof _Switch
+const Switch = forwardRef(_Switch) as typeof _Switch
 export default Switch

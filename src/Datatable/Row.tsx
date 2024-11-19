@@ -16,7 +16,7 @@ type Props = DatatablePropsWithState & {
     row: DataTableDefaultRow;
 }
 
-const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update }: Props) => {
+const Row = ({ rows, rawRow, row, rowAction, disableRow, disableSelect, columns, state, update }: Props) => {
     let selectesIds = state.selectedIds
     const selected = state.selectedIds.includes(row.id)
     let selectedColor = selected ? "primary.soft" : "transparent"
@@ -25,7 +25,7 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
 
     return (
         <TableRow disabled={isDisable}>
-            <TableCell width={40} bgcolor={selectedColor}>
+            {!disableSelect && <TableCell width={40} bgcolor={selectedColor}>
                 <Checkbox
                     checked={selected}
                     onChange={() => {
@@ -44,7 +44,7 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
                         })
                     }}
                 />
-            </TableCell>
+            </TableCell>}
             {
                 columns.map(({ label, field, ...rest }, idx) => {
                     field = field || label
@@ -64,17 +64,18 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
             <TableCell width={30} bgcolor={selectedColor} borderColor="divider">
                 {rowAction && <>
                     <IconButton
-                        size={28}
-                        bgcolor="transparent"
                         disabled={isDisable || selected}
                         onClick={(e: any) => setTarget(e.currentTarget)}
+                        variant="text"
+                        color="default"
                     >
                         <ActionIcon />
                     </IconButton>
-                    <Menu target={target} onClickOutside={() => setTarget(null)}>
+                    <Menu target={target} placement="bottom-right" onClickOutside={() => setTarget(null)}>
                         <List
                             bgcolor="background.primary"
-                            sxr={{
+                            minWidth={160}
+                            sx={{
                                 '& > li': {
                                     borderBottom: 1,
                                     '&:last-child': {
@@ -87,10 +88,8 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
                                 return (
                                     <ListItem
                                         key={label}
-                                        radius={0}
-                                        {...bprops}
                                         startIcon={icon}
-                                        onClick={(e) => {
+                                        onClick={(e: any) => {
                                             onClick && onClick(e)
                                             setTarget(null)
                                         }}
@@ -104,6 +103,5 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, columns, state, update 
         </TableRow>
     )
 }
-
 
 export default Row

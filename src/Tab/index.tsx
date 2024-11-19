@@ -1,30 +1,22 @@
 'use client'
 import React from 'react'
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
-import Button from '../Button';
+import { TagComponentType, useInterface } from 'naxui-manager';
+import Button, { ButtonProps } from '../Button';
 
-export type TabProps<T extends TagComponentType = "div"> = TagProps<T>
+export type TabProps<T extends TagComponentType = "button"> = ButtonProps<T> & {
+    value?: string | number
+}
 
 const _Tab = <T extends TagComponentType = "div">({ children, ...props }: TabProps<T>, ref: React.Ref<any>) => {
+    let [_props] = useInterface<any>("Tab", props, {})
     return (
-        <Button {...props}>
+        <Button
+            {..._props}
+            classNames={["tab", ...(_props?.classNames || [])]}
+            ref={ref}
+        >
             {children}
         </Button>
-        // <Tag
-        //     {...props}
-        //     sxr={{
-        //         cursor: "pointer",
-        //         color: "text.secondary",
-        //         fontWeight: 500,
-        //         userSelect: "none",
-        //         p: 1.5,
-        //         ...((props as any)?.sx || {})
-        //     }}
-        //     baseClass='tab'
-        //     ref={ref}
-        // >
-        //     {children}
-        // </Tag>
     )
 }
 

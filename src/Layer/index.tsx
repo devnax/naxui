@@ -4,6 +4,8 @@ import Portal, { PortalProps } from "../Portal";
 import Transition from '../Transition';
 import { useMemo } from "react"
 import { alpha } from "naxui-manager";
+import Renderar from '../ThemeProvider/RenderRoot';
+
 let _d: CSSStyleDeclaration;
 
 const useBlurCss = (blur: number, mode: LayerProps["blurMode"]) => {
@@ -122,29 +124,9 @@ const Layer = ({ children, open, id, ...props }: LayerProps) => {
 }
 
 export type LayerHandlerProps = Omit<LayerProps, "open" | "children">
-let dispatch: Function;
 const layers = new Map<string, { id: string, open: boolean; props?: LayerHandlerProps, content: ReactNode }>()
 
-Layer.open = (id: string, content: ReactNode, props?: LayerHandlerProps) => {
-    if (layers.has(id)) return
-    layers.set(id, { id, props, content, open: true })
-    dispatch && dispatch()
-}
-
-Layer.close = (id: string) => {
-    const get = layers.get(id)
-    if (get) {
-        layers.set(id, { ...get, open: false })
-        dispatch && dispatch()
-    }
-}
-
 export const LayerHandler = () => {
-    const [, d] = useState(0)
-    useEffect(() => {
-        dispatch = () => d(Math.random())
-    }, [])
-
     return Array.from(layers.values()).map((l, key) => {
         return (
             <Layer
@@ -161,6 +143,24 @@ export const LayerHandler = () => {
         )
     })
 }
+
+
+Renderar.create("LAYERS_RENDER", LayerHandler)
+
+Layer.open = (id: string, content: ReactNode, props?: LayerHandlerProps) => {
+    if (layers.has(id)) return
+    layers.set(id, { id, props, content, open: true })
+    Renderar.dispatch()
+}
+
+Layer.close = (id: string) => {
+    const get = layers.get(id)
+    if (get) {
+        layers.set(id, { ...get, open: false })
+        Renderar.dispatch()
+    }
+}
+
 
 
 export default Layer

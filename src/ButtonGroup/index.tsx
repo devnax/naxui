@@ -31,14 +31,12 @@ const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }:
 
     return (
         <Tag
-            baseClass='button-group'
             {...props}
-            ref={ref}
-            display="inline-flex"
-            overflow="hidden"
-            radius={1}
             {...sizes[size]}
             sxr={{
+                display: "inline-flex",
+                overflow: "hidden",
+                radius: 1,
                 '& button:not(:last-of-type)': {
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
@@ -51,6 +49,8 @@ const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }:
                     borderLeft: 0
                 }
             }}
+            baseClass='button-group'
+            ref={ref}
         >
             {Children.map(children, (child: any) => {
                 return cloneElement(child, {

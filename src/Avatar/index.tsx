@@ -30,11 +30,11 @@ const _Avatar = <T extends TagComponentType = "img">({ children, src, alt, ...re
                     width: size,
                     height: size,
                     userSelect: "none",
+                    color: "text.primary",
                     '& svg': {
                         fontSize: (size / 3) * 2,
                         opacity: .6
-                    },
-                    ...((props as any).sx || {})
+                    }
                 }}
                 ref={ref}
             >{t}</Tag>

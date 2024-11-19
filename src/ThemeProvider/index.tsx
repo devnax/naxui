@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useMemo } from 'react'
 import { ThemeProvider as RootThemeProvider, ThemeProviderProps as RootThemeProviderProps } from 'naxui-manager'
-import { LayerHandler } from '../Layer'
+import { RenderComponents } from './RenderRoot'
 
 const providers: string[] = []
 export type ThemeProviderProps = RootThemeProviderProps & {
@@ -24,10 +24,10 @@ const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
 
     return (
         <RootThemeProvider {...props}>
-            {isRoot && <>
-                <LayerHandler />
-            </>}
             {children}
+            {isRoot && <>
+                <RenderComponents />
+            </>}
         </RootThemeProvider>
     )
 }

@@ -7,13 +7,15 @@ import Stack from '../Stack'
 import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
-import { useInterface } from 'naxui-manager'
+import { useColorTemplateColors, useColorTemplateType, useInterface } from 'naxui-manager'
 
 export type SelectProps = {
     value?: string | number;
     onChange?: (value: string | number) => void;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[];
     placeholder?: string;
+    color?: useColorTemplateColors;
+    variant?: useColorTemplateType;
     slotProps?: {
         menu?: Omit<MenuProps, 'children' | 'target'>;
         input?: Omit<InputProps, "onChange" | "value">;
@@ -22,8 +24,9 @@ export type SelectProps = {
 }
 
 const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: React.Ref<any>) => {
-    let [{ slotProps, placeholder }] = useInterface<any>("Select", props, {})
-
+    let [{ slotProps, color, variant, placeholder }] = useInterface<any>("Select", props, {})
+    color ??= "brand"
+    variant ??= "fill"
     const [target, setTarget] = useState<any>()
     const conRef = useRef()
     const { childs, selectedProps } = useMemo(() => {
@@ -35,8 +38,8 @@ const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: Reac
                 value: undefined,
                 selected,
                 onClick: () => {
-                    onChange && onChange(child.props.value)
                     setTarget(null)
+                    onChange && onChange(child.props.value)
                 }
             })
         })
@@ -51,6 +54,8 @@ const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: Reac
     return (
         <>
             <Input
+                color={color}
+                variant={variant === "alpha" ? "fill" : variant}
                 endIcon={<Stack flexDirection="row" component="span" > {(target ? <UpIcon /> : <DownIcon />)}</Stack>}
                 readOnly
                 value={typeof selectedProps.children === 'string' ? selectedProps.children : value}
@@ -86,6 +91,8 @@ const _Select = ({ onChange, value, children, ...props }: SelectProps, ref: Reac
             >
                 <List
                     {...slotProps?.list}
+                    color={color}
+                    variant={variant}
                 >
                     {childs}
                 </List>

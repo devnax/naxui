@@ -13,6 +13,7 @@ const Inputs = () => {
             <Section title="Basic" gap={2}>
                 <Input
                     endIcon={<SendIcon />}
+                    placeholder='Write a message...'
                 />
                 <Input
                     variant='outline'

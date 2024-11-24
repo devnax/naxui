@@ -6,7 +6,7 @@ import DeleteIcon from 'naxui-icons/round/Delete'
 
 
 const rows = [
-    { id: 1, name: "Najrul Ahmed", email: "najrul@gmail.com" },
+    { name: "Najrul Ahmed", email: "najrul@gmail.com" },
     { id: 2, name: "Jubayer", email: "jubayer@gmail.com" },
     { id: 3, name: "Jhon Deo", email: "jhon@gmail.com" },
     { id: 4, name: "Saad Ahmed", email: "saad@gmail.com" },

@@ -5,7 +5,6 @@ import ExpandIcon from "naxui-icons/round/ExpandMore";
 import Collaps, { CollapsProps } from '../Collaps';
 import List, { ListProps } from '../List';
 import ListItem, { ListItemProps } from '../ListItem';
-import Box, { BoxProps } from '../Box';
 
 export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     title: ReactElement | string;
@@ -25,7 +24,7 @@ export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T
         header?: Omit<ListProps, "children" | "color" | "variant" | "hoverColor" | "hoverVariant" | "className">;
         headerContent?: Omit<ListItemProps, "children" | "subtitle" | "selected" | "startIcon" | "endIcon" | "onClick" | "className">
         collaps?: Omit<CollapsProps, "children" | "in">;
-        content?: Omit<BoxProps, "children">;
+        content?: Omit<TagProps, "children">;
         expandIconContainer?: Omit<TagProps<"div">, 'children' | 'className'>;
     }
 }
@@ -116,9 +115,11 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
 
     return (
         <Tag
-            fontFamily="default"
-            bgcolor="background.primary"
             {...rootProps}
+            sxr={{
+                fontFamily: "default",
+                bgcolor: "background.primary"
+            }}
             baseClass='accordion'
             classNames={[{ "accordion-expanded": expand }, ...(classNames || [])]}
             ref={ref}
@@ -148,16 +149,18 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
                     open={expand}
                     className="accordion-collaps"
                 >
-                    <Box
-                        color="text.primary"
-                        p={2}
-                        py={1}
-                        bgcolor="background.primary"
+                    <Tag
                         {...slotProps?.content}
-                        className='accordion-content'
+                        sxr={{
+                            color: "text.primary",
+                            p: 2,
+                            py: 1,
+                            bgcolor: "background.primary"
+                        }}
+                        baseClass='accordion-content'
                     >
                         {children}
-                    </Box>
+                    </Tag>
                 </Collaps>
             </List>
         </Tag>

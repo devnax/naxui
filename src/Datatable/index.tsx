@@ -14,7 +14,7 @@ import { TableProps } from '../Table'
 
 
 export type ColumnType = (Omit<TableColumnProps, "children"> & { label: string, field?: string })
-export type DataTableDefaultRow = { id: number, [key: string | number]: any }
+export type DataTableDefaultRow = { id?: number, [key: string | number]: any }
 export type RowActionType = Omit<IconButtonProps, "children"> & {
     label: string;
     icon: ReactElement;

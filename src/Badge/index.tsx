@@ -9,13 +9,14 @@ export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "
     color?: useColorTemplateColors;
     placement?: "left-top" | "left-bottom" | "right-top" | "right-bottom";
     visible?: boolean;
+    disableTransition?: boolean;
     slotProps?: {
         transition?: Omit<TransitionProps, "open">
     }
 }
 
 const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest }: BadgeProps<T>, ref: React.Ref<any>) => {
-    let [{ color, placement, visible, slotProps, ...props }] = useInterface<any>("Badge", rest, {})
+    let [{ color, placement, visible, disableTransition, slotProps, ...props }] = useInterface<any>("Badge", rest, {})
     color ??= "danger"
     visible ??= true
     placement = placement || "right-top"
@@ -56,6 +57,25 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
         _css.height = 8
     }
 
+    let badgeContent = <Tag
+        component='span'
+        baseClass='badge-content'
+        sxr={{
+            position: "absolute",
+            zIndex: 1,
+            radius: 2,
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: 'center',
+            fontWeight: 500,
+            fontSize: 11
+        }}
+        {...template}
+        {..._css}
+    >
+        {typeof content === 'number' ? (content >= 100 ? "99+" : content) : content}
+    </Tag>
+
     return (
         <Tag
             {...props}
@@ -64,32 +84,18 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
             baseClass='badge'
             ref={ref}
         >
-            <Transition
-                variant="zoom"
-                easing="easeInOut"
-                duration={150}
-                {...slotProps?.transition}
-                open={visible}
-            >
-                <Tag
-                    component='span'
-                    baseClass='badge-content'
-                    sxr={{
-                        position: "absolute",
-                        zIndex: 1,
-                        radius: 2,
-                        display: 'flex',
-                        justifyContent: "center",
-                        alignItems: 'center',
-                        fontWeight: 500,
-                        fontSize: 11
-                    }}
-                    {...template}
-                    {..._css}
+            {
+                disableTransition ? badgeContent : <Transition
+                    variant="zoom"
+                    easing="easeInOut"
+                    duration={200}
+                    {...slotProps?.transition}
+                    open={visible}
                 >
-                    {typeof content === 'number' ? (content >= 100 ? "99+" : content) : content}
-                </Tag>
-            </Transition>
+                    {badgeContent}
+                </Transition>
+            }
+
             {children}
         </Tag>
     )

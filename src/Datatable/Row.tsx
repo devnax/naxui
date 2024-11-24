@@ -18,7 +18,7 @@ type Props = DatatablePropsWithState & {
 
 const Row = ({ rows, rawRow, row, rowAction, disableRow, disableSelect, columns, state, update }: Props) => {
     let selectesIds = state.selectedIds
-    const selected = state.selectedIds.includes(row.id)
+    const selected = row.id ? state.selectedIds.includes(row?.id) : false
     let selectedColor = selected ? "primary.soft" : "transparent"
     const [target, setTarget] = useState<any>()
     const isDisable = (disableRow ? disableRow(rawRow, state) : false) || false
@@ -26,24 +26,27 @@ const Row = ({ rows, rawRow, row, rowAction, disableRow, disableSelect, columns,
     return (
         <TableRow disabled={isDisable}>
             {!disableSelect && <TableCell width={40} bgcolor={selectedColor}>
-                <Checkbox
-                    checked={selected}
-                    onChange={() => {
-                        if (isDisable) return
-                        let ids = [...selectesIds]
-                        ids.includes(row.id) ? ids.splice(ids.indexOf(row.id), 1) : ids.push(row.id)
-                        let selectedLength = 0
-                        rows.forEach(r => {
-                            const isDisable = (disableRow ? disableRow(r, state) : false) || false
-                            if (!isDisable) selectedLength++
-                        })
+                {
+                    !!row.id && <Checkbox
+                        checked={selected}
+                        onChange={() => {
+                            if (isDisable || !row.id) return
+                            let ids = [...selectesIds]
+                            ids.includes(row.id) ? ids.splice(ids.indexOf(row.id), 1) : ids.push(row.id)
+                            let selectedLength = 0
+                            rows.forEach(r => {
+                                const isDisable = (disableRow ? disableRow(r, state) : false) || false
+                                if (!isDisable) selectedLength++
+                            })
 
-                        update({
-                            selectAll: selectedLength === ids.length,
-                            selectedIds: ids
-                        })
-                    }}
-                />
+                            update({
+                                selectAll: selectedLength === ids.length,
+                                selectedIds: ids
+                            })
+                        }}
+                    />
+                }
+
             </TableCell>}
             {
                 columns.map(({ label, field, ...rest }, idx) => {

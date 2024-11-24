@@ -1,15 +1,16 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors } from 'naxui-manager';
 import Text from '../Text';
 
-export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, "size"> & {
+export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, "size" | "color"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     iconPlacement?: "start" | "center" | "end";
     focused?: boolean;
+    color?: Omit<useColorTemplateColors, "default">;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
-    variant?: "fill" | "outline";
+    variant?: "fill" | "outline" | "text";
     error?: boolean;
     helperText?: string;
     multiline?: boolean;
@@ -28,6 +29,7 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
         endIcon,
         iconPlacement,
         onFocus,
+        color,
         onBlur,
         focused,
         containerRef,
@@ -45,6 +47,7 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
     }] = useInterface<any>("Input", props, {})
     ref ??= useRef(null);
     variant ??= "fill"
+    color ??= "brand"
     size ??= 'medium'
     iconPlacement ??= multiline ? "end" : "center"
     if (!value) iconPlacement = 'center'
@@ -92,7 +95,7 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
     }
 
     const _size = sizes[size]
-    let borderColor = _focus ? "brand" : (variant === "fill" ? "transparent" : "divider")
+    let borderColor = _focus ? color : (variant === "fill" ? "transparent" : "divider")
     borderColor = error ? "danger.primary" : borderColor
     let multiprops: any = {}
     if (multiline) {
@@ -125,10 +128,11 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
                     minWidth: 150,
                     transitionProperty: "border, box-shadow, background",
                     bgcolor: error ? "danger.alpha" : variant === "fill" ? "background.secondary" : "background.primary",
-                    border: 1,
+                    border: variant === "text" ? 0 : 1,
                     borderColor: borderColor,
                     borderRadius: 1,
-                    px: 1
+                    px: 1,
+                    py: .5,
                 }}
                 baseClass='input-container'
                 disabled={disabled || false}

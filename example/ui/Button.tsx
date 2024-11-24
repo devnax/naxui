@@ -14,7 +14,9 @@ import CircleProgress from "../../src/CircleProgress"
 
 const Buttons = () => {
     return (
-        <Container maxWidth="md">
+        <Container
+            maxWidth="md"
+        >
             <Section title="Icon Button" gap={2}>
                 <CircleProgress
                     showPercentage
@@ -78,8 +80,8 @@ const Buttons = () => {
                 <Stack flexRow gap={2} alignItems="center" flexWrap="wrap">
                     <Button color="default" loading>Button</Button>
                     <Button startIcon={<InfoIcon />} color="brand" loading>Button</Button>
-                    <Button startIcon={<InfoIcon />} color="info" mode="box">Button</Button>
-                    <Button color="accent" endIcon={<HomeIcon />} mode="box">Button</Button>
+                    <Button startIcon={<InfoIcon />} color="info" direction="row">Button</Button>
+                    <Button color="accent" endIcon={<HomeIcon />} direction="row">Button</Button>
                     <Button color="warning">Button</Button>
                     <Button color="success">Button</Button>
                     <Button color="danger" >Button</Button>

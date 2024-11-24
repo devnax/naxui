@@ -12,9 +12,9 @@ import Modal, { ModalProps } from "../Modal";
 import Button, { ButtonProps } from "../Button";
 
 
-export type AlertProps = Omit<TagProps<"div">, "content" | "title"> & {
+export type AlertProps = Omit<TagProps<"div">, "content" | "title" | "direction"> & {
     title?: string | ReactElement;
-    mode?: "item" | "box";
+    direction?: "row" | "column";
     variant?: useColorTemplateType;
     color?: useColorTemplateColors;
     icon?: "info" | "warning" | "success" | "error" | false | ReactElement;
@@ -29,7 +29,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
         variant,
         icon,
         color,
-        mode,
+        direction,
         slotProps,
         onClose,
         ..._props
@@ -37,15 +37,15 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
         variant: "fill"
     })
     color ??= "default"
-    mode ??= "item"
-    let inline = mode === 'item'
+    direction ??= "row"
+    let isRow = direction === 'row'
 
 
     const template = useColorTemplate(color, variant)
     delete template.hover
 
     let iconsx = {
-        fontSize: inline ? 22 : 40,
+        fontSize: isRow ? 22 : 40,
         color: color === 'default' ? "text.primary" : template.color
     }
 
@@ -66,8 +66,8 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                 justifyContent: "flex-start",
                 position: "relative",
                 radius: 1,
-                px: inline ? (_icon ? .5 : 2) : 3,
-                py: inline ? .5 : 3,
+                px: isRow ? (_icon ? .5 : 2) : 3,
+                py: isRow ? .5 : 3,
                 flexDirection: "column",
                 display: 'flex',
                 fontFamily: "default",
@@ -95,8 +95,8 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                 sx={{
                     display: "flex",
                     gap: 1,
-                    flexDirection: inline ? "row" : "column",
-                    alignItems: inline ? "flex-start" : "center"
+                    flexDirection: direction,
+                    alignItems: isRow ? "flex-start" : "center"
                 }}
                 baseClass="alert-container"
             >
@@ -107,7 +107,7 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            p: inline ? 1 : 0,
+                            p: isRow ? 1 : 0,
                             "& svg": {
                                 color: template.color
                             }
@@ -124,8 +124,8 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
                         flex: 1,
                         color: template.color,
                         py: 1,
-                        textAlign: inline ? "left" : "center",
-                        gap: inline ? 0 : 1
+                        textAlign: isRow ? "left" : "center",
+                        gap: isRow ? 0 : 1
                     }}
                 >
                     {title && <>
@@ -182,7 +182,7 @@ Alert.confirm = (props: AlertConfirmProps) => {
         content,
         size,
         color,
-        mode,
+        direction,
         variant,
         closeButton,
         clickOutsideToClose,
@@ -204,7 +204,7 @@ Alert.confirm = (props: AlertConfirmProps) => {
     size ??= "small"
     color ??= 'default'
     variant ??= "text"
-    mode ??= "box"
+    direction ??= "row"
     buttonPlacement ??= "end"
     let sx: any = {};
 
@@ -251,11 +251,11 @@ Alert.confirm = (props: AlertConfirmProps) => {
     }
 
     return Modal.open(id, <Alert
-        mode={mode}
+        direction={direction}
         sx={{
             px: 2,
             py: 1,
-            pt: mode === 'item' ? 1 : 2
+            pt: direction === 'row' ? 1 : 2
         }}
         color={color}
         variant={variant}

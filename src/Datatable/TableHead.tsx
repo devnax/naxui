@@ -22,17 +22,28 @@ const TableHeadRender = ({ columns, rows, disableRow, disableSelect, state, upda
                         checked={checked}
                         onChange={() => {
                             let ids: any = []
-                            rows.forEach(row => {
+                            let undefinedCount = 0
+                            for (let i = 0; i < rows.length; i++) {
+                                const row = rows[i]
                                 const isDisable = (disableRow ? disableRow(row, state) : false) || false
-                                if (!isDisable) {
+                                if (!isDisable && row.id) {
                                     ids.push(row.id)
+                                } else {
+                                    undefinedCount += 1
                                 }
-                            })
+                            }
 
-                            update({
-                                selectedIds: state.selectAll ? [] : ids,
-                                selectAll: !state.selectAll
-                            })
+                            if (undefinedCount) {
+                                update({
+                                    selectedIds: selected.length ? [] : ids,
+                                    selectAll: !selected.length
+                                })
+                            } else {
+                                update({
+                                    selectedIds: state.selectAll ? [] : ids,
+                                    selectAll: !state.selectAll
+                                })
+                            }
                         }}
                     />
                 </TableCell>}

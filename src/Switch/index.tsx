@@ -2,11 +2,10 @@
 import React, { forwardRef, ReactElement, useState } from 'react';
 import { Tag, TagProps, useColorTemplateColors, useInterface } from 'naxui-manager';
 
-export type SwitchProps = TagProps<"input"> & {
+export type SwitchProps = Omit<TagProps<"input">, "color" | "size" | "component" | "type" | "checked"> & {
     checked?: boolean;
     size?: number | "small" | "medium" | "large";
     color?: Omit<useColorTemplateColors, "default">;
-    onChange?: () => void;
     disabled?: boolean;
     thumbSize?: number;
     trackSize?: number;
@@ -91,12 +90,14 @@ const _Switch = (props: SwitchProps, ref?: React.Ref<any>) => {
                     icon
                 }
             </Tag>
-            <input
+            <Tag
+                {...rest}
+                component='input'
                 ref={ref}
                 type="radio"
+                readOnly
                 checked={checked}
-                {...rest}
-                style={{
+                sxr={{
                     display: "none!important"
                 }}
             />

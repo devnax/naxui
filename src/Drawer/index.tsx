@@ -60,7 +60,6 @@ const MainView = ({ children, placement, open, size, slotProps, onClickOutside, 
             <Transition
                 open={open || false}
                 variant={animType}
-                duration={600}
             >
                 <ClickOutside onClickOutside={onClickOutside || (() => { })}>
                     <Tag

@@ -6,20 +6,23 @@ import Button from '../../src/Button'
 
 const Alerts = () => {
     return (
-        <Stack gap={1}>
-            <Button onClick={() => {
-                Alert.confirm({
-                    title: "Are You Sure?",
-                    content: <>
-                        This action cannot be undone. so be carefull go confirm this action.
-                        This action cannot be undone. so be carefull go confirm this action.
-                    </>,
-                    okButtonText: "Agree"
-                })
-            }}>Open</Button>
+        <Stack gap={1}
+
+        >
+            <Button
+                onClick={() => {
+                    Alert.confirm({
+                        title: "Are You Sure?",
+                        content: <>
+                            This action cannot be undone. so be carefull go confirm this action.
+                            This action cannot be undone. so be carefull go confirm this action.
+                        </>,
+                        okButtonText: "Agree"
+                    })
+                }}>Open</Button>
             <Alert
                 width={300}
-                mode="box"
+                direction="column"
                 color="warning"
                 variant='alpha'
                 title="Warning"

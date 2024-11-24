@@ -5,14 +5,13 @@ import CheckIcon from 'naxui-icons/round/CheckBox'
 import UnCheckIcon from 'naxui-icons/round/CheckBoxOutlineBlank'
 import IndeterminateCheckBoxIcon from 'naxui-icons/round/IndeterminateCheckBox';
 
-export type CheckboxProps = Omit<TagProps<"input">, "color" | "onClick" | "children" | "size"> & {
+export type CheckboxProps = Omit<TagProps<"input">, "color" | "size" | "component" | "type" | "checked"> & {
     checkIcon?: ReactElement;
     uncheckIcon?: ReactElement;
     indeterminate?: boolean;
     checked?: boolean;
     size?: number | "small" | "medium" | "large";
     color?: useColorTemplateColors;
-    onChange?: () => void;
 }
 
 const _Checkbox = (props: CheckboxProps, ref?: React.Ref<any>) => {
@@ -62,13 +61,14 @@ const _Checkbox = (props: CheckboxProps, ref?: React.Ref<any>) => {
             >
                 {checked ? (checkIcon || <CheckIcon />) : (uncheckIcon || <UnCheckIcon />)}
             </Tag>
-            <input
+            <Tag
+                {...rest}
+                component='input'
                 ref={ref}
+                readOnly
                 type="checkbox"
-                {...rest}
                 checked={checked}
-                {...rest}
-                style={{
+                sxr={{
                     display: "none!important"
                 }}
             />

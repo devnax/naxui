@@ -4,7 +4,7 @@ import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useCol
 import useCorner, { UseCornerTypes } from '../useCorner'
 import CircleProgress, { CircleProgressProps } from '../CircleProgress'
 
-export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
+export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size" | "direction"> & {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     color?: useColorTemplateColors;
@@ -12,7 +12,7 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
     corner?: UseCornerTypes;
     size?: "small" | "medium" | "large";
     loading?: boolean;
-    mode?: "inline" | "box";
+    direction?: "row" | "column";
     slotProps?: {
         loading?: Omit<CircleProgressProps, "color" | "hideTrack" | "size">
     }
@@ -20,14 +20,14 @@ export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T
 
 
 const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: ButtonProps<T>, ref: React.Ref<any>) => {
-    let [{ variant, startIcon, endIcon, color, corner, size, loading, mode, slotProps, ..._props }] = useInterface<any>('Button', rest, {
+    let [{ variant, startIcon, endIcon, color, corner, size, loading, direction, slotProps, ..._props }] = useInterface<any>('Button', rest, {
         variant: "fill",
         color: "brand",
         corner: "rounded",
         size: "medium"
     })
 
-    mode ??= "inline"
+    direction ??= "row"
 
     const { hover: templateHover, ...templatecss } = useColorTemplate(color, variant)
     const cornerCss = useCorner(corner)
@@ -59,10 +59,8 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
         large: 30
     }
 
-
     let _size = (sizes[size as any] || {})
-    let isInline = mode === 'inline'
-    if (!isInline) {
+    if (direction === 'column') {
         delete _size.height
         _size.gap = .5
         _size.py = 1
@@ -74,14 +72,14 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
             baseClass='button'
             {..._props}
             sxr={{
-                flexShrink: 0,
+                flexShrink: "0",
                 whiteSpace: "nowrap",
                 border: 0,
                 cursor: "pointer",
                 font: "button",
                 display: "flex",
                 textTransform: "uppercase",
-                flexDirection: isInline ? "row" : "column",
+                flexDirection: direction,
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",

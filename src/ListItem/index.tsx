@@ -10,7 +10,6 @@ export type ListItemProps<T extends TagComponentType = "li"> = TagProps<T> & {
     endIcon?: ReactElement;
 }
 
-
 const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {
     let [{ selected, ...props }] = useInterface<any>("ListItem", rest, {})
     return (
@@ -26,7 +25,7 @@ const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, end
                 lineHeight: 1.4,
                 p: 1,
                 whiteSpace: "nowrap",
-                flexShrink: 0,
+                flexShrink: "0",
             }}
             baseClass='list-item'
             classNames={[{ "list-item-selected": selected as boolean }, ...(props.classNames || [])]}
@@ -34,9 +33,20 @@ const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, end
         >
             {startIcon && <Tag mr={1} component="span" display="inline-block" className='list-item-icon'>{startIcon}</Tag>}
             <Tag flex={1}>
-                {typeof children === "string" ? <Text variant="text" className='list-item-text'>{children}</Text> : children}
+                <Text
+                    variant="text"
+                    className='list-item-text'
+                    component={typeof children === "string" || typeof children === "number" ? "p" : "div"}
+                >
+                    {children}
+                </Text>
                 {
-                    subtitle && (typeof subtitle === 'string' ? <Text variant="text" fontSize="button" className='list-item-subtitle' >{subtitle}</Text> : subtitle)
+                    subtitle && <Text
+                        variant="text"
+                        fontSize="button"
+                        className='list-item-subtitle'
+                        component={typeof subtitle === "string" || typeof subtitle === "number" ? "p" : "div"}
+                    >{subtitle}</Text>
                 }
             </Tag>
             {endIcon && <Tag ml={1} component="span" display="inline-block" className='list-item-icon'>{endIcon}</Tag>}

@@ -14,7 +14,7 @@ const Badges = () => {
                         <UserIcon />
                     </IconButton>
                 </Badge>
-                <Badge >
+                <Badge disableTransition>
                     <IconButton variant='alpha'>
                         <UserIcon />
                     </IconButton>

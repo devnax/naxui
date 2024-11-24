@@ -3,7 +3,9 @@ import React from 'react';
 import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 import Transition, { TransitionProps } from '../Transition';
 
-export type CollapsProps<T extends TagComponentType = "div"> = TagProps<T> & Omit<TransitionProps, "variant" | "children"> & {}
+export type CollapsProps<T extends TagComponentType = "div"> = TagProps<T> & Omit<TransitionProps, "variant" | "children"> & {
+
+}
 
 const _Collaps = <T extends TagComponentType = "div">({ children, open, ...props }: CollapsProps<T>, ref: any) => {
     let [{

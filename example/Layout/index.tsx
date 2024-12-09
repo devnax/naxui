@@ -11,6 +11,24 @@ import ListItem from '../../src/ListItem'
 import menu from './menus'
 import ThemeProvider from '../../src/ThemeProvider'
 import CheckIcon from 'naxui-icons/round/CheckCircle'
+import { useTheme } from 'naxui-manager';
+
+
+const ThemeBox = () => {
+    const theme = useTheme()
+    return (
+        <Stack>
+            <IconButton
+                onClick={() => {
+                    theme.change(theme.name === 'light' ? "dark" : "light")
+                }}
+            >
+                {theme.name === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
+        </Stack>
+    )
+}
+
 
 const Layout = () => {
     const [theme, setTheme] = React.useState("dark")
@@ -27,21 +45,13 @@ const Layout = () => {
     }, [])
 
     return (
-        <ThemeProvider resetCss theme={theme}>
+        <ThemeProvider resetCss theme={theme} onChange={t => setTheme(t)}>
             <Stack height="100vh" flexRow bgcolor="background.primary">
                 <ViewBox
                     width={250}
                     height="100%"
                     bgcolor="background.secondary"
-                    endContent={<Stack>
-                        <IconButton
-                            onClick={() => {
-                                setTheme(theme === 'light' ? "dark" : "light")
-                            }}
-                        >
-                            {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
-                        </IconButton>
-                    </Stack>}
+                    endContent={<ThemeBox />}
                 >
                     <Text p={1} variant='text' fontWeight={600} mb={2} color="text.primary">Components</Text>
                     <List p={1} variant="alpha">

@@ -5,21 +5,23 @@ import ExpandIcon from "naxui-icons/round/ExpandMore";
 import Collaps, { CollapsProps } from '../Collaps';
 import List, { ListProps } from '../List';
 import ListItem, { ListItemProps } from '../ListItem';
+import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
-    title: ReactElement | string;
-    subtitle?: ReactElement | string;
     expand?: boolean;
     onClick?: () => void;
-    startIcon?: ReactElement;
-    endIcon?: ReactElement;
-    expandIcon?: ReactElement;
-    expandIconPlacement?: "start" | "end";
-    expandAction?: "header" | "icon";
-    color?: useColorTemplateColors;
-    variant?: useColorTemplateType;
-    hoverColor?: useColorTemplateColors;
-    hoverVariant?: useColorTemplateType;
+    title: useBreakpoinPropsType<ReactElement | string>;
+    subtitle?: useBreakpoinPropsType<ReactElement | string>;
+    startIcon?: useBreakpoinPropsType<ReactElement>;
+    endIcon?: useBreakpoinPropsType<ReactElement>;
+    expandIcon?: useBreakpoinPropsType<ReactElement>;
+    expandIconPlacement?: useBreakpoinPropsType<"start" | "end">;
+    expandAction?: useBreakpoinPropsType<"header" | "icon">;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    hoverColor?: useBreakpoinPropsType<useColorTemplateColors>;
+    hoverVariant?: useBreakpoinPropsType<useColorTemplateType>;
+
     slotProps?: {
         header?: Omit<ListProps, "children" | "color" | "variant" | "hoverColor" | "hoverVariant" | "className">;
         headerContent?: Omit<ListItemProps, "children" | "subtitle" | "selected" | "startIcon" | "endIcon" | "onClick" | "className">
@@ -42,8 +44,8 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         expandIconPlacement,
         startIcon,
         endIcon,
-        classNames,
         expandAction,
+        classNames,
         slotProps,
         ...rootProps
     }] = useInterface<any>("Accordion", rest, {
@@ -51,6 +53,32 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         color: "brand",
         variant: "alpha"
     })
+
+    let p: any = useBreakpoinProps({
+        title,
+        subtitle,
+        startIcon,
+        endIcon,
+        expandIcon,
+        expandIconPlacement,
+        expandAction,
+        color,
+        variant,
+        hoverColor,
+        hoverVariant,
+    })
+
+    title = p.title
+    subtitle = p.subtitle
+    startIcon = p.startIcon
+    endIcon = p.endIcon
+    expandIcon = p.expandIcon
+    expandIconPlacement = p.expandIconPlacement
+    expandAction = p.expandAction
+    color = p.color
+    variant = p.variant
+    hoverColor = p.hoverColor
+    hoverVariant = p.hoverVariant
 
     expand = expand === undefined ? _expand : expand
     expandIcon = expandIcon ? <Tag

@@ -13,7 +13,10 @@ const Accordions = () => {
                     <Accordion
                         expand={expand === 1}
                         onClick={() => setExpand(expand === 1 ? 0 : 1)}
-                        endIcon={<ExpandIcon />}
+                        endIcon={{
+                            xs: <ExpandIcon />,
+                            md: <></>
+                        }}
                         title="Built with MUI v5 with two versions Next.js | Vite"
                         expandIconPlacement='start'
                         borderBottom={1}

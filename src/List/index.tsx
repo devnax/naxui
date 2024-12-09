@@ -50,7 +50,7 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
                 "& .list-item-subtitle": {
                     color: "text.secondary"
                 },
-                "& .list-item:not(.list-item-selected):hover": {
+                "& .nui-list-item:not(.list-item-selected):hover": {
                     ...hoverTemplate,
                     "& .list-item-icon": {
                         color: hoverTemplate.color
@@ -62,7 +62,7 @@ const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListPro
                         color: hoverColor === 'default' ? "text.secondary" : hoverTemplate.color
                     },
                 },
-                "& .list-item.list-item-selected": {
+                "& .nui-list-item.list-item-selected": {
                     ...template,
                     "& .list-item-icon": {
                         color: template.color

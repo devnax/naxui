@@ -39,6 +39,7 @@ const _Collaps = <T extends TagComponentType = "div">({ children, open, ...props
                 onClose,
                 onClosed
             }}
+            initialTransition={false}
             variant="collapsVerticle"
             open={open}
         >

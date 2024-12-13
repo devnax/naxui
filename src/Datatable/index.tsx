@@ -4,7 +4,7 @@ import { TableColumnProps } from '../TableCell'
 import { IconButtonProps } from '../IconButton'
 import { InputProps } from '../Input'
 import ViewBox from '../ViewBox'
-import { Tag, useInterface } from 'naxui-manager';
+import { Tag, useInterface, useBreakpointPropsType } from 'naxui-manager';
 import SelectedBox from './SelectedBox'
 import TableArea from './Table'
 import FilterBox from './FilterBox'

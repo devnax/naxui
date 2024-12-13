@@ -11,7 +11,7 @@ import ListItem from '../../src/ListItem'
 import menu from './menus'
 import ThemeProvider from '../../src/ThemeProvider'
 import CheckIcon from 'naxui-icons/round/CheckCircle'
-import { useTheme } from 'naxui-manager';
+import { useTheme, useBreakpointPropsType } from 'naxui-manager';
 
 
 const ThemeBox = () => {

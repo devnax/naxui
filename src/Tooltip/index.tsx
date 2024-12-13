@@ -1,14 +1,14 @@
 'use client'
 import React, { Children, cloneElement, ReactElement, useState } from 'react'
 import Menu, { MenuProps } from '../Menu'
-import { useBreakpointProps, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
+import { useBreakpointProps, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointPropsType } from 'naxui-manager'
+
 
 export type TooltipProps = {
     children: ReactElement;
-    title: useBreakpoinPropsType<string>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    title: useBreakpointPropsType<string>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
     placement?: MenuProps['placement']
 }
 

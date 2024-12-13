@@ -1,26 +1,25 @@
 'use client'
 import React, { ReactElement, useState } from 'react';
-import { Tag, TagProps, useInterface, useColorTemplateColors, useColorTemplateType, TagComponentType } from 'naxui-manager';
+import { Tag, TagProps, useInterface, useColorTemplateColors, useColorTemplateType, TagComponentType, useBreakpointPropsType, useBreakpointProps } from 'naxui-manager';
 import ExpandIcon from "naxui-icons/round/ExpandMore";
 import Collaps, { CollapsProps } from '../Collaps';
 import List, { ListProps } from '../List';
 import ListItem, { ListItemProps } from '../ListItem';
-import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type AccordionProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     expand?: boolean;
     onClick?: () => void;
-    title: useBreakpoinPropsType<ReactElement | string>;
-    subtitle?: useBreakpoinPropsType<ReactElement | string>;
-    startIcon?: useBreakpoinPropsType<ReactElement>;
-    endIcon?: useBreakpoinPropsType<ReactElement>;
-    expandIcon?: useBreakpoinPropsType<ReactElement>;
-    expandIconPlacement?: useBreakpoinPropsType<"start" | "end">;
-    expandAction?: useBreakpoinPropsType<"header" | "icon">;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    hoverColor?: useBreakpoinPropsType<useColorTemplateColors>;
-    hoverVariant?: useBreakpoinPropsType<useColorTemplateType>;
+    title: useBreakpointPropsType<ReactElement | string>;
+    subtitle?: useBreakpointPropsType<ReactElement | string>;
+    startIcon?: useBreakpointPropsType<ReactElement>;
+    endIcon?: useBreakpointPropsType<ReactElement>;
+    expandIcon?: useBreakpointPropsType<ReactElement>;
+    expandIconPlacement?: useBreakpointPropsType<"start" | "end">;
+    expandAction?: useBreakpointPropsType<"header" | "icon">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    hoverColor?: useBreakpointPropsType<useColorTemplateColors>;
+    hoverVariant?: useBreakpointPropsType<useColorTemplateType>;
 
     slotProps?: {
         header?: Omit<ListProps, "children" | "color" | "variant" | "hoverColor" | "hoverVariant" | "className">;
@@ -67,7 +66,7 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
     if (hoverColor) _p.hoverColor = hoverColor
     if (hoverVariant) _p.hoverVariant = hoverVariant
 
-    const p: any = useBreakpoinProps(_p)
+    const p: any = useBreakpointProps(_p)
 
     title = p.title
     subtitle = p.subtitle

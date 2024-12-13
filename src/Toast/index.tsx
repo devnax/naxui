@@ -1,23 +1,23 @@
 'use client'
 import React from 'react'
-import { Tag, useColorTemplateColors, useColorTemplateType } from 'naxui-manager'
+import { Tag, useColorTemplateColors, useColorTemplateType, useBreakpointPropsType } from 'naxui-manager'
 import { ReactElement } from "react";
 import Transition from '../Transition'
 import Renderar from '../ThemeProvider/RenderRoot';
 import Alert, { AlertProps } from '../Alert';
 import Scrollbar from '../Scrollbar';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 type PlacementType = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
 
 export type ToastProps = {
-    title?: useBreakpoinPropsType<string | ReactElement>;
+    title?: useBreakpointPropsType<string | ReactElement>;
     content?: AlertProps['children'];
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    icon?: useBreakpoinPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    icon?: useBreakpointPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
     placement?: PlacementType;
-    closeable?: useBreakpoinPropsType<boolean>;
+    closeable?: useBreakpointPropsType<boolean>;
 }
 
 type StateValue = { open: boolean, id: string, timer?: NodeJS.Timeout, props: ToastProps }

@@ -1,16 +1,16 @@
 import React, { ReactNode, useEffect, useId, useState } from 'react'
-import { Tag, TagProps, useBreakpointProps, useInterface, UseTransitionProps } from "naxui-manager"
+import { Tag, TagProps, useBreakpointProps, useBreakpointPropsType, useInterface, UseTransitionProps } from "naxui-manager"
 import { placedMenu, PlacementTypes } from "./placedMenu";
 import Portal, { PortalProps } from "../Portal";
 import Transition from '../Transition';
 import { getOrigin } from './getOrigin';
 import ClickOutside from '../ClickOutside';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type MenuProps = {
     children?: ReactNode;
     target?: HTMLElement;
-    placement?: useBreakpoinPropsType<PlacementTypes>;
+    placement?: useBreakpointPropsType<PlacementTypes>;
     zIndex?: number;
     onClickOutside?: () => void;
     slotProps?: {

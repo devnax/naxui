@@ -1,12 +1,12 @@
 'use client'
 import React, { ReactNode } from 'react'
 import Layer, { LayerProps } from "../Layer"
-import { Tag, TagProps, useBreakpointProps } from 'naxui-manager'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
+import { Tag, TagProps, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager'
+
 
 
 export type ModalProps = Omit<LayerProps, "slotProps"> & {
-    size?: useBreakpoinPropsType<"xs" | "sm" | "md" | "lg" | "xl" | "fullWidth" | number>;
+    size?: useBreakpointPropsType<"xs" | "sm" | "md" | "lg" | "xl" | "fullWidth" | number>;
     slotProps?: LayerProps['slotProps'] & {
         modal?: Omit<TagProps<'div'>, "children">
     }

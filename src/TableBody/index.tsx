@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useBreakpointPropsType } from 'naxui-manager';
 
 export type TableBodyProps<T extends TagComponentType = "tbody"> = TagProps<T>
 

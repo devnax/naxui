@@ -1,13 +1,13 @@
 'use client'
 import React, { forwardRef } from 'react'
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors, useBreakpointProps } from 'naxui-manager'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager'
+
 
 export type ListProps<T extends TagComponentType = "ul"> = Omit<TagProps<T>, 'color'> & {
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    hoverColor?: useBreakpoinPropsType<useColorTemplateColors>;
-    hoverVariant?: useBreakpoinPropsType<useColorTemplateType>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    hoverColor?: useBreakpointPropsType<useColorTemplateColors>;
+    hoverVariant?: useBreakpointPropsType<useColorTemplateType>;
 }
 
 const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {

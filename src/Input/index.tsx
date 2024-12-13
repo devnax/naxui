@@ -1,24 +1,24 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import Text from '../Text';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, "size" | "color"> & {
-    startIcon?: useBreakpoinPropsType<ReactElement>;
-    endIcon?: useBreakpoinPropsType<ReactElement>;
-    iconPlacement?: useBreakpoinPropsType<"start" | "center" | "end">;
+    startIcon?: useBreakpointPropsType<ReactElement>;
+    endIcon?: useBreakpointPropsType<ReactElement>;
+    iconPlacement?: useBreakpointPropsType<"start" | "center" | "end">;
     focused?: boolean;
-    color?: useBreakpoinPropsType<Omit<useColorTemplateColors, "default">>;
+    color?: useBreakpointPropsType<Omit<useColorTemplateColors, "default">>;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
-    variant?: useBreakpoinPropsType<"fill" | "outline" | "text">;
+    variant?: useBreakpointPropsType<"fill" | "outline" | "text">;
     error?: boolean;
-    helperText?: useBreakpoinPropsType<string>;
+    helperText?: useBreakpointPropsType<string>;
     multiline?: boolean;
-    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
-    rows?: useBreakpoinPropsType<number>;
-    minRows?: useBreakpoinPropsType<number>;
-    maxRows?: useBreakpoinPropsType<number>;
+    size?: useBreakpointPropsType<"small" | "medium" | "large">;
+    rows?: useBreakpointPropsType<number>;
+    minRows?: useBreakpointPropsType<number>;
+    maxRows?: useBreakpointPropsType<number>;
     slotProps?: {
         container?: Omit<TagProps<"div">, "children">
     }

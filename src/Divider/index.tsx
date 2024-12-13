@@ -1,12 +1,12 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType, useColorTemplateColors, useBreakpointProps } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type DividerProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
-    direction?: useBreakpoinPropsType<"verticle" | "horizental">;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    size?: useBreakpoinPropsType<number>;
+    direction?: useBreakpointPropsType<"verticle" | "horizental">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    size?: useBreakpointPropsType<number>;
 }
 
 const _Divider = <T extends TagComponentType = "div">({ children, direction, color, size, ...rest }: DividerProps<T>, ref: React.Ref<any>) => {

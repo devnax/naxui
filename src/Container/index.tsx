@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType, useTheme, useBreakpointProps } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { Tag, TagProps, TagComponentType, useTheme, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type ContainerProps<T extends TagComponentType = "div"> = TagProps<T> & {
-    maxWidth?: useBreakpoinPropsType<'lg' | 'md' | "sm" | 'xs'>
+    maxWidth?: useBreakpointPropsType<'lg' | 'md' | "sm" | 'xs'>
 }
 
 const _Container = <T extends TagComponentType = "div">({ children, maxWidth, ...rest }: ContainerProps<T>, ref?: React.Ref<any>) => {

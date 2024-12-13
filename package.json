@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "naxui-icons": "^1.0.8",
-    "naxui-manager": "^1.9.7"
+    "naxui-manager": "^1.9.8"
   }
 }

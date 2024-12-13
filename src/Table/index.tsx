@@ -1,15 +1,15 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useColorTemplate, useColorTemplateType, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useColorTemplate, useColorTemplateType, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import Scrollbar from '../Scrollbar';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type TableProps<T extends TagComponentType = "table"> = Omit<TagProps<T>, "color" | "size"> & {
-    evenColor?: useBreakpoinPropsType<boolean>;
-    size?: useBreakpoinPropsType<"small" | "medium" | "large" | number>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<Omit<useColorTemplateType, "outline">>;
-    borderType?: useBreakpoinPropsType<"box" | "line" | "none">;
+    evenColor?: useBreakpointPropsType<boolean>;
+    size?: useBreakpointPropsType<"small" | "medium" | "large" | number>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<Omit<useColorTemplateType, "outline">>;
+    borderType?: useBreakpointPropsType<"box" | "line" | "none">;
 }
 
 const _Table = <T extends TagComponentType = "table">({ children, ...props }: TableProps<T>, ref: React.Ref<any>) => {

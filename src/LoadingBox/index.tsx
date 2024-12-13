@@ -1,12 +1,12 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import CircleProgress, { CircleProgressProps } from '../CircleProgress';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type LoadingBoxProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "color"> & {
     loading?: boolean;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
     slotProps?: {
         CircleProgress?: Omit<CircleProgressProps, "value">
     }

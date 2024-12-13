@@ -1,12 +1,12 @@
 'use client'
 import { ReactElement, cloneElement, Children } from 'react';
-import { useBreakpointProps, useInterface, useTransition, UseTransitionProps } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { useBreakpointProps, useInterface, useTransition, UseTransitionProps, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type TransitionProps = Omit<UseTransitionProps, "variant"> & {
     children: ReactElement;
     open: boolean;
-    variant?: useBreakpoinPropsType<UseTransitionProps['variant']>
+    variant?: useBreakpointPropsType<UseTransitionProps['variant']>
 }
 
 const Transition = ({ children, open, ...rest }: TransitionProps) => {

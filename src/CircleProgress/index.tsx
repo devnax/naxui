@@ -1,52 +1,46 @@
 "use client"
 import React, { ReactElement } from "react"
-import { Tag, useColorTemplateColors, keyframes, useTheme, useInterface, useBreakpointProps } from 'naxui-manager';
-import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
+import { Tag, useColorTemplateColors, keyframes, useTheme, useInterface, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 
 export type CircleProgressProps = {
     children?: ReactElement;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    trackColor?: useBreakpoinPropsType<useColorTemplateColors>;
-    thumbColor?: useBreakpoinPropsType<useColorTemplateColors>;
-    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
-    thumbSize?: useBreakpoinPropsType<number>;
-    trackSize?: useBreakpoinPropsType<number>;
-    value?: useBreakpoinPropsType<number>;
-    hideTrack?: useBreakpoinPropsType<boolean>;
-    showPercentage?: useBreakpoinPropsType<boolean>;
-    speed?: useBreakpoinPropsType<number>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    trackColor?: useBreakpointPropsType<useColorTemplateColors>;
+    thumbColor?: useBreakpointPropsType<useColorTemplateColors>;
+    size?: useBreakpointPropsType<number | "small" | "medium" | "large">;
+    thumbSize?: useBreakpointPropsType<number>;
+    trackSize?: useBreakpointPropsType<number>;
+    value?: useBreakpointPropsType<number>;
+    hideTrack?: useBreakpointPropsType<boolean>;
+    showPercentage?: useBreakpointPropsType<boolean>;
+    speed?: useBreakpointPropsType<number>;
 }
 
 const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React.Ref<any>) => {
     let [{ color, trackColor, thumbColor, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed }] = useInterface<any>("CircleProgress", props, {})
-    const p: any = useBreakpointProps({
-        color,
-        trackColor,
-        thumbColor,
-        size,
-        thumbSize,
-        trackSize,
-        value,
-        hideTrack,
-        showPercentage,
-        speed,
-    })
+    const _p: any = {}
+    if (color) _p.color = color
+    if (trackColor) _p.trackColor = trackColor
+    if (thumbColor) _p.thumbColor = thumbColor
+    if (size) _p.size = size
+    if (thumbSize) _p.thumbSize = thumbSize
+    if (trackSize) _p.trackSize = trackSize
+    if (value) _p.value = value
+    if (hideTrack) _p.hideTrack = hideTrack
+    if (showPercentage) _p.showPercentage = showPercentage
+    if (speed) _p.speed = speed
+    const p: any = useBreakpointProps(_p)
 
-    color = p.color
+    color = p.color ?? "brand"
     trackColor = p.trackColor
     thumbColor = p.thumbColor
-    size = p.size
-    thumbSize = p.thumbSize
+    size = p.size ?? "medium"
+    thumbSize = p.thumbSize ?? 4
     trackSize = p.trackSize
     value = p.value
     hideTrack = p.hideTrack
     showPercentage = p.showPercentage
-    speed = p.speed
-
-    color ??= "brand"
-    size ??= "medium"
-    thumbSize ??= 4
-    speed ??= 1.3
+    speed = p.speed ?? 1.3
 
     if (trackColor === 'default') {
         trackColor = "divider"

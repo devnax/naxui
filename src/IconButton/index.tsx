@@ -1,14 +1,14 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import useCorner from '../useCorner'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type IconButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
-    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    corner?: useBreakpoinPropsType<"square" | "rounded" | "circle">;
+    size?: useBreakpointPropsType<number | "small" | "medium" | "large">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    corner?: useBreakpointPropsType<"square" | "rounded" | "circle">;
 }
 
 const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {

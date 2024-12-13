@@ -10,15 +10,15 @@ import IconClose from 'naxui-icons/round/Close';
 import IconButton from "../IconButton";
 import Modal, { ModalProps } from "../Modal";
 import Button, { ButtonProps } from "../Button";
-import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
+import { useBreakpointPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
 
 
 export type AlertProps = Omit<TagProps<"div">, "content" | "title" | "direction"> & {
-    title?: useBreakpoinPropsType<string | ReactElement>;
-    direction?: useBreakpoinPropsType<"row" | "column">;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    icon?: useBreakpoinPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
+    title?: useBreakpointPropsType<string | ReactElement>;
+    direction?: useBreakpointPropsType<"row" | "column">;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    icon?: useBreakpointPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
     onClose?: React.DOMAttributes<"button">['onClick'];
 }
 

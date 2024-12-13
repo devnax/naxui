@@ -1,14 +1,13 @@
 'use client'
 import React, { ReactElement, Children, cloneElement } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate, useBreakpointPropsType, useBreakpointProps } from 'naxui-manager';
 import { ButtonProps } from '../Button';
-import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type ButtonGroupProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, 'children' | "size"> & {
     children?: ReactElement<ButtonProps> | ReactElement<ButtonProps>[];
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    size?: useBreakpointPropsType<"small" | "medium" | "large">;
 }
 
 const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }: ButtonGroupProps<T>, ref: React.Ref<any>) => {
@@ -17,7 +16,7 @@ const _ButtonGroup = <T extends TagComponentType = "div">({ children, ...rest }:
     })
     const _p: any = {}
     if (color) _p.color = color
-    const p: any = useBreakpoinProps(_p)
+    const p: any = useBreakpointProps(_p)
     color = p.color
 
     const template = useColorTemplate(color, "outline")

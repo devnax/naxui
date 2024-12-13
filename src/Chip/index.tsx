@@ -1,18 +1,18 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import useCorner, { UseCornerTypes } from '../useCorner'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 
 export type ChipProps<T extends TagComponentType = 'div'> = Omit<TagProps<T>, "color" | "children" | "size"> & {
-    label: useBreakpoinPropsType<string | ReactElement>;
-    startIcon?: useBreakpoinPropsType<ReactElement>;
-    endIcon?: useBreakpoinPropsType<ReactElement>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    corner?: useBreakpoinPropsType<UseCornerTypes>;
-    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
+    label: useBreakpointPropsType<string | ReactElement>;
+    startIcon?: useBreakpointPropsType<ReactElement>;
+    endIcon?: useBreakpointPropsType<ReactElement>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    corner?: useBreakpointPropsType<UseCornerTypes>;
+    size?: useBreakpointPropsType<"small" | "medium" | "large">;
 }
 
 

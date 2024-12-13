@@ -1,18 +1,18 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import useCorner, { UseCornerTypes } from '../useCorner'
 import CircleProgress, { CircleProgressProps } from '../CircleProgress'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size" | "direction"> & {
-    startIcon?: useBreakpoinPropsType<ReactElement>;
-    endIcon?: useBreakpoinPropsType<ReactElement>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
-    corner?: useBreakpoinPropsType<UseCornerTypes>;
-    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
-    direction?: useBreakpoinPropsType<"row" | "column">;
+    startIcon?: useBreakpointPropsType<ReactElement>;
+    endIcon?: useBreakpointPropsType<ReactElement>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
+    corner?: useBreakpointPropsType<UseCornerTypes>;
+    size?: useBreakpointPropsType<"small" | "medium" | "large">;
+    direction?: useBreakpointPropsType<"row" | "column">;
     loading?: boolean;
     slotProps?: {
         loading?: Omit<CircleProgressProps, "color" | "hideTrack" | "size">

@@ -1,18 +1,18 @@
 'use client'
 import React, { ReactElement, ReactNode } from 'react';
-import { Tag, TagProps, useBreakpointProps } from 'naxui-manager';
+import { Tag, TagProps, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import Layer, { LayerProps } from '../Layer';
 import Transition from '../Transition';
 import ClickOutside from '../ClickOutside';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type DrawerChildrenType = ReactNode | ReactElement | string
 
 export type DrawerProps = Omit<TagProps, "children" | "size"> & {
     children?: DrawerChildrenType;
-    placement?: useBreakpoinPropsType<"left" | "right" | "bottom" | "top">;
+    placement?: useBreakpointPropsType<"left" | "right" | "bottom" | "top">;
     open?: boolean;
-    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
+    size?: useBreakpointPropsType<number | "small" | "medium" | "large">;
     onClickOutside?: () => void;
     slotProps?: {
         root?: TagProps<"div">;

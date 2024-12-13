@@ -1,20 +1,20 @@
 'use client'
 import React, { useEffect, ReactElement, useMemo, cloneElement, useState, Children, forwardRef, useRef } from 'react'
 import { TabProps } from '../Tab'
-import { Tag, TagProps, useBreakpointProps, useColorTemplateColors, useInterface, useTransition } from 'naxui-manager'
+import { Tag, TagProps, useBreakpointProps, useColorTemplateColors, useInterface, useTransition, useBreakpointPropsType } from 'naxui-manager'
 import { ButtonProps } from '../Button'
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
+
 
 type ValueType = string | number
 export type TabsProps = Omit<TagProps, 'onChange'> & {
     children: ReactElement<TabProps> | ReactElement<TabProps>[];
     value?: ValueType;
     onChange?: (value: ValueType) => void;
-    variant?: useBreakpoinPropsType<"start-line" | "end-line" | "fill" | "outline" | "text" | "alpha">;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    verticle?: useBreakpoinPropsType<boolean>;
-    disableTransition?: useBreakpoinPropsType<boolean>;
-    indicatorSize?: useBreakpoinPropsType<number>;
+    variant?: useBreakpointPropsType<"start-line" | "end-line" | "fill" | "outline" | "text" | "alpha">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    verticle?: useBreakpointPropsType<boolean>;
+    disableTransition?: useBreakpointPropsType<boolean>;
+    indicatorSize?: useBreakpointPropsType<number>;
 
     slotProps?: {
         content?: Omit<TagProps, "children">;

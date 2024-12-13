@@ -1,6 +1,6 @@
 'use client'
 import React, { useRef } from 'react';
-import { Tag, TagProps, TagComponentType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useBreakpointPropsType } from 'naxui-manager';
 
 export type FormProps<T extends TagComponentType = "form"> = TagProps<T> & {
 

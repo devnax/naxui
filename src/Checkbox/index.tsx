@@ -1,18 +1,18 @@
 'use client'
 import React, { useState, ReactElement } from 'react';
-import { Tag, useInterface, useColorTemplateColors, TagProps, useBreakpointProps } from 'naxui-manager';
+import { Tag, useInterface, useColorTemplateColors, TagProps, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
 import CheckIcon from 'naxui-icons/round/CheckBox'
 import UnCheckIcon from 'naxui-icons/round/CheckBoxOutlineBlank'
 import IndeterminateCheckBoxIcon from 'naxui-icons/round/IndeterminateCheckBox';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type CheckboxProps = Omit<TagProps<"input">, "color" | "size" | "component" | "type" | "checked"> & {
-    checkIcon?: useBreakpoinPropsType<ReactElement>;
-    uncheckIcon?: useBreakpoinPropsType<ReactElement>;
-    indeterminate?: useBreakpoinPropsType<boolean>;
+    checkIcon?: useBreakpointPropsType<ReactElement>;
+    uncheckIcon?: useBreakpointPropsType<ReactElement>;
+    indeterminate?: useBreakpointPropsType<boolean>;
     checked?: boolean;
-    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    size?: useBreakpointPropsType<number | "small" | "medium" | "large">;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
 }
 
 const _Checkbox = (props: CheckboxProps, ref?: React.Ref<any>) => {

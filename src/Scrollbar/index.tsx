@@ -1,13 +1,13 @@
 'use client'
-import { Tag, TagComponentType, TagProps, useBreakpointProps, useInterface } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { Tag, TagComponentType, TagProps, useBreakpointProps, useInterface, useBreakpointPropsType } from 'naxui-manager';
+
 import React, { ReactNode, UIEvent, useMemo, useRef } from 'react'
 
 export type ScrollbarProps<T extends TagComponentType = "div"> = TagProps<T> & {
     children: ReactNode;
-    thumbSize?: useBreakpoinPropsType<number>;
-    thumbColor?: useBreakpoinPropsType<string>;
-    trackColor?: useBreakpoinPropsType<string>;
+    thumbSize?: useBreakpointPropsType<number>;
+    thumbColor?: useBreakpointPropsType<string>;
+    trackColor?: useBreakpointPropsType<string>;
     onScrollEnd?: (e: UIEvent<HTMLDivElement>) => void;
 }
 

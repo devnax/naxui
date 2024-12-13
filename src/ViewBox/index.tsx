@@ -2,13 +2,13 @@
 import React, { ReactElement } from 'react'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'
 
-import { Tag, TagProps, TagComponentType, useInterface, useBreakpointProps } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { Tag, TagProps, TagComponentType, useInterface, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type ViewBoxProps<T extends TagComponentType = "div"> = TagProps<T> & {
-    startContent?: useBreakpoinPropsType<ReactElement>;
-    endContent?: useBreakpoinPropsType<ReactElement>;
-    horizental?: useBreakpoinPropsType<boolean>;
+    startContent?: useBreakpointPropsType<ReactElement>;
+    endContent?: useBreakpointPropsType<ReactElement>;
+    horizental?: useBreakpointPropsType<boolean>;
     slotProps?: {
         scrollbar?: Omit<ScrollbarProps, 'children'>;
     }

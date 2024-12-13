@@ -1,15 +1,14 @@
 "use client"
 import React, { ReactElement } from "react"
-import { Tag, keyframes, useBreakpointProps, useColorTemplateColors, useInterface } from 'naxui-manager';
-import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
+import { Tag, keyframes, useBreakpointProps, useColorTemplateColors, useInterface, useBreakpointPropsType } from 'naxui-manager';
 
 export type LineProgressProps = {
     children?: ReactElement;
-    thumbSize?: useBreakpoinPropsType<number>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    value?: useBreakpoinPropsType<number>;
-    hideTrack?: useBreakpoinPropsType<boolean>;
-    speed?: useBreakpoinPropsType<number>;
+    thumbSize?: useBreakpointPropsType<number>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    value?: useBreakpointPropsType<number>;
+    hideTrack?: useBreakpointPropsType<boolean>;
+    speed?: useBreakpointPropsType<number>;
 }
 
 

@@ -5,15 +5,15 @@ import IconButton, { IconButtonProps } from '../IconButton'
 import React, { useMemo, useState } from 'react'
 import PrevIcon from 'naxui-icons/round/KeyboardArrowLeft'
 import NextIcon from 'naxui-icons/round/KeyboardArrowRight'
-import { TagProps, Tag, useInterface, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
+import { TagProps, Tag, useInterface, useColorTemplateColors, useColorTemplateType, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type TablePaginationProps = Omit<TagProps, "children"> & {
     page: number;
     total: number;
     perpages?: number[];
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    variant?: useBreakpointPropsType<useColorTemplateType>;
     onChange?: (state: { page: number, perpage: number, from: number, to: number }) => void;
 
     slotProps?: {

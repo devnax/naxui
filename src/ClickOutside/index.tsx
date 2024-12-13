@@ -1,5 +1,5 @@
 'use client'
-import { Tag, TagComponentType, TagProps } from 'naxui-manager';
+import { Tag, TagComponentType, TagProps, useBreakpointPropsType } from 'naxui-manager';
 import React, { forwardRef, useEffect, useRef } from 'react';
 
 export type ClickOutsideProps<T extends TagComponentType = "div"> = TagProps<T> & {

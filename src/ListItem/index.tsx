@@ -1,14 +1,14 @@
 'use client'
 import React, { forwardRef, ReactElement } from 'react'
-import { Tag, TagProps, TagComponentType, useInterface, useBreakpointProps } from 'naxui-manager'
+import { Tag, TagProps, TagComponentType, useInterface, useBreakpointProps, useBreakpointPropsType } from 'naxui-manager'
 import Text from '../Text';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 export type ListItemProps<T extends TagComponentType = "li"> = TagProps<T> & {
     selected?: boolean;
-    subtitle?: useBreakpoinPropsType<string | ReactElement>;
-    startIcon?: useBreakpoinPropsType<ReactElement>;
-    endIcon?: useBreakpoinPropsType<ReactElement>;
+    subtitle?: useBreakpointPropsType<string | ReactElement>;
+    startIcon?: useBreakpointPropsType<ReactElement>;
+    endIcon?: useBreakpointPropsType<ReactElement>;
 }
 
 const _ListItem = <T extends TagComponentType = "li">({ children, startIcon, endIcon, subtitle, ...rest }: ListItemProps<T>, ref: React.Ref<any>) => {

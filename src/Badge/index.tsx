@@ -1,16 +1,15 @@
 'use client'
 import React, { ReactElement } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplate } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplate, useBreakpointPropsType, useBreakpointProps } from 'naxui-manager';
 import Transition, { TransitionProps } from '../Transition';
-import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 
 export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
-    content?: useBreakpoinPropsType<number | ReactElement>;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
-    placement?: useBreakpoinPropsType<"left-top" | "left-bottom" | "right-top" | "right-bottom">;
-    visible?: useBreakpoinPropsType<boolean>;
-    disableTransition?: useBreakpoinPropsType<boolean>;
+    content?: useBreakpointPropsType<number | ReactElement>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
+    placement?: useBreakpointPropsType<"left-top" | "left-bottom" | "right-top" | "right-bottom">;
+    visible?: useBreakpointPropsType<boolean>;
+    disableTransition?: useBreakpointPropsType<boolean>;
     slotProps?: {
         transition?: Omit<TransitionProps, "open">
     }
@@ -30,7 +29,7 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
     if (visible) _p.visible = visible
     if (disableTransition) _p.disableTransition = disableTransition
 
-    const p: any = useBreakpoinProps(_p)
+    const p: any = useBreakpointProps(_p)
 
     content = p.content
     color = p.color

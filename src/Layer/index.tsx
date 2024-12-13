@@ -1,11 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Tag, TagProps, useBreakpointProps, useInterface, UseTransitionProps } from "naxui-manager"
+import { Tag, TagProps, useBreakpointProps, useBreakpointPropsType, useInterface, UseTransitionProps } from "naxui-manager"
 import Portal, { PortalProps } from "../Portal";
 import Transition from '../Transition';
 import { useMemo } from "react"
 import { alpha } from "naxui-manager";
 import Renderar from '../ThemeProvider/RenderRoot';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+
 
 let _d: CSSStyleDeclaration;
 
@@ -27,8 +27,8 @@ export type LayerProps = {
     id?: string;
     transition?: UseTransitionProps['variant'];
     zIndex?: number;
-    blur?: useBreakpoinPropsType<number>
-    blurMode?: useBreakpoinPropsType<"blur" | "transparent">
+    blur?: useBreakpointPropsType<number>
+    blurMode?: useBreakpointPropsType<"blur" | "transparent">
     onClickOutside?: () => void;
     onOpen?: Function;
     onOpened?: Function;

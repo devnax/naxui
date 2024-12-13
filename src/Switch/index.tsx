@@ -1,15 +1,15 @@
 'use client'
 import React, { forwardRef, ReactElement, useState } from 'react';
-import { Tag, TagProps, useBreakpointProps, useColorTemplateColors, useInterface } from 'naxui-manager';
-import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
+import { Tag, TagProps, useBreakpointProps, useColorTemplateColors, useInterface, useBreakpointPropsType } from 'naxui-manager';
+
 
 export type SwitchProps = Omit<TagProps<"input">, "color" | "size" | "component" | "type" | "checked"> & {
     checked?: boolean;
-    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
-    color?: useBreakpoinPropsType<Omit<useColorTemplateColors, "default">>;
-    disabled?: useBreakpoinPropsType<boolean>;
-    trackSize?: useBreakpoinPropsType<number>;
-    icon?: useBreakpoinPropsType<ReactElement>;
+    size?: useBreakpointPropsType<number | "small" | "medium" | "large">;
+    color?: useBreakpointPropsType<Omit<useColorTemplateColors, "default">>;
+    disabled?: useBreakpointPropsType<boolean>;
+    trackSize?: useBreakpointPropsType<number>;
+    icon?: useBreakpointPropsType<ReactElement>;
     slotProps?: {
         thumb?: Omit<TagProps, 'children'>;
         track?: Omit<TagProps, 'children'>;

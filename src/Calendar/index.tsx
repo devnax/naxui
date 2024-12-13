@@ -7,15 +7,14 @@ import Text from '../Text';
 import Button from '../Button';
 import ResetIcon from 'naxui-icons/round/Replay';
 import ViewBox from '../ViewBox';
-import { useColorTemplateColors, useInterface } from 'naxui-manager';
-import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
+import { useColorTemplateColors, useInterface, useBreakpointPropsType, useBreakpointProps } from 'naxui-manager';
 
 export type CalendarProps = {
     value?: Date | null;
     onChange?: (date: Date | null) => void;
-    viewMode?: useBreakpoinPropsType<"year" | "month" | "day">;
+    viewMode?: useBreakpointPropsType<"year" | "month" | "day">;
     onButtonClick?: (mode: CalendarProps["viewMode"], value: CalendarProps["value"]) => void;
-    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    color?: useBreakpointPropsType<useColorTemplateColors>;
 }
 
 
@@ -75,7 +74,7 @@ const Calendar = ({ value, ...rest }: CalendarProps) => {
     const _p: any = {}
     if (VMode) _p.VMode = VMode
     if (color) _p.color = color
-    const p: any = useBreakpoinProps(_p)
+    const p: any = useBreakpointProps(_p)
     color = p.color || "brand"
 
     let [viewMode, setViewMode] = useState<any>(p.VMode || "day");

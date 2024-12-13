@@ -1,11 +1,12 @@
 'use client'
 import React, { ReactNode } from 'react'
 import Layer, { LayerProps } from "../Layer"
-import { Tag, TagProps } from 'naxui-manager'
+import { Tag, TagProps, useBreakpointProps } from 'naxui-manager'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
 
 
 export type ModalProps = Omit<LayerProps, "slotProps"> & {
-    size?: "xs" | "sm" | "md" | "lg" | "xl" | "fullWidth" | number;
+    size?: useBreakpoinPropsType<"xs" | "sm" | "md" | "lg" | "xl" | "fullWidth" | number>;
     slotProps?: LayerProps['slotProps'] & {
         modal?: Omit<TagProps<'div'>, "children">
     }
@@ -13,6 +14,10 @@ export type ModalProps = Omit<LayerProps, "slotProps"> & {
 
 
 const Modal = ({ children, size, slotProps, ...props }: ModalProps) => {
+    const _p: any = {}
+    if (size) _p.size = size
+    const p: any = useBreakpointProps(_p)
+    size = p.size
     size ??= "xs"
     let sizes: any = {
         xs: 420,
@@ -42,7 +47,7 @@ const Modal = ({ children, size, slotProps, ...props }: ModalProps) => {
             <Tag
                 {...modal}
                 sxr={{
-                    maxWidth: sizes[size] || size,
+                    maxWidth: sizes[size as any] || size,
                     width: "100%",
                     radius: 2,
                     bgcolor: "background.primary",
@@ -75,7 +80,7 @@ Modal.open = (id: string, content: ReactNode, props?: Omit<ModalProps, "open" | 
     Layer.open(id, <Tag
         {...modal}
         sxr={{
-            maxWidth: sizes[size] || size,
+            maxWidth: sizes[size as any] || size,
             width: "100%",
             radius: 2,
             bgcolor: "background.primary",

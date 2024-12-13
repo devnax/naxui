@@ -1,23 +1,24 @@
 'use client'
 import React, { MutableRefObject, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useBreakpointProps } from 'naxui-manager';
 import Text from '../Text';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type InputProps<T extends TagComponentType = "input"> = Omit<TagProps<T>, "size" | "color"> & {
-    startIcon?: ReactElement;
-    endIcon?: ReactElement;
-    iconPlacement?: "start" | "center" | "end";
+    startIcon?: useBreakpoinPropsType<ReactElement>;
+    endIcon?: useBreakpoinPropsType<ReactElement>;
+    iconPlacement?: useBreakpoinPropsType<"start" | "center" | "end">;
     focused?: boolean;
-    color?: Omit<useColorTemplateColors, "default">;
+    color?: useBreakpoinPropsType<Omit<useColorTemplateColors, "default">>;
     containerRef?: MutableRefObject<HTMLDivElement | undefined>;
-    variant?: "fill" | "outline" | "text";
+    variant?: useBreakpoinPropsType<"fill" | "outline" | "text">;
     error?: boolean;
-    helperText?: string;
+    helperText?: useBreakpoinPropsType<string>;
     multiline?: boolean;
-    size?: "small" | "medium" | "large";
-    rows?: number;
-    minRows?: number;
-    maxRows?: number;
+    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
+    rows?: useBreakpoinPropsType<number>;
+    minRows?: useBreakpoinPropsType<number>;
+    maxRows?: useBreakpoinPropsType<number>;
     slotProps?: {
         container?: Omit<TagProps<"div">, "children">
     }
@@ -45,10 +46,30 @@ const _Input = <T extends TagComponentType = "input">({ value, ...props }: Input
         slotProps,
         ...rest
     }] = useInterface<any>("Input", props, {})
+    const _p: any = {}
+    if (startIcon) _p.startIcon = startIcon
+    if (endIcon) _p.endIcon = endIcon
+    if (iconPlacement) _p.iconPlacement = iconPlacement
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (helperText) _p.helperText = helperText
+    if (size) _p.size = size
+    if (rows) _p.rows = rows
+    if (minRows) _p.minRows = minRows
+    if (maxRows) _p.maxRows = maxRows
+    const p: any = useBreakpointProps(_p)
+    startIcon = p.startIcon
+    endIcon = p.endIcon
+    iconPlacement = p.iconPlacement
+    color = p.color ?? "brand"
+    variant = p.variant ?? "fill"
+    helperText = p.helperText
+    size = p.size ?? 'medium'
+    rows = p.rows
+    minRows = p.minRows
+    maxRows = p.maxRows
+
     ref ??= useRef(null);
-    variant ??= "fill"
-    color ??= "brand"
-    size ??= 'medium'
     iconPlacement ??= multiline ? "end" : "center"
     if (!value) iconPlacement = 'center'
 

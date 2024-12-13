@@ -6,17 +6,18 @@ import Transition from '../Transition'
 import Renderar from '../ThemeProvider/RenderRoot';
 import Alert, { AlertProps } from '../Alert';
 import Scrollbar from '../Scrollbar';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 type PlacementType = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
 
 export type ToastProps = {
-    title?: string | ReactElement;
+    title?: useBreakpoinPropsType<string | ReactElement>;
     content?: AlertProps['children'];
-    variant?: useColorTemplateType;
-    color?: useColorTemplateColors;
-    icon?: "info" | "warning" | "success" | "error" | false | ReactElement;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    icon?: useBreakpoinPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
     placement?: PlacementType;
-    closeable?: boolean;
+    closeable?: useBreakpoinPropsType<boolean>;
 }
 
 type StateValue = { open: boolean, id: string, timer?: NodeJS.Timeout, props: ToastProps }

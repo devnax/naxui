@@ -1,23 +1,25 @@
 'use client'
 import React, { useEffect, ReactElement, useMemo, cloneElement, useState, Children, forwardRef, useRef } from 'react'
 import { TabProps } from '../Tab'
-import { Tag, TagProps, useColorTemplateColors, useInterface, useTransition } from 'naxui-manager'
+import { Tag, TagProps, useBreakpointProps, useColorTemplateColors, useInterface, useTransition } from 'naxui-manager'
 import { ButtonProps } from '../Button'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
 
 type ValueType = string | number
 export type TabsProps = Omit<TagProps, 'onChange'> & {
     children: ReactElement<TabProps> | ReactElement<TabProps>[];
     value?: ValueType;
     onChange?: (value: ValueType) => void;
-    variant?: "start-line" | "end-line" | "fill" | "outline" | "text" | "alpha";
-    color?: useColorTemplateColors;
-    verticle?: boolean;
-    disableTransition?: boolean;
+    variant?: useBreakpoinPropsType<"start-line" | "end-line" | "fill" | "outline" | "text" | "alpha">;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    verticle?: useBreakpoinPropsType<boolean>;
+    disableTransition?: useBreakpoinPropsType<boolean>;
+    indicatorSize?: useBreakpoinPropsType<number>;
+
     slotProps?: {
         content?: Omit<TagProps, "children">;
         button?: Omit<ButtonProps, "children" | "color" | "variant" | "classNames">;
     }
-    indicatorSize?: number;
 }
 
 const getRect = (ele: HTMLElement, parent: HTMLElement) => {
@@ -35,9 +37,20 @@ const getRect = (ele: HTMLElement, parent: HTMLElement) => {
 
 const _Tabs = ({ onChange, value, children, ...props }: TabsProps, ref: any) => {
     let [{ verticle, color, variant, indicatorSize, disableTransition, slotProps, ...rest }] = useInterface<any>("Tabs", props, {})
-    indicatorSize ??= 3
-    variant ??= "end-line"
-    color ??= "brand"
+    const _p: any = {}
+    if (variant) _p.variant = variant
+    if (color) _p.color = color
+    if (verticle) _p.verticle = verticle
+    if (disableTransition) _p.disableTransition = disableTransition
+    if (indicatorSize) _p.indicatorSize = indicatorSize
+    const p: any = useBreakpointProps(_p)
+
+    variant = p.variant ?? "end-line"
+    color = p.color ?? "brand"
+    verticle = p.verticle
+    disableTransition = p.disableTransition
+    indicatorSize = p.indicatorSize ?? 3
+
     ref = ref || useRef()
     const containerRef: any = useRef()
     const [trans, setTrans] = useState<any>()

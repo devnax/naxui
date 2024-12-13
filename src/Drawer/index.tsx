@@ -1,17 +1,18 @@
 'use client'
 import React, { ReactElement, ReactNode } from 'react';
-import { Tag, TagProps } from 'naxui-manager';
+import { Tag, TagProps, useBreakpointProps } from 'naxui-manager';
 import Layer, { LayerProps } from '../Layer';
 import Transition from '../Transition';
 import ClickOutside from '../ClickOutside';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type DrawerChildrenType = ReactNode | ReactElement | string
 
 export type DrawerProps = Omit<TagProps, "children" | "size"> & {
     children?: DrawerChildrenType;
-    placement?: "left" | "right" | "bottom" | "top";
+    placement?: useBreakpoinPropsType<"left" | "right" | "bottom" | "top">;
     open?: boolean;
-    size?: number | "small" | "medium" | "large";
+    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
     onClickOutside?: () => void;
     slotProps?: {
         root?: TagProps<"div">;
@@ -20,10 +21,16 @@ export type DrawerProps = Omit<TagProps, "children" | "size"> & {
 }
 
 const MainView = ({ children, placement, open, size, slotProps, onClickOutside, ...rest }: DrawerProps) => {
-    placement ??= 'left'
+    const _p: any = {}
+    if (placement) _p.placement = placement
+    if (size) _p.size = size
+    const p: any = useBreakpointProps(_p)
+
+    placement = p.placement ?? 'left'
+    size = p.size || "medium"
+
     let isSide = placement === 'left' || placement === 'right'
     let animType: any = "fadeRight"
-    size ??= "medium"
 
     let sizes: any = {
         small: 200,
@@ -31,7 +38,7 @@ const MainView = ({ children, placement, open, size, slotProps, onClickOutside, 
         large: 400
     }
 
-    let _size = sizes[size] || size
+    let _size = sizes[size as any] || size
 
     switch (placement) {
         case "right":

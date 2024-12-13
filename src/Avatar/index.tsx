@@ -2,15 +2,20 @@
 import React, { useState } from 'react';
 import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
 import PersonIcon from 'naxui-icons/round/Person'
+import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type AvatarProps<T extends TagComponentType = "img"> = TagProps<T> & {
-    size?: number;
+    size?: useBreakpoinPropsType<number>;
 }
 
 const _Avatar = <T extends TagComponentType = "img">({ children, src, alt, ...rest }: AvatarProps<T>, ref: any) => {
     const [faild, setFaild] = useState<boolean>()
     let [{ size, ...props }] = useInterface<any>("Avatar", rest, {})
-    size = size || 36
+    size ??= 36
+    const _p: any = {}
+    if (size) _p.size = size
+    const p: any = useBreakpoinProps(_p)
+    size = p.size
 
     if (faild === false || !src) {
         let t = alt?.charAt(0).toUpperCase() || (children || <PersonIcon />)

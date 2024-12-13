@@ -1,23 +1,48 @@
 "use client"
 import React, { ReactElement } from "react"
-import { Tag, useColorTemplateColors, keyframes, useTheme, useInterface } from 'naxui-manager';
+import { Tag, useColorTemplateColors, keyframes, useTheme, useInterface, useBreakpointProps } from 'naxui-manager';
+import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
 
 export type CircleProgressProps = {
     children?: ReactElement;
-    color?: useColorTemplateColors;
-    trackColor?: useColorTemplateColors;
-    thumbColor?: useColorTemplateColors;
-    size?: number | "small" | "medium" | "large";
-    thumbSize?: number;
-    trackSize?: number;
-    value?: number;
-    hideTrack?: boolean;
-    showPercentage?: boolean;
-    speed?: number;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    trackColor?: useBreakpoinPropsType<useColorTemplateColors>;
+    thumbColor?: useBreakpoinPropsType<useColorTemplateColors>;
+    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
+    thumbSize?: useBreakpoinPropsType<number>;
+    trackSize?: useBreakpoinPropsType<number>;
+    value?: useBreakpoinPropsType<number>;
+    hideTrack?: useBreakpoinPropsType<boolean>;
+    showPercentage?: useBreakpoinPropsType<boolean>;
+    speed?: useBreakpoinPropsType<number>;
 }
 
 const _CircleProgress = ({ children, ...props }: CircleProgressProps, ref: React.Ref<any>) => {
     let [{ color, trackColor, thumbColor, size, value, thumbSize, hideTrack, trackSize, showPercentage, speed }] = useInterface<any>("CircleProgress", props, {})
+    const p: any = useBreakpointProps({
+        color,
+        trackColor,
+        thumbColor,
+        size,
+        thumbSize,
+        trackSize,
+        value,
+        hideTrack,
+        showPercentage,
+        speed,
+    })
+
+    color = p.color
+    trackColor = p.trackColor
+    thumbColor = p.thumbColor
+    size = p.size
+    thumbSize = p.thumbSize
+    trackSize = p.trackSize
+    value = p.value
+    hideTrack = p.hideTrack
+    showPercentage = p.showPercentage
+    speed = p.speed
+
     color ??= "brand"
     size ??= "medium"
     thumbSize ??= 4

@@ -1,21 +1,28 @@
 'use client'
-import { Tag, TagComponentType, TagProps, useInterface } from 'naxui-manager';
+import { Tag, TagComponentType, TagProps, useBreakpointProps, useInterface } from 'naxui-manager';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 import React, { ReactNode, UIEvent, useMemo, useRef } from 'react'
 
 export type ScrollbarProps<T extends TagComponentType = "div"> = TagProps<T> & {
     children: ReactNode;
-    darkMode?: boolean;
-    thumbSize?: number;
-    thumbColor?: string;
-    trackColor?: string;
+    thumbSize?: useBreakpoinPropsType<number>;
+    thumbColor?: useBreakpoinPropsType<string>;
+    trackColor?: useBreakpoinPropsType<string>;
     onScrollEnd?: (e: UIEvent<HTMLDivElement>) => void;
 }
 
 const _Scrollbar = <T extends TagComponentType = "div">({ children, ...rest }: ScrollbarProps<T>, ref: React.Ref<any>) => {
     let [{ thumbSize, thumbColor, trackColor, onScroll, onScrollEnd, ...props }] = useInterface<any>("Scrollbar", rest, {})
-    thumbColor ??= "var(--color-divider)"
-    trackColor ??= "var(--color-background-secondary)"
-    thumbSize ??= 10
+    const _p: any = {}
+    if (thumbSize) _p.thumbSize = thumbSize
+    if (thumbColor) _p.thumbColor = thumbColor
+    if (trackColor) _p.trackColor = trackColor
+    const p: any = useBreakpointProps(_p)
+
+    thumbSize = p.thumbSize ?? 10
+    thumbColor = p.thumbColor ?? "var(--color-divider)"
+    trackColor = p.trackColor ?? "var(--color-background-secondary)"
+
     ref = ref || useRef()
 
     useMemo(() => {

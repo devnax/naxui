@@ -1,5 +1,5 @@
 'use client'
-import { Tag, TagProps, useColorTemplate, useColorTemplateColors, useColorTemplateType, useInterface, UseTransitionVariantTypes } from "naxui-manager"
+import { Tag, TagProps, useBreakpointProps, useColorTemplate, useColorTemplateColors, useColorTemplateType, useInterface, UseTransitionVariantTypes } from "naxui-manager"
 import React, { isValidElement, ReactElement, ReactNode } from "react"
 import Text from "../Text"
 import InfoIcon from 'naxui-icons/round/Info';
@@ -10,14 +10,15 @@ import IconClose from 'naxui-icons/round/Close';
 import IconButton from "../IconButton";
 import Modal, { ModalProps } from "../Modal";
 import Button, { ButtonProps } from "../Button";
+import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
 
 
 export type AlertProps = Omit<TagProps<"div">, "content" | "title" | "direction"> & {
-    title?: string | ReactElement;
-    direction?: "row" | "column";
-    variant?: useColorTemplateType;
-    color?: useColorTemplateColors;
-    icon?: "info" | "warning" | "success" | "error" | false | ReactElement;
+    title?: useBreakpoinPropsType<string | ReactElement>;
+    direction?: useBreakpoinPropsType<"row" | "column">;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    icon?: useBreakpoinPropsType<"info" | "warning" | "success" | "error" | false | ReactElement>;
     onClose?: React.DOMAttributes<"button">['onClick'];
 }
 
@@ -38,6 +39,22 @@ export const Alert = ({ children, ...rest }: AlertProps) => {
     })
     color ??= "default"
     direction ??= "row"
+
+    const _p: any = {}
+    if (title) _p.title = title
+    if (variant) _p.variant = variant
+    if (icon) _p.icon = icon
+    if (color) _p.color = color
+    if (direction) _p.direction = direction
+
+    const p: any = useBreakpointProps(_p)
+
+    title = p.title
+    variant = p.variant
+    icon = p.icon
+    color = p.color
+    direction = p.direction
+
     let isRow = direction === 'row'
 
 

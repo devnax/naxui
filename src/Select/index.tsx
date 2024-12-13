@@ -8,14 +8,15 @@ import { OptionProps } from '../Option'
 import DownIcon from 'naxui-icons/round/KeyboardArrowDown';
 import UpIcon from 'naxui-icons/round/KeyboardArrowUp';
 import { useColorTemplateColors, useColorTemplateType, useInterface } from 'naxui-manager'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps'
 
 export type SelectProps = {
     value?: string | number;
     onChange?: (value: string | number) => void;
     children: ReactElement<OptionProps> | ReactElement<OptionProps>[];
-    placeholder?: string;
-    color?: useColorTemplateColors;
-    variant?: useColorTemplateType;
+    placeholder?: useBreakpoinPropsType<string>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
     slotProps?: {
         menu?: Omit<MenuProps, 'children' | 'target'>;
         input?: Omit<InputProps, "onChange" | "value">;

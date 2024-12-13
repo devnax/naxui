@@ -1,21 +1,29 @@
 'use client'
 import React, { forwardRef } from 'react'
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors } from 'naxui-manager'
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateType, useColorTemplateColors, useBreakpointProps } from 'naxui-manager'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type ListProps<T extends TagComponentType = "ul"> = Omit<TagProps<T>, 'color'> & {
-    color?: useColorTemplateColors;
-    variant?: useColorTemplateType;
-    hoverColor?: useColorTemplateColors;
-    hoverVariant?: useColorTemplateType;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    hoverColor?: useBreakpoinPropsType<useColorTemplateColors>;
+    hoverVariant?: useBreakpoinPropsType<useColorTemplateType>;
 }
 
 const _List = <T extends TagComponentType = "ul">({ children, ...rest }: ListProps<T>, ref: React.Ref<any>) => {
-    let [{ sx, color, variant, hoverColor, hoverVariant, ...props }] = useInterface<any>("List", rest, {
-        color: "brand",
-        variant: "fill"
-    })
-    hoverColor = hoverColor || "default"
-    hoverVariant = hoverVariant || "alpha"
+    let [{ sx, color, variant, hoverColor, hoverVariant, ...props }] = useInterface<any>("List", rest, {})
+    const _p: any = {}
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (hoverColor) _p.hoverColor = hoverColor
+    if (hoverVariant) _p.hoverVariant = hoverVariant
+    const p: any = useBreakpointProps(_p)
+
+    color = p.color ?? "brand"
+    variant = p.variant ?? "fill"
+    hoverColor = p.hoverColor ?? "default"
+    hoverVariant = p.hoverVariant ?? "alpha"
+
     const template = { ...useColorTemplate(color, variant) }
     const hoverTemplate = { ...useColorTemplate(hoverColor, hoverVariant) }
     delete template.hover

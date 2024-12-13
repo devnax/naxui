@@ -1,21 +1,34 @@
 "use client"
 import React, { ReactElement } from "react"
-import { Tag, keyframes, useColorTemplateColors, useInterface } from 'naxui-manager';
+import { Tag, keyframes, useBreakpointProps, useColorTemplateColors, useInterface } from 'naxui-manager';
+import { useBreakpoinPropsType } from "naxui-manager/dist/breakpoint/useBreakpointProps";
 
 export type LineProgressProps = {
     children?: ReactElement;
-    thumbSize?: number;
-    color?: useColorTemplateColors;
-    value?: number;
-    hideTrack?: boolean;
-    speed?: number;
+    thumbSize?: useBreakpoinPropsType<number>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    value?: useBreakpoinPropsType<number>;
+    hideTrack?: useBreakpoinPropsType<boolean>;
+    speed?: useBreakpoinPropsType<number>;
 }
 
 
 const _LineProgress = ({ children, ...props }: LineProgressProps, ref: React.Ref<any>) => {
     let [{ color, value, thumbSize, hideTrack, speed }] = useInterface<any>("LineProgress", props, {})
-    color ??= "brand"
-    thumbSize ??= 4
+    const _p: any = {}
+    if (thumbSize) _p.thumbSize = thumbSize
+    if (color) _p.color = color
+    if (value) _p.value = value
+    if (hideTrack) _p.hideTrack = hideTrack
+    if (speed) _p.speed = speed
+    const p: any = useBreakpointProps(_p)
+
+    thumbSize = p.thumbSize ?? 4
+    color = p.color ?? "brand"
+    value = p.value
+    hideTrack = p.hideTrack
+    speed = p.speed
+
     let isVal = typeof value === 'number'
     const anim = isVal ? "none" : keyframes({
         "0%": { left: "-40%" },

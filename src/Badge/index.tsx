@@ -2,14 +2,15 @@
 import React, { ReactElement } from 'react';
 import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplate } from 'naxui-manager';
 import Transition, { TransitionProps } from '../Transition';
+import useBreakpoinProps, { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 
 export type BadgeProps<T extends TagComponentType = "div"> = Omit<TagProps<T>, "baseClass" | "content"> & {
-    content?: number | ReactElement;
-    color?: useColorTemplateColors;
-    placement?: "left-top" | "left-bottom" | "right-top" | "right-bottom";
-    visible?: boolean;
-    disableTransition?: boolean;
+    content?: useBreakpoinPropsType<number | ReactElement>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    placement?: useBreakpoinPropsType<"left-top" | "left-bottom" | "right-top" | "right-bottom">;
+    visible?: useBreakpoinPropsType<boolean>;
+    disableTransition?: useBreakpoinPropsType<boolean>;
     slotProps?: {
         transition?: Omit<TransitionProps, "open">
     }
@@ -19,7 +20,24 @@ const _Badge = <T extends TagComponentType = "div">({ children, content, ...rest
     let [{ color, placement, visible, disableTransition, slotProps, ...props }] = useInterface<any>("Badge", rest, {})
     color ??= "danger"
     visible ??= true
-    placement = placement || "right-top"
+    placement ??= "right-top"
+
+    const _p: any = {}
+
+    if (content) _p.content = content
+    if (color) _p.color = color
+    if (placement) _p.placement = placement
+    if (visible) _p.visible = visible
+    if (disableTransition) _p.disableTransition = disableTransition
+
+    const p: any = useBreakpoinProps(_p)
+
+    content = p.content
+    color = p.color
+    placement = p.placement
+    visible = p.visible
+    disableTransition = p.disableTransition
+
     const template = useColorTemplate(color, "fill")
     delete template.hover
     let _css: any = {}

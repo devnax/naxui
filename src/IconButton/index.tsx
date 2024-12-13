@@ -1,25 +1,36 @@
 'use client'
 import React, { forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplateColors, useColorTemplateType, useColorTemplate, useBreakpointProps } from 'naxui-manager';
 import useCorner from '../useCorner'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type IconButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size"> & {
-    size?: number | "small" | "medium" | "large";
-    color?: useColorTemplateColors;
-    variant?: useColorTemplateType;
-    corner?: "square" | "rounded" | "circle";
+    size?: useBreakpoinPropsType<number | "small" | "medium" | "large">;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    corner?: useBreakpoinPropsType<"square" | "rounded" | "circle">;
 }
 
 const _IconButton = <T extends TagComponentType = 'button'>({ children, ...rest }: IconButtonProps<T>, ref: React.Ref<any>) => {
 
     rest.sx = (rest as any).sx || {};
 
-    let [{ variant, corner, color, size, ..._props }] = useInterface<any>("IconButton", rest, {
-        corner: "circle"
-    })
+    let [{ variant, corner, color, size, ..._props }] = useInterface<any>("IconButton", rest, {})
+
+    const _p: any = {}
+    if (size) _p.size = size
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (corner) _p.corner = corner
+    const p: any = useBreakpointProps(_p)
+
+    size = p.size ?? "medium"
+    color = p.color
+    variant = p.variant
+    corner = p.corner ?? "circle"
+
     let template = useColorTemplate(color || "brand", variant || "fill")
     const cornerCss = useCorner(corner)
-    size ??= "medium"
 
     if (size === 'small') {
         size = 28

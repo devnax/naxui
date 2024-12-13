@@ -1,18 +1,19 @@
 'use client'
 import React, { ReactElement, forwardRef } from 'react';
-import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useColorTemplate, useColorTemplateColors, useColorTemplateType, useBreakpointProps } from 'naxui-manager';
 import useCorner, { UseCornerTypes } from '../useCorner'
 import CircleProgress, { CircleProgressProps } from '../CircleProgress'
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type ButtonProps<T extends TagComponentType = 'button'> = Omit<TagProps<T>, "color" | "size" | "direction"> & {
-    startIcon?: ReactElement;
-    endIcon?: ReactElement;
-    color?: useColorTemplateColors;
-    variant?: useColorTemplateType;
-    corner?: UseCornerTypes;
-    size?: "small" | "medium" | "large";
+    startIcon?: useBreakpoinPropsType<ReactElement>;
+    endIcon?: useBreakpoinPropsType<ReactElement>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<useColorTemplateType>;
+    corner?: useBreakpoinPropsType<UseCornerTypes>;
+    size?: useBreakpoinPropsType<"small" | "medium" | "large">;
+    direction?: useBreakpoinPropsType<"row" | "column">;
     loading?: boolean;
-    direction?: "row" | "column";
     slotProps?: {
         loading?: Omit<CircleProgressProps, "color" | "hideTrack" | "size">
     }
@@ -27,7 +28,23 @@ const _Button = <T extends TagComponentType = 'button'>({ children, ...rest }: B
         size: "medium"
     })
 
-    direction ??= "row"
+    const _p: any = {}
+    if (startIcon) _p.startIcon = startIcon
+    if (endIcon) _p.endIcon = endIcon
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (corner) _p.corner = corner
+    if (size) _p.size = size
+    if (direction) _p.direction = direction
+    const p: any = useBreakpointProps(_p)
+
+    startIcon = p.startIcon
+    endIcon = p.endIcon
+    color = p.color
+    variant = p.variant
+    corner = p.corner
+    size = p.size
+    direction = p.direction || "row"
 
     const { hover: templateHover, ...templatecss } = useColorTemplate(color, variant)
     const cornerCss = useCorner(corner)

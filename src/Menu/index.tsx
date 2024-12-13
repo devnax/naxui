@@ -1,15 +1,16 @@
 import React, { ReactNode, useEffect, useId, useState } from 'react'
-import { Tag, TagProps, useInterface, UseTransitionProps } from "naxui-manager"
+import { Tag, TagProps, useBreakpointProps, useInterface, UseTransitionProps } from "naxui-manager"
 import { placedMenu, PlacementTypes } from "./placedMenu";
 import Portal, { PortalProps } from "../Portal";
 import Transition from '../Transition';
 import { getOrigin } from './getOrigin';
 import ClickOutside from '../ClickOutside';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type MenuProps = {
     children?: ReactNode;
     target?: HTMLElement;
-    placement?: PlacementTypes;
+    placement?: useBreakpoinPropsType<PlacementTypes>;
     zIndex?: number;
     onClickOutside?: () => void;
     slotProps?: {
@@ -21,6 +22,11 @@ export type MenuProps = {
 
 const Menu = ({ children, target, ...props }: MenuProps) => {
     let [{ onClickOutside, placement, zIndex, slotProps }] = useInterface<any>("Menu", props, {})
+    const _p: any = {}
+    if (placement) _p.placement = placement
+    const p: any = useBreakpointProps(_p)
+    placement = p.placement
+
     const isOpen = Boolean(target)
     const [closed, setClosed] = useState(!isOpen)
     let id = "menu-" + useId().replaceAll(":", "")

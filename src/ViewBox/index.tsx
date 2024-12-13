@@ -2,12 +2,13 @@
 import React, { ReactElement } from 'react'
 import Scrollbar, { ScrollbarProps } from '../Scrollbar'
 
-import { Tag, TagProps, TagComponentType, useInterface } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useInterface, useBreakpointProps } from 'naxui-manager';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type ViewBoxProps<T extends TagComponentType = "div"> = TagProps<T> & {
-    startContent?: ReactElement;
-    endContent?: ReactElement;
-    horizental?: boolean;
+    startContent?: useBreakpoinPropsType<ReactElement>;
+    endContent?: useBreakpoinPropsType<ReactElement>;
+    horizental?: useBreakpoinPropsType<boolean>;
     slotProps?: {
         scrollbar?: Omit<ScrollbarProps, 'children'>;
     }
@@ -16,6 +17,14 @@ export type ViewBoxProps<T extends TagComponentType = "div"> = TagProps<T> & {
 
 const _ViewBox = ({ children, ...rest }: ViewBoxProps, ref?: any) => {
     let [{ startContent, endContent, slotProps, horizental, ...props }] = useInterface<any>("ViewBox", rest, {})
+    const _p: any = {}
+    if (startContent) _p.startContent = startContent
+    if (endContent) _p.endContent = endContent
+    if (horizental) _p.horizental = horizental
+    const p: any = useBreakpointProps(_p)
+    startContent = p.startContent
+    endContent = p.endContent
+    horizental = p.horizental
 
     return (
         <Tag

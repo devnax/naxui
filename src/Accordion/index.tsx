@@ -54,19 +54,20 @@ const _Accordion = <T extends TagComponentType = "div">({ children, title, subti
         variant: "alpha"
     })
 
-    let p: any = useBreakpoinProps({
-        title,
-        subtitle,
-        startIcon,
-        endIcon,
-        expandIcon,
-        expandIconPlacement,
-        expandAction,
-        color,
-        variant,
-        hoverColor,
-        hoverVariant,
-    })
+    const _p: any = {}
+    if (title) _p.title = title
+    if (subtitle) _p.subtitle = subtitle
+    if (startIcon) _p.startIcon = startIcon
+    if (endIcon) _p.endIcon = endIcon
+    if (expandIcon) _p.expandIcon = expandIcon
+    if (expandIconPlacement) _p.expandIconPlacement = expandIconPlacement
+    if (expandAction) _p.expandAction = expandAction
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (hoverColor) _p.hoverColor = hoverColor
+    if (hoverVariant) _p.hoverVariant = hoverVariant
+
+    const p: any = useBreakpoinProps(_p)
 
     title = p.title
     subtitle = p.subtitle

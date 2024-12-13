@@ -1,22 +1,32 @@
 'use client'
 import React from 'react';
-import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useColorTemplate, useColorTemplateType } from 'naxui-manager';
+import { Tag, TagProps, TagComponentType, useColorTemplateColors, useInterface, useColorTemplate, useColorTemplateType, useBreakpointProps } from 'naxui-manager';
 import Scrollbar from '../Scrollbar';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 export type TableProps<T extends TagComponentType = "table"> = Omit<TagProps<T>, "color" | "size"> & {
-    evenColor?: boolean;
-    size?: "small" | "medium" | "large" | number;
-    color?: useColorTemplateColors;
-    variant?: Omit<useColorTemplateType, "outline">;
-    borderType?: "box" | "line" | "none";
+    evenColor?: useBreakpoinPropsType<boolean>;
+    size?: useBreakpoinPropsType<"small" | "medium" | "large" | number>;
+    color?: useBreakpoinPropsType<useColorTemplateColors>;
+    variant?: useBreakpoinPropsType<Omit<useColorTemplateType, "outline">>;
+    borderType?: useBreakpoinPropsType<"box" | "line" | "none">;
 }
 
 const _Table = <T extends TagComponentType = "table">({ children, ...props }: TableProps<T>, ref: React.Ref<any>) => {
     let [{ evenColor, size, color, variant, borderType, ...rest }] = useInterface<any>("Table", props, {})
-    variant ??= "fill"
-    borderType ??= "line"
-    color ??= 'default'
-    size ??= "medium"
+    const _p: any = {}
+    if (evenColor) _p.evenColor = evenColor
+    if (size) _p.size = size
+    if (color) _p.color = color
+    if (variant) _p.variant = variant
+    if (borderType) _p.borderType = borderType
+    const p: any = useBreakpointProps(_p)
+    evenColor = p.evenColor
+    size = p.size ?? "medium"
+    color = p.color ?? 'default'
+    variant = p.variant ?? "fill"
+    borderType = p.borderType ?? "line"
+
     const main = useColorTemplate(color, variant)
     const alpha = useColorTemplate(color, "alpha")
 

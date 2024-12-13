@@ -1,10 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Tag, TagProps, useInterface, UseTransitionProps } from "naxui-manager"
+import { Tag, TagProps, useBreakpointProps, useInterface, UseTransitionProps } from "naxui-manager"
 import Portal, { PortalProps } from "../Portal";
 import Transition from '../Transition';
 import { useMemo } from "react"
 import { alpha } from "naxui-manager";
 import Renderar from '../ThemeProvider/RenderRoot';
+import { useBreakpoinPropsType } from 'naxui-manager/dist/breakpoint/useBreakpointProps';
 
 let _d: CSSStyleDeclaration;
 
@@ -26,8 +27,8 @@ export type LayerProps = {
     id?: string;
     transition?: UseTransitionProps['variant'];
     zIndex?: number;
-    blur?: number;
-    blurMode?: "blur" | "transparent"
+    blur?: useBreakpoinPropsType<number>
+    blurMode?: useBreakpoinPropsType<"blur" | "transparent">
     onClickOutside?: () => void;
     onOpen?: Function;
     onOpened?: Function;
@@ -55,6 +56,14 @@ const Layer = ({ children, open, id, ...props }: LayerProps) => {
         onClosed,
         slotProps
     }] = useInterface<any>("Layer", props, {})
+    const _p: any = {}
+    if (blur) _p.blur = blur
+    if (blurMode) _p.blurMode = blurMode
+    const p: any = useBreakpointProps(_p)
+
+    blur = p.blur
+    blurMode = p.blurMode
+
     const [closed, setClosed] = useState(!open)
     placement = placement || "bottom-left"
     const blurCss = blur ? useBlurCss(blur, blurMode) : {}
